@@ -58,7 +58,7 @@ function custom_model_settings_form($form, $form_state)
 	);
 	$form['extensions']['custom_model_script_upload'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Allowed extensions for project files'),
+		'#title' => t('Allowed extensions for script files'),
 		'#description' => t('A comma separated list WITHOUT SPACE of pdf file extensions that are permitted to be uploaded on the server'),
 		'#size' => 50,
 		'#maxlength' => 255,
