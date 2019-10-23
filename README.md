@@ -1,4 +1,4 @@
-eSim Circuit Simulation Module for http://esim.fossee.in, FOSSEE, IIT Bombay written for Drupal 7
+DWSIM Custom Module for http://dwsim.fossee.in, FOSSEE, IIT Bombay written for Drupal 7
 
 Author: 
 
