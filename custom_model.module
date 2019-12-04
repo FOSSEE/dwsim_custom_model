@@ -150,18 +150,18 @@ function custom_model_menu()
         'file' => 'code_approval.inc'
     );
     $items['custom-model/abstract-approval/bulk'] = array(
-        'title' => 'Bulk Manage',
-        'description' => 'Bulk Mangage',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array(
+        'title' => 'Bulk Manage submission',
+        'description' => 'Bulk Mangage submission',
+        'page callback' => 'custom_model_abstract_bulk_approval_form',
+        /*'page arguments' => array(
             'custom_model_abstract_bulk_approval_form'
-        ),
+        ),*/
         'access arguments' => array(
             'custom model bulk manage submission'
         ),
-        'type' => MENU_LOCAL_TASK,
-        'weight' => 2,
-        'file' => 'abstract_bulk_approval.inc'
+        'type' => MENU_CALLBACK,
+        //'weight' => 2,
+        'file' => 'abstract_submission_bulk_approval.inc'
     );
     $items['custom-model/code-approval/bulk'] = array(
         'title' => 'Bulk Manage',
