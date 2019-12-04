@@ -157,7 +157,7 @@ function custom_model_menu()
             'custom_model_abstract_bulk_approval_form'
         ),
         'access arguments' => array(
-            'custom model bulk manage abstract'
+            'custom model bulk manage submission'
         ),
         'type' => MENU_LOCAL_TASK,
         'weight' => 2,
@@ -459,6 +459,10 @@ function custom_model_permission()
         ),
         'custom model bulk manage abstract' => array(
             'title' => t('custom model bulk manage abstract'),
+            'restrict access' => TRUE
+        ),
+        'custom model bulk manage submission' => array(
+            'title' => t('custom model bulk manage submission'),
             'restrict access' => TRUE
         ),
         'custom model bulk delete abstract' => array(

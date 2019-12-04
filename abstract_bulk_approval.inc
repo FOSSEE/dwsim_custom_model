@@ -54,14 +54,8 @@ function custom_model_abstract_bulk_approval_form($form, &$form_state)
 	$form['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('Submit'),
-		'#states' => array(
-			'invisible' => array(
-				':input[name="lab"]' => array(
-					'value' => 0
-				)
-			)
-		)
 	);
+	//var_dump('expression');die;
 	return $form;
 }
 function ajax_bulk_custom_model_abstract_details_callback($form, $form_state)
@@ -90,11 +84,12 @@ function custom_model_abstract_bulk_approval_form_submit($form, &$form_state)
 	global $user;
 	$msg = '';
 	$root_path = custom_model_path();
+	//var_dump($root_path);die;
 	if ($form_state['clicked_button']['#value'] == 'Submit')
 	{
 		if ($form_state['values']['custom_model_proposals'])
 		// custom_model_abstract_del_lab_pdf($form_state['values']['custom_model_proposals']);
-			if (user_access('custom model bulk manage abstract'))
+			if (user_access('custom model bulk manage submission'))
 			{
 				$query = db_select('custom_model_proposal');
 				$query->fields('custom_model_proposal');
@@ -178,7 +173,6 @@ FOSSEE,IIT Bombay', array(
 					$query->condition('proposal_id', $form_state['values']['custom_model_proposals']);
 					$abstracts_q = $query->execute();
 					$experiment_list = '';
-					var_dump('expression');die;
 					while ($abstract_data = $abstracts_q->fetchObject())
 					{
 						db_query("UPDATE {custom_model_submitted_abstracts} SET abstract_approval_status = 0, is_submitted = 0, approver_uid = :approver_uid WHERE id = :id", array(
