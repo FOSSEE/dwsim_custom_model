@@ -23,17 +23,10 @@ function custom_model_completed_proposals_all()
 		while ($row = $result->fetchObject())
 		{
 			$proposal_id = $row->id;
-			$query1 = db_select('custom_model_submitted_abstracts_file');
-			$query1->fields('custom_model_submitted_abstracts_file');
-			$query1->condition('file_approval_status', 1);
-			$query1->condition('proposal_id', $proposal_id);
-			$custom_model_files = $query1->execute();
-			$custom_model_abstract = $custom_model_files->fetchObject();
 			$approval_date = date("Y", $row->approval_date);
 			$preference_rows[] = array(
 				$i,
 				l($row->project_title, "custom-model/custom-model-run/" . $row->id),
-				l('Download', "custom-model/download/resource-file/" . $row->id),
 				$row->contributor_name,
 				$row->university,
 				$approval_date
@@ -42,8 +35,7 @@ function custom_model_completed_proposals_all()
 		} //$row = $result->fetchObject()
 		$preference_header = array(
 			'No',
-			'custom model Project',
-			'Abstract File',
+			'Custom Model Project',
 			'Contributor Name',
 			'Institute',
 			'Year'
