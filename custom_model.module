@@ -153,7 +153,7 @@ function custom_model_menu()
         'description' => 'Bulk Mangage submission',
         'page callback' => 'drupal_get_form',
         'page arguments' => array(
-            'custom_model_abstract_bulk_approval_form'
+            'custom_model_abstract_submission_bulk_approval_form'
         ),
         'access arguments' => array(
             'custom model bulk manage submission'
