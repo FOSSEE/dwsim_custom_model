@@ -1,6 +1,6 @@
 <?php
 
-function custom_model_abstract_bulk_approval_form($form, &$form_state)
+function custom_model_abstract_submission_bulk_approval_form($form, &$form_state)
 {
 	$options_first = _bulk_list_of_custom_model_proposals();
 	$selected = isset($form_state['values']['custom_model_proposals']) ? $form_state['values']['custom_model_proposals'] : key($options_first);
@@ -79,7 +79,7 @@ function ajax_bulk_custom_model_abstract_details_callback($form, $form_state)
 	);
 }
 /************************************************************/
-function custom_model_abstract_bulk_approval_form_submit($form, &$form_state)
+function custom_model_abstract_submission_bulk_approval_form_submit($form, &$form_state)
 {
 	global $user;
 	$msg = '';
