@@ -25,6 +25,19 @@ function custom_model_menu()
         'type' => MENU_NORMAL_ITEM,
         'file' => 'proposal.inc'
     );
+    $items['custom-model/idea-proposal'] = array(
+        'title' => 'Custom Model Idea Proposal Form',
+        'description' => 'Custom Model Idea Proposal Form',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'custom_model_idea_proposal_form'
+        ),
+        'access arguments' => array(
+            'custom model create idea proposal'
+        ),
+        'type' => MENU_NORMAL_ITEM,
+        'file' => 'idea_proposal.inc'
+    );
     $items['custom-model/manage-proposal'] = array(
         'title' => 'Manage Custom Model Proposals',
         'description' => 'Manage Custom Model Proposals',
@@ -57,6 +70,18 @@ function custom_model_menu()
         ),
         'type' => MENU_LOCAL_TASK,
         'weight' => 4,
+        'file' => 'manage_proposal.inc'
+    );
+    $items['custom-model/manage-proposal/idea-proposals'] = array(
+        'title' => 'Idea Proposals',
+        'description' => 'Idea Proposals',
+        'page callback' => 'custom_model_idea_proposal_all',
+        'access callback' => 'user_access',
+        'access arguments' => array(
+            'custom model manage proposal'
+        ),
+        'type' => MENU_LOCAL_TASK,
+        'weight' => 5,
         'file' => 'manage_proposal.inc'
     );
     $items['custom-model/manage-proposal/approve'] = array(
@@ -107,6 +132,19 @@ function custom_model_menu()
         ),
         'access arguments' => array(
             'custom model approve proposal'
+        ),
+        'type' => MENU_CALLBACK,
+        'file' => 'manage_proposal.inc'
+    );
+    $items['custom-model/manage-proposal/view-ideas'] = array(
+        'title' => 'View the Idea Proposal',
+        'description' => 'View the Idea Proposal',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'custom_model_view_idea_proposal_form'
+        ),
+        'access arguments' => array(
+            'custom model view idea proposal'
         ),
         'type' => MENU_CALLBACK,
         'file' => 'manage_proposal.inc'
@@ -313,6 +351,16 @@ function custom_model_menu()
         'type' => MENU_CALLBACK,
         'file' => 'download.inc'
     );
+    $items['custom-model/download/idea-reference-file'] = array(
+        'title' => 'Download the idea reference file',
+        'description' => 'Download the idea reference file',
+        'page callback' => 'custom_model_download_idea_reference_file',
+        'access arguments' => array(
+            'download code'
+        ),
+        'type' => MENU_CALLBACK,
+        'file' => 'download.inc'
+    );
     $items['custom-model/download/project-file'] = array(
         'title' => 'Download Project file',
         'description' => 'Download project file',
@@ -436,6 +484,10 @@ function custom_model_permission()
             'title' => t('custom model create proposal'),
             'restrict access' => TRUE
         ),
+        'custom model create idea proposal' => array(
+            'title' => t('custom model create idea proposal'),
+            'restrict access' => TRUE
+        ),
         'custom model manage proposal' => array(
             'title' => t('custom model manage proposal'),
             'restrict access' => TRUE
@@ -446,6 +498,10 @@ function custom_model_permission()
         ),
         'custom model approve proposal' => array(
             'title' => t('custom model approve proposal'),
+            'restrict access' => TRUE
+        ),
+        'custom model view idea proposal' => array(
+            'title' => t('custom model view idea proposal'),
             'restrict access' => TRUE
         ),
         'custom model propose solution' => array(
@@ -590,6 +646,10 @@ function custom_model_path()
   {
     return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'dwsim_uploads/custom_model_uploads/';
   }
+function custom_model_ideas_files_path()
+{
+    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'dwsim_uploads/custom_model_uploads/ideas_files/';
+}
 function _cm_list_of_departments()
 {
     $department = array();
