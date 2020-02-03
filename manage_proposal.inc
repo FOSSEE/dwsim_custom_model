@@ -92,9 +92,71 @@ function custom_model_proposal_all()
 	$proposal_header = array(
 		'Date of Submission',
 		'Contributor Name',
-		'Title of the circuit-simulation project',
+		'Title of the Custom Model',
 		'Date of Completion',
 		'Status',
+		'Action'
+	);
+	$output = theme('table', array(
+		'header' => $proposal_header,
+		'rows' => $proposal_rows
+	));
+	return $output;
+}
+function custom_model_idea_proposal_all()
+{
+	/* get pending proposals to be approved */
+	$proposal_rows = array();
+	$query = db_select('custom_model_idea_proposal');
+	$query->fields('custom_model_idea_proposal');
+	$query->orderBy('id', 'DESC');
+	$proposal_q = $query->execute();
+	while ($proposal_data = $proposal_q->fetchObject())
+	{
+		$approval_status = '';
+		switch ($proposal_data->approval_status)
+		{
+			case 0:
+				$approval_status = 'Pending';
+				break;
+			case 1:
+				$approval_status = 'Approved';
+				break;
+			case 2:
+				$approval_status = 'Dis-approved';
+				break;
+			case 3:
+				$approval_status = 'Completed';
+				break;
+			default:
+				$approval_status = 'Unknown';
+				break;
+		} //$proposal_data->approval_status
+		if ($proposal_data->actual_completion_date == 0)
+		{
+			$actual_completion_date = "Not Completed";
+		} //$proposal_data->actual_completion_date == 0
+		else
+		{
+			$actual_completion_date = date('d-m-Y', $proposal_data->actual_completion_date);
+		}
+		$proposal_rows[] = array(
+			date('d-m-Y', $proposal_data->creation_date),
+			l($proposal_data->idea_proposar_name, 'user/' . $proposal_data->uid),
+			$proposal_data->project_title,
+			l('View', 'custom-model/manage-proposal/view-ideas/' . $proposal_data->id)
+		);
+	} //$proposal_data = $proposal_q->fetchObject()
+	/* check if there are any pending proposals */
+	if (!$proposal_rows)
+	{
+		drupal_set_message(t('There are no proposals.'), 'status');
+		return '';
+	} //!$proposal_rows
+	$proposal_header = array(
+		'Date of Submission',
+		'Contributor Name',
+		'Title of the Custom Model',
 		'Action'
 	);
 	$output = theme('table', array(
@@ -899,4 +961,106 @@ function custom_model_proposal_edit_form_submit($form, &$form_state)
 	);
 	$result = db_query($query, $args);
 	drupal_set_message(t('Proposal Updated'), 'status');
+}
+function custom_model_view_idea_proposal_form($form, &$form_state)
+{
+	global $user;
+	/* get current proposal */
+	$proposal_id = (int) arg(3);
+	$query = db_select('custom_model_idea_proposal');
+	$query->fields('custom_model_idea_proposal');
+	$query->condition('id', $proposal_id);
+	$proposal_q = $query->execute();
+	if ($proposal_q)
+	{
+		if ($proposal_data = $proposal_q->fetchObject())
+		{
+			/* everything ok */
+		} //$proposal_data = $proposal_q->fetchObject()
+		else
+		{
+			drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
+			drupal_goto('custom-model/manage-proposal');
+			return;
+		}
+	} //$proposal_q
+	else
+	{
+		drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
+		drupal_goto('custom-model/manage-proposal');
+		return;
+	}
+	if($proposal_data->reference_link)
+	{
+		$reference_link = $proposal_data->reference_link;
+	}
+	else
+	{
+		$reference_link = 'None';
+	}
+	if($proposal_data->reference_file)
+	{
+		$reference_file = l($proposal_data->reference_file, 'custom-model/download/idea-reference-file/' . $proposal_data->id);
+	}
+	else
+	{
+		$reference_file = 'None';
+	}
+	$form['contributor_name'] = array(
+		'#type' => 'item',
+		'#markup' => l($proposal_data->name_title . ' ' . $proposal_data->idea_proposar_name, 'user/' . $proposal_data->uid),
+		'#title' => t('Student name')
+	);
+	$form['student_email_id'] = array(
+		'#title' => t('Student Email'),
+		'#type' => 'item',
+		'#markup' => user_load($proposal_data->uid)->mail,
+		'#title' => t('Email')
+	);
+	$form['university'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->university,
+		'#title' => t('University/Institute')
+	);
+	$form['country'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->country,
+		'#title' => t('Country')
+	);
+	$form['all_state'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->state,
+		'#title' => t('State')
+	);
+	$form['city'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->city,
+		'#title' => t('City')
+	);
+	$form['pincode'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->pincode,
+		'#title' => t('Pincode/Postal code')
+	);
+	$form['project_title'] = array(
+		'#type' => 'item',
+		'#markup' => $proposal_data->project_title,
+		'#title' => t('Title of the Custom Model')
+	);
+
+	$form['reference_link'] = array(
+		'#type' => 'item',
+		'#markup' => $reference_link,
+		'#title' => t('Any Reference Web Link')
+	);
+	$form['reference_file'] = array(
+		'#type' => 'item',
+		'#markup' => $reference_file,
+		'#title' => t('Any Reference File')
+	);
+	$form['cancel'] = array(
+		'#type' => 'markup',
+		'#markup' => l(t('Cancel'), 'custom-model/manage-proposal/idea-propsosals')
+	);
+	return $form;
 }

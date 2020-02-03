@@ -38,6 +38,15 @@ function custom_model_settings_form($form, $form_state)
 		'#required' => TRUE,
 		'#default_value' => variable_get('resource_upload_extensions', '')
 	);
+	$form['extensions']['idea_proposal_resource_upload'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Allowed file extensions for uploading resource files during idea proposal'),
+		'#description' => t('A comma separated list WITHOUT SPACE of source file extensions that are permitted to be uploaded on the server'),
+		'#size' => 50,
+		'#maxlength' => 255,
+		'#required' => TRUE,
+		'#default_value' => variable_get('idea_proposal_resource_upload_extensions', '')
+	);
 	$form['extensions']['abstract_upload'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Allowed file extensions for abstract'),
@@ -81,6 +90,7 @@ function custom_model_settings_form_submit($form, &$form_state)
 	variable_set('custom_model_cc_emails', $form_state['values']['cc_emails']);
 	variable_set('custom_model_from_email', $form_state['values']['from_email']);
 	variable_set('resource_upload_extensions', $form_state['values']['resource_upload']);
+	variable_set('idea_proposal_resource_upload_extensions', $form_state['values']['idea_proposal_resource_upload']);
 	variable_set('custom_model_abstract_upload_extensions', $form_state['values']['abstract_upload']);
 	variable_set('custom_model_simulation_file', $form_state['values']['custom_model_upload']);
 	variable_set('custom_model_script_file', $form_state['values']['custom_model_script_upload']);

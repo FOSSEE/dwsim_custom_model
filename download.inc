@@ -11,7 +11,6 @@ function custom_model_download_uploaded_file()
 	$result = $query->execute();
 	$custom_model_uploaded_file = $result->fetchObject();
 	$samplecodename = $custom_model_uploaded_file->samplefilepath;
-	//var_dump($root_path . $custom_model_uploaded_file->directory_name . '/' . $samplecodename);die;
 			ob_clean();
             header("Pragma: public");
             header("Expires: 0");
@@ -62,4 +61,33 @@ function custom_model_project_files() {
 	readfile($root_path . $directory_name . $samplecodename);
 	//ob_end_flush();
 	//ob_clean();
+}
+function custom_model_download_idea_reference_file()
+{
+	$proposal_id = arg(3);
+	$root_path = custom_model_ideas_files_path();
+	$query = db_select('custom_model_idea_proposal');
+	$query->fields('custom_model_idea_proposal');
+	$query->condition('id', $proposal_id);
+	$query->range(0, 1);
+	$result = $query->execute();
+	$uploaded_idea_reference_file = $result->fetchObject();
+	$samplecodename = $uploaded_idea_reference_file->reference_file;
+	//var_dump($root_path . $custom_model_uploaded_file->directory_name . '/' . $samplecodename);die;
+			ob_clean();
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Cache-Control: public");
+            header("Content-Description: File Transfer");
+            header('Content-Type: application/zip');
+            header('Content-disposition: attachment; filename="' . $samplecodename . '"');
+            header('Content-Length: ' . filesize($root_path . $uploaded_idea_reference_file->directory_name . '/' . $samplecodename));
+            header("Content-Transfer-Encoding: binary");
+            header('Expires: 0');
+            header('Pragma: no-cache');
+            ob_clean();
+            readfile($root_path . $uploaded_idea_reference_file->directory_name . '/' . $samplecodename);
+	        //ob_end_flush();
+           //flush();
 }
