@@ -44,7 +44,7 @@ function custom_model_run_form($form, &$form_state)
 		);
 		$form['selected_custom_model'] = array(
 			'#type' => 'item',
-			'#markup' => '<div id="ajax_selected_custom_model">' . l('Download Custom Model', 'custom-model/full-download/project/' . $custom_model_default_value) . '</div>'
+			'#markup' => '<div id="ajax_selected_custom_model">' . l('Download Abstract', 'custom-model/download/project-file/' . $custom_model_default_value) . '<br>' . l('Download Custom Model', 'custom-model/full-download/project/' . $custom_model_default_value) . '</div>'
 		);
 	}
 	return $form;
@@ -58,7 +58,7 @@ function custom_model_project_details_callback($form, $form_state)
 		$custom_model_details = _custom_model_information($custom_model_default_value);
 		$provider = user_load($custom_model_details->uid);
 		if ($custom_model_details->uid > 0) {
-			$commands[] = ajax_command_html('#ajax_selected_custom_model', l('Download Custom Model', 'custom-model/full-download/project/' . $custom_model_default_value));
+			$commands[] = ajax_command_html('#ajax_selected_custom_model',l('Download Abstract', 'custom-model/download/project-file/' . $custom_model_default_value) . '<br>' . l('Download Custom Model', 'custom-model/full-download/project/' . $custom_model_default_value));
 		} //$custom_model_details->uid > 0
 		else {
 			$commands[] = ajax_command_html('#ajax_selected_custom_model', '');

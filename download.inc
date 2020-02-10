@@ -35,6 +35,7 @@ function custom_model_project_files() {
 	$query = db_select('custom_model_submitted_abstracts_file');
 	$query->fields('custom_model_submitted_abstracts_file');
 	$query->condition('proposal_id', $proposal_id);
+	$query->condition('filetype', A);
 	$result = $query->execute();
 	$custom_model_project_files = $result->fetchObject();
 	//var_dump($custom_model_project_files);die;

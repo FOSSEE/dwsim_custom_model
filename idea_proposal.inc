@@ -202,7 +202,7 @@ function custom_model_idea_proposal_form($form, &$form_state, $no_js_use = FALSE
 		'#type' => 'checkboxes',
 		'#title' => t('Terms And Conditions'),
 		'#options' => array(
-			'status' => t('<a href="/term-and-conditions" target="_blank">I agree to the Terms and Conditions</a>')
+			'status' => t('<a href="https://dwsim.fossee.in/custom-model/idea/term-and-conditions" target="_blank">I agree to the Terms and Conditions</a>')
 		),
 		'#required' => TRUE
 	);

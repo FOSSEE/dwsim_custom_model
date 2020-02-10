@@ -23,13 +23,13 @@ function custom_model_completed_proposals_all()
 		while ($row = $result->fetchObject())
 		{
 			$proposal_id = $row->id;
-			$approval_date = date("Y", $row->approval_date);
+			$completion_date = date("Y", $row->actual_completion_date);
 			$preference_rows[] = array(
 				$i,
 				l($row->project_title, "custom-model/custom-model-run/" . $row->id),
 				$row->contributor_name,
 				$row->university,
-				$approval_date
+				$completion_date
 			);
 			$i++;
 		} //$row = $result->fetchObject()
@@ -37,8 +37,8 @@ function custom_model_completed_proposals_all()
 			'No',
 			'Custom Model Project',
 			'Contributor Name',
-			'Institute',
-			'Year'
+			'University / Institute',
+			'Year of Completion'
 		);
 		$output .= theme('table', array(
 			'header' => $preference_header,
@@ -79,9 +79,9 @@ function custom_model_progress_all()
 		} //$row = $result->fetchObject()
 		$preference_header = array(
 			'No',
-			'custom model Project',
+			'Custom Model Project',
 			'Contributor Name',
-			'Institute',
+			'University / Institute',
 			'Year'
 		);
 		$page_content .= theme('table', array(
