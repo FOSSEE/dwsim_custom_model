@@ -18,7 +18,7 @@ function custom_model_mail($key, &$message, $params)
 			$proposal_data = $query->execute()->fetchObject();
 			$user = user_load($params['custom_model_proposal_received']['user_id']);
 			$message['headers'] = $params['custom_model_proposal_received']['headers'];
-			$message['subject'] = t('[!site_name][DWSIM Custom Model] Your DWSIM Custom Model proposal has been received', array(
+			$message['subject'] = t('[!site_name][Custom Model] Your DWSIM Custom Model proposal has been received', array(
 				'!site_name' => variable_get('site_name', '')
 			), array(
 				'language' => $language->language
@@ -61,7 +61,7 @@ FOSSEE, IIT Bombay', array(
 			$proposal_data = $query->execute()->fetchObject();
 			$user_data = user_load($params['custom_model_proposal_approved']['user_id']);
 			$message['headers'] = $params['custom_model_proposal_approved']['headers'];
-			$message['subject'] = t('[!site_name][DWSIM Custom Model] Your DWSIM Custom Model proposal has been approved', array(
+			$message['subject'] = t('[!site_name][Custom Model] Your DWSIM Custom Model proposal has been approved', array(
 				'!site_name' => variable_get('site_name', '')
 			), array(
 				'language' => $language->language
@@ -103,7 +103,7 @@ FOSSEE, IIT Bombay', array(
 			$user_data = user_load($params['custom_model_proposal_disapproved']['user_id']);
 			//$user = user_load($params['custom_model_proposal']['name']);
 			$message['headers'] = $params['custom_model_proposal_disapproved']['headers'];
-			$message['subject'] = t('[!site_name][DWSIM Custom Model] Your DWSIM Custom Model proposal has been disapproved', array(
+			$message['subject'] = t('[!site_name][Custom Model] Your DWSIM Custom Model proposal has been disapproved', array(
 				'!site_name' => variable_get('site_name', '')
 			), array(
 				'language' => $language->language
@@ -150,7 +150,7 @@ FOSSEE, IIT Bombay', array(
 			$proposal_data = $query->execute()->fetchObject();
 			$user_data = user_load($params['custom_model_proposal_completed']['user_id']);
 			$message['headers'] = $params['custom_model_proposal_completed']['headers'];
-			$message['subject'] = t('[!site_name][DWSIM Custom Model] Your DWSIM Custom Model proposal has been completed', array(
+			$message['subject'] = t('[!site_name][Custom Model] Your DWSIM Custom Model proposal has been completed', array(
 				'!site_name' => variable_get('site_name', '')
 			), array(
 				'language' => $language->language
@@ -190,7 +190,7 @@ FOSSEE, IIT Bombay', array(
 			$proposal_data = $query->execute()->fetchObject();
 			$user_data = user_load($params['custom_model_proposal_deleted']['user_id']);
 			$message['headers'] = $params['custom_model_proposal_deleted']['headers'];
-			$message['subject'] = t('[!site_name][DWSIM Custom Model] Your DWSIM Custom Model proposal has been deleted', array(
+			$message['subject'] = t('[!site_name][Custom Model] Your DWSIM Custom Model proposal has been deleted', array(
 				'!site_name' => variable_get('site_name', '')
 			), array(
 				'language' => $language->language
@@ -231,7 +231,7 @@ FOSSEE, IIT Bombay', array(
 			$query->range(0, 1);
 			$proposal_data = $query->execute()->fetchObject();
 			$user = user_load($params['abstract_uploaded']['user_id']);
-			$message['subject'] = t('[!site_name][DWSIM Custom Model] You have uploaded DWSIM Custom Model project files', array(
+			$message['subject'] = t('[!site_name][Custom Model] You have uploaded DWSIM Custom Model project files', array(
 				'!site_name' => variable_get('site_name', '')
 			), array(
 				'language' => $language->language

@@ -26,7 +26,7 @@ function custom_model_completed_proposals_all()
 			$completion_date = date("Y", $row->actual_completion_date);
 			$preference_rows[] = array(
 				$i,
-				l($row->project_title, "custom-model/custom-model-run/" . $row->id),
+				l($row->project_title, "custom-model/custom-model-run/" . $row->id) . t("<br><strong>(Script used: ") . $row->script_used . t(")</strong>"),
 				$row->contributor_name,
 				$row->university,
 				$completion_date
