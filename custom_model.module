@@ -416,12 +416,12 @@ function custom_model_menu()
         "type" => MENU_CALLBACK,
         'file' => 'bulk_approval.inc'
     );
-    $items['custom-model/certificates'] = array(
+    /*$items['custom-model/certificates'] = array(
         'title' => 'List of Custom Model Certificates',
-        'description' => 'List of circuit simulation Certificates',
+        'description' => 'List of Custom Model Certificates',
         'page callback' => '_list_custom_model_certificates',
         'access arguments' => array(
-            'list circuit simulation certificates'
+            'list custom model certificates'
         ),
         'file' => 'pdf/list_custom_model_certificate.inc'
     );
@@ -437,8 +437,8 @@ function custom_model_menu()
             'generate pdf'
         ),
         'file' => 'pdf/cert_new.inc'
-    );
-    $items['custom-model/certificates-custom'] = array(
+    );*/
+    /*$items['custom-model/certificates-custom'] = array(
         'title' => 'List of Custom Model Custom Certificates',
         'description' => 'List of circuit simulation Custom Certificates',
         'page callback' => '_list_custom_model_custom_certificates',
@@ -459,8 +459,8 @@ function custom_model_menu()
             'generate pdf'
         ),
         'file' => 'pdf/mentor_cert_pdf.inc'
-    );
-    $items['custom-model/certificates/verify'] = array(
+    );*/
+    /*$items['custom-model/certificates/verify'] = array(
         "title" => "Certificate Verification",
         "page callback" => "verify_certificates",
 'page arguments' => array(
@@ -471,7 +471,7 @@ function custom_model_menu()
         ),
         'type' => MENU_CALLBACK,
         'file' => 'pdf/verify_certificates.inc'
-    );
+    );*/
     return $items;
 }
 /**
@@ -540,16 +540,16 @@ function custom_model_permission()
             'title' => t('custom model generate abstract'),
             'restrict access' => TRUE
         ),
-        "list circuit simulation certificates" => array(
+        "list custom model certificates" => array(
             "title" => t("list the certificates"),
             "description" => t("list the certificates"),
             'restrict access' => TRUE
         ),
-        "list circuit simulation custom certificates" => array(
+        /*"list circuit simulation custom certificates" => array(
             "title" => t("list the mentor certificates"),
             "description" => t("list the mentor certificates"),
             'restrict access' => TRUE
-        ),
+        ),*/
         "verify certificates" => array(
             "title" => t("verify the certificates"),
             "description" => t("verify the certificates"),
