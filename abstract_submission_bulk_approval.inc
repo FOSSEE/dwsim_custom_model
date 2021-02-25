@@ -18,7 +18,7 @@ function custom_model_abstract_submission_bulk_approval_form($form, &$form_state
 	);
 	$form['custom_model_actions'] = array(
 		'#type' => 'select',
-		'#title' => t('Please select action for Custom Model'),
+		'#title' => t('Please select action for DWSIM Custom Model'),
 		'#options' => _bulk_list_custom_model_actions(),
 		'#default_value' => 0,
 		'#prefix' => '<div id="ajax_selected_custom_model_action" style="color:red;">',

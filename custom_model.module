@@ -243,7 +243,6 @@ function custom_model_menu()
         'file' => 'notes.inc'
     );
     /* CODE UPLOAD */
-    /* CODE UPLOAD */
     $items['custom-model/abstract-code'] = array(
         'title' => 'Custom Model Submission Form',
         'description' => 'Abstract Submission',
@@ -401,7 +400,7 @@ function custom_model_menu()
             'custom_model_settings_form'
         ),
         'access arguments' => array(
-            'administer custom model'
+            'administe DWSIM Custom Model'
         ),
         'type' => MENU_NORMAL_ITEM,
         'file' => 'settings.inc'
@@ -416,7 +415,7 @@ function custom_model_menu()
         "type" => MENU_CALLBACK,
         'file' => 'bulk_approval.inc'
     );
-    /*$items['custom-model/certificates'] = array(
+    $items['custom-model/certificates'] = array(
         'title' => 'List of Custom Model Certificates',
         'description' => 'List of Custom Model Certificates',
         'page callback' => '_list_custom_model_certificates',
@@ -437,7 +436,7 @@ function custom_model_menu()
             'generate pdf'
         ),
         'file' => 'pdf/cert_new.inc'
-    );*/
+    );
     /*$items['custom-model/certificates-custom'] = array(
         'title' => 'List of Custom Model Custom Certificates',
         'description' => 'List of circuit simulation Custom Certificates',
@@ -460,10 +459,10 @@ function custom_model_menu()
         ),
         'file' => 'pdf/mentor_cert_pdf.inc'
     );*/
-    /*$items['custom-model/certificates/verify'] = array(
+    $items['custom-model/certificates/verify'] = array(
         "title" => "Certificate Verification",
         "page callback" => "verify_certificates",
-'page arguments' => array(
+        'page arguments' => array(
             'verify_certificates'
         ),
         "access arguments" => array(
@@ -471,7 +470,7 @@ function custom_model_menu()
         ),
         'type' => MENU_CALLBACK,
         'file' => 'pdf/verify_certificates.inc'
-    );*/
+    );
     return $items;
 }
 /**
@@ -532,8 +531,8 @@ function custom_model_permission()
             'title' => t('custom model download code'),
             'restrict access' => TRUE
         ),
-        'administer custom model' => array(
-            'title' => t('administer custom model'),
+        'administe Custom Model' => array(
+            'title' => t('administe Custom Model'),
             'restrict access' => TRUE
         ),
         'custom model generate abstract' => array(
@@ -545,11 +544,11 @@ function custom_model_permission()
             "description" => t("list the certificates"),
             'restrict access' => TRUE
         ),
-        /*"list circuit simulation custom certificates" => array(
+        "list Custom Model custom certificates" => array(
             "title" => t("list the mentor certificates"),
             "description" => t("list the mentor certificates"),
             'restrict access' => TRUE
-        ),*/
+        ),
         "verify certificates" => array(
             "title" => t("verify the certificates"),
             "description" => t("verify the certificates"),
@@ -557,7 +556,7 @@ function custom_model_permission()
         )
 
     );
-    // return array('custom model create proposal', 'custom model manage proposal', 'custom model edit proposal', 'custom model approve proposal', 'custom model propose solution', 'custom model approve code', 'custom model bulk manage abstract', 'custom model bulk delete code', 'custom model upload code', 'custom model download code', 'administer custom model', 'custom model generate lab');
+    // return array('custom model create proposal', 'custom model manage proposal', 'custom model edit proposal', 'custom model approve proposal', 'custom model propose solution', 'custom model approve code', 'custom model bulk manage abstract', 'custom model bulk delete code', 'custom model upload code', 'custom model download code', 'administe DWSIM Custom Model', 'custom model generate lab');
 }
 /* AJAX CALLS */
 function custom_model_ajax()

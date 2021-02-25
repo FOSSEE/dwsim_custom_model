@@ -542,6 +542,6 @@ function custom_model_proposal_form_submit($form, &$form_state)
 	);
 	if (!drupal_mail('custom_model', 'custom_model_proposal_received', $email_to, user_preferred_language($user), $params, $form, TRUE))
 		drupal_set_message('Error sending email message.', 'error');
-	drupal_set_message(t('We have received your custom model proposal. We will get back to you soon.'), 'status');
+	drupal_set_message(t('We have received your DWSIM Custom Model proposal. We will get back to you soon.'), 'status');
 	drupal_goto('');
 }
