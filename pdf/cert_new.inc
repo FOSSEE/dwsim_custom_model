@@ -63,7 +63,7 @@ function generate_pdf()
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->MultiCell(240, 8, 'from ' . utf8_decode($data3->university) . ' has successfully', '0','C');
 		$pdf->Ln(0);
-		$pdf->Cell(240, 8, 'completed Internship under DWSIM Custom Model Project.', '0', '1', 'C');
+		$pdf->Cell(240, 8, 'completed Internship under DWSIM Custom Modeling Project.', '0', '1', 'C');
 		$pdf->Ln(0);
 		$pdf->Cell(240, 8, 'He/she has created a Custom Model titled ', '0', '1', 'C');
 		$pdf->Ln(0);
