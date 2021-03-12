@@ -138,7 +138,7 @@ function generate_pdf()
 	$pdf->SetX(29);
 	$pdf->SetY(-58);
 	$sign = $path . "/pdf/images/sign.png";
-    $pdf->Image($sign, $pdf->GetX()+10, $pdf->GetY() - 15, 80, 0);
+    $pdf->Image($sign, $pdf->GetX() +160, $pdf->GetY() - 17, 80, 0);
 	$pdf->SetX(29);
 	$pdf->SetFont('Arial', 'B', 10);
 	$pdf->SetY(-58);
@@ -154,11 +154,11 @@ function generate_pdf()
 	$image2 = $path . "/pdf/images/fossee.png"; 
 	
 	$pdf->Ln(8);
-	$pdf->Image($image2, $pdf->GetX() +15, $pdf->GetY() + 7, 40, 0);
+	$pdf->Image($image2, $pdf->GetX() +15, $pdf->GetY() + 3, 40, 0);
 	$pdf->Ln(6);
 	$pdf->Image($pngAbsoluteFilePath, $pdf->GetX() + 106, $pdf->GetY() - 10, 25, 0);
-	$pdf->Image($image3, $pdf->GetX() + 200, $pdf->GetY() +6, 40, 0);
-	$pdf->Image($image4, $pdf->GetX() +60, $pdf->GetY() + 23, 120, 0);
+	$pdf->Image($image3, $pdf->GetX() +180, $pdf->GetY() -5, 40, 0);
+	$pdf->Image($image4, $pdf->GetX() +60, $pdf->GetY() + 22, 120, 0);
 	$pdf->SetFont('Arial', 'I', 8);
 	$pdf->SetTextColor(0, 0, 0);
 	$filename = str_replace(' ', '-', $data3->contributor_name) . '-DWSIM-Custom Model-Certificate.pdf';
