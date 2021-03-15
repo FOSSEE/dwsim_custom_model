@@ -58,11 +58,11 @@ function custom_model_progress_all()
 	$result = $query->execute();
 	if ($result->rowCount() == 0)
 	{
-		$page_content .= "Work is in progress for the following custom model under custom model Project<hr>";
+		$page_content .= "Work is in progress for the following custom model under DWSIM Custom Model Project<hr>";
 	} //$result->rowCount() == 0
 	else
 	{
-		$page_content .= "Work is in progress for the following custom model under custom model Project<hr>";
+		$page_content .= "Work is in progress for the following custom model under DWSIM Custom Model Project<hr>";
 		$preference_rows = array();
 		$i = 1;
 		while ($row = $result->fetchObject())
