@@ -228,6 +228,15 @@ function custom_model_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#description' => t('Maximum character limit is 250'),
 		'#required' => TRUE
 	);
+	$form['reference'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Reference'),
+		'#size' => 10000,
+		'#attributes' => array(
+			'placeholder' => 'Enter Reference'
+		),
+		'#required' => TRUE,
+	);
 	$form['script_used'] = array(
 		'#type' => 'select',
 		'#title' => t('Script used to create the Custom Model'),
