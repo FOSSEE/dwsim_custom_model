@@ -69,7 +69,7 @@ function custom_model_menu()
             'custom model manage proposal'
         ),
         'type' => MENU_LOCAL_TASK,
-        'weight' => 4,
+        'weight' => 2,
         'file' => 'manage_proposal.inc'
     );
     $items['custom-model/manage-proposal/idea-proposals'] = array(
@@ -81,8 +81,45 @@ function custom_model_menu()
             'custom model manage proposal'
         ),
         'type' => MENU_LOCAL_TASK,
-        'weight' => 5,
+        'weight' => 3,
         'file' => 'manage_proposal.inc'
+    );
+    $items['custom-model/manage-proposal/approved-proposals'] = array(
+        'title' => 'Approved Proposals',
+        'description' => 'Approved Proposals',
+        'page callback' => 'dwsim_custom_model_approved_tab',
+        'access callback' => 'user_access',
+        'access arguments' => array(
+            'custom model manage proposal'
+        ),
+        'type' => MENU_LOCAL_TASK,
+        'weight' => 4,
+        'file' => 'proposals_review_tab.inc'
+    );
+    $items['custom-model/manage-proposal/uploaded-proposals'] = array(
+        'title' => 'Uploaded Proposals',
+        'description' => 'Uploaded Proposals',
+        'page callback' => 'dwsim_custom_model_uploaded_tab',
+        'access callback' => 'user_access',
+        'access arguments' => array(
+            'custom model manage proposal'
+        ),
+        'type' => MENU_LOCAL_TASK,
+        'weight' => 5,
+        'file' => 'proposals_review_tab.inc'
+    );
+    $items['custom-model/manage-proposal/completed-proposals'] = array(
+        'title' => 'Completed Proposals',
+        'description' => 'Completed Proposals',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('dwsim_custom_model_completed_tab_form'),
+        'access callback' => 'user_access',
+        'access arguments' => array(
+            'custom model manage proposal'
+        ),
+        'type' => MENU_LOCAL_TASK,
+        'weight' => 6,
+        'file' => 'proposals_review_tab.inc'
     );
     $items['custom-model/manage-proposal/approve'] = array(
         'title' => 'Approve Proposal',
