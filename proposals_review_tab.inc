@@ -7,7 +7,7 @@ function dwsim_custom_model_approved_tab()
 	$result = db_query("SELECT * from custom_model_proposal where id not in (select proposal_id from custom_model_submitted_abstracts) AND approval_status = 1 order by approval_date desc");
 	if ($result->rowCount() == 0)
 	{
-		$page_content .= "Approved Proposals under Custom Model Project<hr>";
+		$page_content .= "Approved Proposals under Custom Model Project: " . $result->rowCount() . "<hr>";
 	} //$result->rowCount() == 0
 	else
 	{
@@ -55,7 +55,7 @@ function dwsim_custom_model_uploaded_tab()
 
 	if ($result->rowCount() == 0)
 	{
-		$page_content .= "Uploaded Proposals under Custom Model Project<hr>";
+		$page_content .= "Uploaded Proposals under Custom Model Project: " . $result->rowCount() . "<hr>";
 	}
 	else
 	{
@@ -170,7 +170,7 @@ function _custom_model_details($custom_model_proposal_id)
 	
 	if ($result->rowCount() == 0)
 	{
-		$output .= "Work has been completed for the following Custom Model.";
+		$output .= "Work has been completed for the following custom model Project:" . $result->rowCount() . "<hr>";
 
 	} 
 	else
