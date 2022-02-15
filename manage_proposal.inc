@@ -703,6 +703,11 @@ function custom_model_proposal_edit_form($form, &$form_state)
 		'#required' => TRUE,
 		'#default_value' => $proposal_data->contributor_name
 	);
+	$form['contributor_contact_no'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Contact No.'),
+		'#default_value' => $proposal_data->contact_no
+	);
 	$form['student_email_id'] = array(
 		'#type' => 'item',
 		'#title' => t('Email'),
@@ -729,6 +734,28 @@ function custom_model_proposal_edit_form($form, &$form_state)
 		'#maxlength' => 200,
 		'#required' => TRUE,
 		'#default_value' => $proposal_data->university
+	);
+	$form['department'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Department / Branch'),
+		'#options' => _cm_list_of_departments(),
+		'#default_value' => $proposal_data->department
+	);
+	$form['other_department'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Department/Branch name not in list'),
+		'#size' => 100,
+		'#attributes' => array(
+			'placeholder' => t('Enter your department name')
+		),
+		'#states' => array(
+			'visible' => array(
+				':input[name="department"]' => array(
+					'value' => 'Others'
+				)
+			)
+		),
+		'#default_value' => $proposal_data->other_department
 	);
 	$form['country'] = array(
 		'#type' => 'select',
@@ -827,6 +854,12 @@ function custom_model_proposal_edit_form($form, &$form_state)
 			'placeholder' => 'Insert pincode of your city/ village....'
 		)
 	);
+	$form['version'] = array(
+		'#type' => 'textfield',
+		'#title' => t('DWSIM Version'),
+		'#options' => _list_of_software_versions(),
+		'#default_value' => $proposal_data->version,
+	);
 	$form['project_title'] = array(
 		'#type' => 'textarea',
 		'#title' => t('Title of the Custom Model'),
@@ -836,14 +869,36 @@ function custom_model_proposal_edit_form($form, &$form_state)
 		'#default_value' => $proposal_data->project_title
 	);
 	$form['reference'] = array(
-		'#type' => 'textarea',
+		'#type' => 'textfield',
 		'#title' => t('Reference'),
 		'#size' => 10000,
 		'#attributes' => array(
-			'placeholder' => 'Links of must be provided....'
+			'placeholder' => 'Enter Reference'
 		),
 		'#default_value' => $proposal_data->reference
 	);
+	$form['script_used'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Script used to create the Custom Model'),
+		/*'#options' => array(
+			'Scilab' => 'Scilab',
+			'IronPython' => 'IronPython'
+		),*/
+		'#default_value' => $proposal_data->script_used
+	);
+	/*$form['samplefile'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('Upload Abstract of Custom Model'),
+		'#collapsible' => FALSE,
+		'#collapsed' => FALSE
+	);*/
+	$form/*['samplefile']*/['samplefilepath'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Uploaded Abstract of Custom Model'),
+		//'#title' => t('Upload circuit diagram'),
+		'#default_value' => $proposal_data->samplefilepath
+	);
+
 	$form['delete_proposal'] = array(
 		'#type' => 'checkbox',
 		'#title' => t('Delete Proposal')
