@@ -55,6 +55,7 @@ function custom_model_progress_all()
 	$query->fields('custom_model_proposal');
 	$query->condition('approval_status', 1);
 	$query->condition('is_completed', 0);
+	$query->orderBy('approval_date',DESC);
 	$result = $query->execute();
 	if ($result->rowCount() == 0)
 	{
