@@ -1,0 +1,124 @@
+custom_model.proposal_form:
+  route_name: custom_model.proposal_form
+  title: 'Custom Model Proposal Form'
+  description: 'Custom Model Proposal Form'
+custom_model.idea_proposal_form:
+  route_name: custom_model.idea_proposal_form
+  title: 'Custom Model Idea Proposal Form'
+  description: 'Custom Model Idea Proposal Form'
+custom_model.proposal_pending:
+  route_name: custom_model.proposal_pending
+  title: 'Manage Custom Model Proposals'
+  description: 'Manage Custom Model Proposals'
+custom_model.manage_proposals:
+  route_name: custom_model.proposal_pending
+  title: 'Pending Proposals'
+  # weight: 1
+  description: 'Pending custom model Proposals Queue'
+custom_model.proposal_all:
+  route_name: custom_model.proposal_all
+  title: 'All Proposals'
+  # weight: 2
+  description: 'All Proposals'
+custom_model.idea_proposal_all:
+  route_name: custom_model.idea_proposal_all
+  title: 'Idea Proposals'
+  weight: 3
+  description: 'Idea Proposals'
+custom_model.dwsim_custom_model_approved_tab:
+  route_name: custom_model.dwsim_custom_model_approved_tab
+  title: 'Approved Proposals'
+  weight: 4
+  description: 'Approved Proposals'
+custom_model.dwsim_custom_model_uploaded_tab:
+  route_name: custom_model.dwsim_custom_model_uploaded_tab
+  title: 'Uploaded Proposals'
+  weight: 5
+  description: 'Uploaded Proposals'
+custom_model.dwsim_custom_model_completed_tab_form:
+  route_name: custom_model.dwsim_custom_model_completed_tab_form
+  title: 'Completed Proposals'
+  weight: 6
+  description: 'Completed Proposals'
+custom_model.proposal_approval_form:
+  route_name: custom_model.proposal_approval_form
+  title: 'Approve Proposal'
+  description: 'Approve Proposal'
+custom_model.proposal_edit_form:
+  route_name: custom_model.proposal_edit_form
+  title: 'Edit Proposal'
+  description: 'Edit Proposal'
+custom_model.proposal_status_form:
+  route_name: custom_model.proposal_status_form
+  title: 'Proposal Status'
+  description: 'Proposal Status'
+custom_model.view_idea_proposal_form:
+  route_name: custom_model.view_idea_proposal_form
+  title: 'View the Idea Proposal'
+  description: 'View the Idea Proposal'
+custom_model.abstract:
+  route_name: custom_model.abstract
+  title: 'Custom Model Submission Form'
+  description: 'Abstract Submission'
+custom_model.abstract_0:
+  route_name: custom_model.abstract
+  title: 'Custom Model'
+  weight: 1
+  description: 'List Experiments'
+custom_model.upload_abstract_code_form:
+  route_name: custom_model.upload_abstract_code_form
+  title: 'Custom Model Submission Form'
+  weight: 2
+  description: 'Project Upload'
+custom_model.abstract_bulk_approval_form:
+  route_name: custom_model.abstract_bulk_approval_form
+  title: 'Manage Model and Abstract Submission'
+  weight: 3
+  description: 'Bulk Mangage'
+
+custom_model.download_completed_project:
+  route_name: custom_model.download_completed_project
+  title: 'Code Download'
+  description: 'Code Download'
+custom_model.download_full_project:
+  route_name: custom_model.download_full_project
+  title: 'Code Download'
+  description: 'Code Download'
+custom_model.completed_proposals_all:
+  route_name: custom_model.completed_proposals_all
+  title: 'Completed Custom Models'
+custom_model.progress_all:
+  route_name: custom_model.progress_all
+  title: 'Custom Models in Progress'
+custom_model.run_form:
+  route_name: custom_model.run_form
+  title: 'Download Codes'
+custom_model.download_uploaded_file:
+  route_name: custom_model.download_uploaded_file
+  title: 'Download user defined compound file'
+  description: 'Download resource file'
+custom_model.download_idea_reference_file:
+  route_name: custom_model.download_idea_reference_file
+  title: 'Download the idea reference file'
+  description: 'Download the idea reference file'
+custom_model.project_files:
+  route_name: custom_model.project_files
+  title: 'Download Project file'
+  description: 'Download project file'
+custom_model.settings_form:
+  route_name: custom_model.settings_form
+  title: 'custom model Settings'
+  description: 'custom model Settings'
+custom_model._list_custom_model_certificates:
+  route_name: custom_model._list_custom_model_certificates
+  title: 'List of Custom Model Certificates'
+  description: 'List of Custom Model Certificates'
+custom_model.generate_pdf:
+  route_name: custom_model.generate_pdf
+  title: 'Download Certificate'
+  description: 'Download Certificate'
+  parent: custom_model._list_custom_model_certificates
+custom_model.verify_certificates_verify_certificates:
+  route_name: custom_model.verify_certificates_verify_certificates
+  title: 'Certificate Verification'
+  parent: custom_model._list_custom_model_certificates

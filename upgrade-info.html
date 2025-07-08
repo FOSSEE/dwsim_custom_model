@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Drupal Module Upgrader analysis report</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,700,600' rel='stylesheet' type='text/css' />
+    <style type="text/css">
+    <!--
+
+body {
+  width: 80%;
+  color: #343434;
+  margin: 1em auto;
+  font-family: 'Open Sans', Verdana, sans-serif;
+}
+
+details {
+  font-size: 18px;
+  line-height: 25px;
+  margin-bottom: 2em;
+  display: list-item;
+  list-style: none;
+}
+
+details summary {
+  padding: 1em;
+  margin-bottom: 1em;
+  display: list-item;
+  cursor: pointer;
+}
+
+details.error summary {
+  background-color: #ffd5d5;
+}
+
+details.warning summary {
+  background-color: #fff3bb;
+}
+
+a {
+  color: #095cb1;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+aside {
+  font-style: italic;
+  line-height: 20px;
+  font-size: 15px;
+}
+
+.group {
+  border: 1px solid #ececec;
+  padding: 1em;
+  display: block;
+}
+
+.group > summary {
+  padding: 0;
+  color: #c8c8c8;
+  margin-bottom: 0;;
+  font-weight: bold;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  display: list-item;
+}
+
+.group[open] > summary {
+  margin-bottom: 1em;
+}
+
+.group > details:last-child {
+  margin-bottom: 0;
+}
+
+    -->
+    </style>
+  </head>
+  <body>
+    <h1>Drupal Module Upgrader analysis report</h1>
+      <details open="true" class="group">
+      <summary></summary>
+          <details class="warning">
+      <summary>Many common functions, shared variables, and constants have been renamed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2324935">The global theme variables have been replaced by an ActiveTheme object</a></li>
+              </ul>
+      
+                      </details>
+    <details class="error">
+      <summary>Classes must be PSR-4 compliant.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2246699">PSR-4 compatible class loader in Drupal core</a></li>
+              </ul>
+      
+                      </details>
+    <details class="error">
+      <summary>Module info files' <code>core</code> key must have a value of <code>8.x</code>.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/1935708"><code>.info</code> files are now <code>.info.yml</code> files</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/custom_model.info</li>
+            </ul>
+                  <aside>Flagged by info</aside>    </details>
+    <details class="error">
+      <summary>Info files must contain a <code>type</code> key.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/1935708#type"><code>.info</code> files are now <code>.info.yml</code> files</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/custom_model.info</li>
+            </ul>
+                  <aside>Flagged by info</aside>    </details>
+    <details class="warning">
+      <summary>Static permissions are now defined in <code>MODULE.permissions.yml</code>.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2311427">Defining permissions in <code>MODULE.permissions.yml</code></a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/custom_model.module, line 513</li>
+            </ul>
+            <p class="fixable">This issue can be fixed automatically.</p>      <aside>Flagged by hook_permission</aside>    </details>
+    <details class="error">
+      <summary><code>drupal_goto()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2023537"><code>drupal_goto()</code> removed</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/custom_model.module, line 913</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 34</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 49</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 555</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 288</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 380</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 67</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 131</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 189</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 196</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 351</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 358</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 390</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 423</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 448</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 455</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 601</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 608</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 648</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 674</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 681</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 934</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 941</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 973</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1038</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1045</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 9</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 465</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 11</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 143</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 150</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 162</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 312</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 608</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 86</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 278</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 386</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 25</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 31</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 46</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 61</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 93</li>
+            </ul>
+                  <aside>Flagged by _function_call:drupal_goto</aside>    </details>
+    <details class="error">
+      <summary><code>drupal_render()</code> has been removed.</summary>
+
+      
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/pdf/verify_certificates.inc, line 13</li>
+              <li>modules/dwsim_custom_model/pdf/verify_certificates.inc, line 55</li>
+              <li>modules/dwsim_custom_model/proposals_review_tab.inc, line 134</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 69</li>
+            </ul>
+                  <aside>Flagged by _function_call:drupal_render</aside>    </details>
+    <details class="error">
+      <summary><code>user_load()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2266845">Entities are now classed objects implementing <code>EntityInterface</code></a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 216</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 371</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 404</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 466</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 628</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 684</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 948</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1072</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 35</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 112</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 294</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 295</li>
+              <li>modules/dwsim_custom_model/run.inc, line 59</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 99</li>
+              <li>modules/dwsim_custom_model/email.inc, line 19</li>
+              <li>modules/dwsim_custom_model/email.inc, line 62</li>
+              <li>modules/dwsim_custom_model/email.inc, line 103</li>
+              <li>modules/dwsim_custom_model/email.inc, line 151</li>
+              <li>modules/dwsim_custom_model/email.inc, line 191</li>
+              <li>modules/dwsim_custom_model/email.inc, line 233</li>
+            </ul>
+                  <aside>Flagged by _function_call:user_load</aside>    </details>
+    <details class="error">
+      <summary><code>drupal_get_form()</code> has moved into the FormBuilder service.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2121003">Form generation functions moved into FormBuilder service</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/pdf/verify_certificates.inc, line 12</li>
+            </ul>
+                  <aside>Flagged by _function_call:drupal_get_form</aside>    </details>
+    <details class="error">
+      <summary><code>form_set_error()</code> is now a method of <code>FormStateInterface</code>.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2121003">Form functions moved into <code>FormStateInterface</code></a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/proposal.inc, line 289</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 294</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 301</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 310</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 319</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 331</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 336</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 341</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 351</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 355</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 360</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 366</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 377</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 379</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 382</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 329</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 226</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 231</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 238</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 247</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 256</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 268</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 273</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 278</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 288</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 292</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 297</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 314</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 316</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 319</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 245</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 250</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 255</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 290</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 292</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 295</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 259</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 166</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 239</li>
+            </ul>
+                  <aside>Flagged by _function_call:form_set_error</aside>    </details>
+    <details class="error">
+      <summary><code>l()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2346779"><code>l()</code> replaced by URL generation API</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 16</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 18</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 18</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 79</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 83</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 83</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 145</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 147</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 210</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 277</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 319</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 460</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 552</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 578</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 912</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1058</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1066</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1118</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 8</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 62</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 70</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 75</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 95</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 103</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 108</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 228</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 50</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 144</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 187</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 210</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 249</li>
+              <li>modules/dwsim_custom_model/proposals_review_tab.inc, line 187</li>
+              <li>modules/dwsim_custom_model/run.inc, line 47</li>
+              <li>modules/dwsim_custom_model/run.inc, line 47</li>
+              <li>modules/dwsim_custom_model/run.inc, line 61</li>
+              <li>modules/dwsim_custom_model/run.inc, line 61</li>
+              <li>modules/dwsim_custom_model/run.inc, line 140</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 414</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 417</li>
+              <li>modules/dwsim_custom_model/custom_model_details.inc, line 29</li>
+              <li>modules/dwsim_custom_model/pdf/list_custom_model_certificate.inc, line 27</li>
+            </ul>
+                  <aside>Flagged by _function_call:l</aside>    </details>
+    <details class="error">
+      <summary><code>theme()</code> has been renamed to <code>_theme()</code>, and should never be called directly.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2195739"><code>theme()</code> renamed to <code>_theme()</code> and should not be called directly</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 34</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 100</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 162</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 67</li>
+              <li>modules/dwsim_custom_model/proposals_review_tab.inc, line 36</li>
+              <li>modules/dwsim_custom_model/proposals_review_tab.inc, line 84</li>
+              <li>modules/dwsim_custom_model/proposals_review_tab.inc, line 201</li>
+              <li>modules/dwsim_custom_model/custom_model_details.inc, line 43</li>
+              <li>modules/dwsim_custom_model/custom_model_details.inc, line 88</li>
+              <li>modules/dwsim_custom_model/pdf/list_custom_model_certificate.inc, line 37</li>
+            </ul>
+                  <aside>Flagged by _function_call:theme</aside>    </details>
+    <details class="error">
+      <summary><code>user_access()</code> is now <code>AccountInterface::hasPermission()</code>.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2049309"><code>user_access()</code> got converted to a method on the user/account interface</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 92</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 243</li>
+            </ul>
+                  <aside>Flagged by _function_call:user_access</aside>    </details>
+    <details class="error">
+      <summary><code>variable_get()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2183531">The Variable API has been removed</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/proposal.inc, line 259</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 372</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 538</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 539</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 540</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 373</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 374</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 375</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 406</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 407</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 408</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 630</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 631</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 632</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 950</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 951</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 952</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 199</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 309</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 448</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 449</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 450</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 190</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 201</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 212</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 277</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 280</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 283</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 591</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 592</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 593</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 308</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 309</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 310</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 336</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 337</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 338</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 359</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 360</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 361</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 73</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 74</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 75</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 122</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 137</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 143</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 144</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 145</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 194</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 210</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 216</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 217</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 218</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 252</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 267</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 272</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 273</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 274</li>
+              <li>modules/dwsim_custom_model/email.inc, line 22</li>
+              <li>modules/dwsim_custom_model/email.inc, line 47</li>
+              <li>modules/dwsim_custom_model/email.inc, line 65</li>
+              <li>modules/dwsim_custom_model/email.inc, line 89</li>
+              <li>modules/dwsim_custom_model/email.inc, line 107</li>
+              <li>modules/dwsim_custom_model/email.inc, line 137</li>
+              <li>modules/dwsim_custom_model/email.inc, line 154</li>
+              <li>modules/dwsim_custom_model/email.inc, line 177</li>
+              <li>modules/dwsim_custom_model/email.inc, line 194</li>
+              <li>modules/dwsim_custom_model/email.inc, line 219</li>
+              <li>modules/dwsim_custom_model/email.inc, line 235</li>
+              <li>modules/dwsim_custom_model/email.inc, line 254</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 12</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 21</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 30</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 39</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 48</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 57</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 66</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 75</li>
+            </ul>
+                  <aside>Flagged by _function_call:variable_get</aside>    </details>
+    <details class="error">
+      <summary><code>variable_set()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2183531">The Variable API has been removed</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/settings.inc, line 89</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 90</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 91</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 92</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 93</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 94</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 95</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 96</li>
+            </ul>
+                  <aside>Flagged by _function_call:variable_set</aside>    </details>
+    <details class="error">
+      <summary><code>\Drupal::messenger()->addMessage()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2774931"><code>\Drupal::messenger()->addMessage()</code> moved into stream wrapper manager service.</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/custom_model.module, line 796</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 802</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 868</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 871</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 876</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 912</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 918</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 923</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 926</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 929</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 33</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 48</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 394</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 508</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 523</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 527</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 533</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 553</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 554</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 18</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 66</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 130</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 24</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 89</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 153</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 188</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 195</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 350</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 357</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 388</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 389</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 421</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 422</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 447</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 454</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 600</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 607</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 624</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 645</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 646</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 673</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 680</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 933</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 940</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 965</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 966</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 972</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1018</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1037</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1044</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 8</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 331</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 421</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 433</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 437</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 443</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 463</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 464</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 142</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 149</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 161</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 355</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 381</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 410</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 442</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 458</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 463</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 470</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 502</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 518</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 523</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 530</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 562</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 578</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 583</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 607</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 13</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 56</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 85</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 90</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 94</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 277</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 323</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 351</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 378</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 382</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 385</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 24</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 30</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 45</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 60</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 68</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 88</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 90</li>
+              <li>modules/dwsim_custom_model/general_deletion.inc, line 16</li>
+              <li>modules/dwsim_custom_model/general_deletion.inc, line 32</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 119</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 159</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 167</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 191</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 232</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 240</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 245</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 250</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 288</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 293</li>
+              <li>modules/dwsim_custom_model/pdf/list_custom_model_certificate.inc, line 12</li>
+              <li>modules/dwsim_custom_model/pdf/list_custom_model_certificate.inc, line 51</li>
+              <li>modules/dwsim_custom_model/settings.inc, line 97</li>
+            </ul>
+                  <aside>Flagged by _function_call:\Drupal::messenger()->addMessage</aside>    </details>
+    <details class="error">
+      <summary><code>\Drupal::database()->delete()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2993033"><code>\Drupal::database()->delete()</code> is deprecated.</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 969</li>
+              <li>modules/dwsim_custom_model/general_deletion.inc, line 34</li>
+              <li>modules/dwsim_custom_model/general_deletion.inc, line 44</li>
+              <li>modules/dwsim_custom_model/general_deletion.inc, line 45</li>
+            </ul>
+                  <aside>Flagged by _function_call:\Drupal::database()->delete</aside>    </details>
+    <details class="error">
+      <summary><code>\Drupal::database()->query()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2993033"><code>\Drupal::database()->query()</code> is deprecated.</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/custom_model.module, line 774</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 818</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 840</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 489</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 520</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 11</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 111</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 210</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 214</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 298</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 302</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 369</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 402</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 620</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1017</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 402</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 432</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 327</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 346</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 354</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 372</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 380</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 424</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 441</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 457</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 484</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 501</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 517</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 544</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 561</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 577</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 305</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 333</li>
+              <li>modules/dwsim_custom_model/pdf/verify_certificates.inc, line 72</li>
+              <li>modules/dwsim_custom_model/pdf/verify_certificates.inc, line 76</li>
+              <li>modules/dwsim_custom_model/proposals_review_tab.inc, line 7</li>
+              <li>modules/dwsim_custom_model/proposals_review_tab.inc, line 54</li>
+              <li>modules/dwsim_custom_model/proposals_review_tab.inc, line 154</li>
+              <li>modules/dwsim_custom_model/proposals_review_tab.inc, line 166</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 110</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 114</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 178</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 182</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 186</li>
+              <li>modules/dwsim_custom_model/pdf/list_custom_model_certificate.inc, line 5</li>
+              <li>modules/dwsim_custom_model/pdf/list_custom_model_certificate.inc, line 19</li>
+            </ul>
+                  <aside>Flagged by _function_call:\Drupal::database()->query</aside>    </details>
+    <details class="error">
+      <summary><code>\Drupal::database()->select()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2993033"><code>\Drupal::database()->select()</code> is deprecated.</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/custom_model.module, line 607</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 625</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 640</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 692</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 705</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 720</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 736</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 751</li>
+              <li>modules/dwsim_custom_model/custom_model.module, line 904</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 37</li>
+              <li>modules/dwsim_custom_model/proposal.inc, line 281</li>
+              <li>modules/dwsim_custom_model/pdf/cert_new.inc, line 92</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 10</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 21</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 25</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 28</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 75</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 86</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 90</li>
+              <li>modules/dwsim_custom_model/full_download.inc, line 93</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 7</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 44</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 110</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 176</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 338</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 435</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 588</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 661</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 921</li>
+              <li>modules/dwsim_custom_model/manage_proposal.inc, line 1025</li>
+              <li>modules/dwsim_custom_model/idea_proposal.inc, line 218</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 15</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 19</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 23</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 44</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 78</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 129</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 153</li>
+              <li>modules/dwsim_custom_model/upload_code.inc, line 612</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 7</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 21</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 28</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 78</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 98</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 105</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 159</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 196</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 204</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 270</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 282</li>
+              <li>modules/dwsim_custom_model/abstract_approval.inc, line 289</li>
+              <li>modules/dwsim_custom_model/pdf/verify_certificates.inc, line 63</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 16</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 36</li>
+              <li>modules/dwsim_custom_model/upload_code_delete.inc, line 51</li>
+              <li>modules/dwsim_custom_model/run.inc, line 111</li>
+              <li>modules/dwsim_custom_model/run.inc, line 123</li>
+              <li>modules/dwsim_custom_model/download.inc, line 7</li>
+              <li>modules/dwsim_custom_model/download.inc, line 35</li>
+              <li>modules/dwsim_custom_model/download.inc, line 42</li>
+              <li>modules/dwsim_custom_model/download.inc, line 70</li>
+              <li>modules/dwsim_custom_model/general_deletion.inc, line 9</li>
+              <li>modules/dwsim_custom_model/general_deletion.inc, line 19</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 94</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 103</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 171</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 307</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 333</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 338</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 358</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 363</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 385</li>
+              <li>modules/dwsim_custom_model/abstract_submission_bulk_approval.inc, line 390</li>
+              <li>modules/dwsim_custom_model/email.inc, line 14</li>
+              <li>modules/dwsim_custom_model/email.inc, line 57</li>
+              <li>modules/dwsim_custom_model/email.inc, line 98</li>
+              <li>modules/dwsim_custom_model/email.inc, line 146</li>
+              <li>modules/dwsim_custom_model/email.inc, line 186</li>
+              <li>modules/dwsim_custom_model/email.inc, line 228</li>
+              <li>modules/dwsim_custom_model/custom_model_details.inc, line 5</li>
+              <li>modules/dwsim_custom_model/custom_model_details.inc, line 54</li>
+            </ul>
+                  <aside>Flagged by _function_call:\Drupal::database()->select</aside>    </details>
+    <details class="error">
+      <summary><code>hook_menu()</code> has been removed from Drupal 8.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/1800686">All functionality of <code>hook_menu()</code> replaced</a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2177901">Dynamic routes are now defined in <code>MODULE.routing.yml</code></a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2119699">Page callbacks have been converted to controller classes</a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2089605">Route naming convention</a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2165243">Contextual links are now plugins defined in <code>MODULE.links.contextual.yml</code></a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2007444">Local actions are now plugins defined in <code>MODULE.links.action.yml</code></a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2044515">Local tasks and now plugins defined in <code>MODULE.links.task.yml</code></a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2228089">Menu links are now defined in <code>MODULE.links.menu.yml</code></a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/dwsim_custom_model/custom_model.module, line 8</li>
+            </ul>
+                  <aside>Flagged by _flag_hook:menu</aside>    </details>
+
+    </details>
+    </body>
+</html>

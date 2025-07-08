@@ -1,0 +1,16 @@
+custom_model.settings:
+  type: mapping
+  label: Settings
+  mapping:
+    custom_model_from_email:
+      type: string
+    custom_model_emails:
+      type: string
+    custom_model_cc_emails:
+      type: string
+    custom_model_simulation_file:
+      type: string
+    custom_model_script_file:
+      type: string
+    custom_model_abstract_upload_extensions:
+      type: string

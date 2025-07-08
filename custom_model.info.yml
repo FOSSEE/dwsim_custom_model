@@ -1,0 +1,6 @@
+name: 'Dwsim custom model'
+description: 'IIT Bombay Dwsim custom model'
+package: IITB
+core_version_requirement: ^8 || ^9 ||^10
+type: module
+dependencies: {  }

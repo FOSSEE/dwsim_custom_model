@@ -1,0 +1,10 @@
+services:
+  custom_model_global:
+    class: '\Drupal\custom_model\Services\CustomModelGlobalfunction'
+
+  # lab_migration_email:
+  #   class:  '\Drupal\lab_migration\Services\LabMigrationEmailFunction'
+
+  # lab_migration.form.lab_migration_proposal_approval:
+  #   class: Drupal\lab_migration\Form\LabMigrationProposalApprovalForm
+  #   arguments: ['@plugin.manager.mail']

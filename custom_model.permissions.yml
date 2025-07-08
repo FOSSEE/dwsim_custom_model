@@ -1,0 +1,57 @@
+'custom model create proposal':
+  title: 'custom model create proposal'
+  'restrict access': true
+'custom model create idea proposal':
+  title: 'custom model create idea proposal'
+  'restrict access': true
+'custom model manage proposal':
+  title: 'custom model manage proposal'
+  'restrict access': true
+'custom model edit proposal':
+  title: 'custom model edit proposal'
+  'restrict access': true
+'custom model approve proposal':
+  title: 'custom model approve proposal'
+  'restrict access': true
+'custom model view idea proposal':
+  title: 'custom model view idea proposal'
+  'restrict access': true
+'custom model propose solution':
+  title: 'custom model propose solution'
+  'restrict access': true
+'custom model approve abstract':
+  title: 'custom model approve code'
+  'restrict access': true
+'custom model bulk manage abstract':
+  title: 'custom model bulk manage abstract'
+  'restrict access': true
+'custom model bulk manage submission':
+  title: 'custom model bulk manage submission'
+  'restrict access': true
+'custom model bulk delete abstract':
+  title: 'custom model bulk delete code'
+  'restrict access': true
+'custom model upload abstract':
+  title: 'custom model upload code'
+  'restrict access': true
+'custom model download code':
+  title: 'custom model download code'
+  'restrict access': true
+'administe Custom Model':
+  title: 'administe Custom Model'
+  'restrict access': true
+'custom model generate abstract':
+  title: 'custom model generate abstract'
+  'restrict access': true
+'list custom model certificates':
+  title: 'list the certificates'
+  description: 'list the certificates'
+  'restrict access': true
+'list Custom Model custom certificates':
+  title: 'list the mentor certificates'
+  description: 'list the mentor certificates'
+  'restrict access': true
+'verify certificates':
+  title: 'verify the certificates'
+  description: 'verify the certificates'
+  'restrict access': true
