@@ -130,9 +130,10 @@ if (!$proposal_data) {
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => t('Submit'),
+      // '#value' => $this->t('Submit'),
       '#submit' => [
         // 'custom_model_upload_abstract_code_form_submit'
-        'custom_model_upload_abstract_code_form'
+        'custom_model.upload_abstract_code_form'
         ],
     ];
     $form['cancel'] = [
