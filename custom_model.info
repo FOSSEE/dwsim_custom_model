@@ -1,7 +1,6 @@
 name = "Dwsim custom model"
 description = "IIT Bombay Dwsim custom model"
 package = IITB
-version = "7.x-1.3"
-core = "7.x"
-
-;scripts[] = js/jquery-1.4.1.min.js
+core_version_requirement: ^8 || ^9 ||^10
+type: module
+dependencies: {  }

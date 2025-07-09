@@ -3,8 +3,8 @@
 /*error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);*/
-require_once('general_deletion.inc');
-require_once('email.inc');
+// require_once('general_deletion.inc');
+// require_once('email.inc');
 /**
  * Implementation of hook_menu().
  */
@@ -22,7 +22,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model create proposal'
         ),
-        'type' => MENU_NORMAL_ITEM,
+        //'type' => MENU_NORMAL_ITEM,
         'file' => 'proposal.inc'
     );
     $items['custom-model/idea-proposal'] = array(
@@ -35,7 +35,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model create idea proposal'
         ),
-        'type' => MENU_NORMAL_ITEM,
+        //'type' => MENU_NORMAL_ITEM,
         'file' => 'idea_proposal.inc'
     );
     $items['custom-model/manage-proposal'] = array(
@@ -56,7 +56,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
-        'type' => MENU_DEFAULT_LOCAL_TASK,
+        //'type' => MENU_DEFAULT_LOCAL_TASK,
         'weight' => 1,
         'file' => 'manage_proposal.inc'
     );
@@ -68,7 +68,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
-        'type' => MENU_LOCAL_TASK,
+        //'type' => MENU_LOCAL_TASK,
         'weight' => 2,
         'file' => 'manage_proposal.inc'
     );
@@ -80,7 +80,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
-        'type' => MENU_LOCAL_TASK,
+        //'type' => MENU_LOCAL_TASK,
         'weight' => 3,
         'file' => 'manage_proposal.inc'
     );
@@ -92,7 +92,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
-        'type' => MENU_LOCAL_TASK,
+        //'type' => MENU_LOCAL_TASK,
         'weight' => 4,
         'file' => 'proposals_review_tab.inc'
     );
@@ -104,7 +104,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
-        'type' => MENU_LOCAL_TASK,
+        //'type' => MENU_LOCAL_TASK,
         'weight' => 5,
         'file' => 'proposals_review_tab.inc'
     );
@@ -117,7 +117,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
-        'type' => MENU_LOCAL_TASK,
+        //'type' => MENU_LOCAL_TASK,
         'weight' => 6,
         'file' => 'proposals_review_tab.inc'
     );
@@ -131,22 +131,22 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'manage_proposal.inc'
     );
-    $items['custom-model/manage-proposal/solution-proposal-approve'] = array(
-        'title' => 'Approve Solution Proposal',
-        'description' => 'Approve Solution Proposal',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array(
-            'custom_model_solution_proposal_approval_form'
-        ),
-        'access arguments' => array(
-            'custom model manage proposal'
-        ),
-        'type' => MENU_CALLBACK,
-        'file' => 'manage_solution_proposal.inc'
-    );
+    // $items['custom-model/manage-proposal/solution-proposal-approve'] = array(
+    //     'title' => 'Approve Solution Proposal',
+    //     'description' => 'Approve Solution Proposal',
+    //     'page callback' => 'drupal_get_form',
+    //     'page arguments' => array(
+    //         'custom_model_solution_proposal_approval_form'
+    //     ),
+    //     'access arguments' => array(
+    //         'custom model manage proposal'
+    //     ),
+    //     //'type' => MENU_CALLBACK,
+    //     'file' => 'manage_solution_proposal.inc'
+    // );
     $items['custom-model/manage-proposal/edit'] = array(
         'title' => 'Edit Proposal',
         'description' => 'Edit Proposal',
@@ -157,7 +157,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'manage_proposal.inc'
     );
     $items['custom-model/manage-proposal/status'] = array(
@@ -170,7 +170,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model approve proposal'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'manage_proposal.inc'
     );
     $items['custom-model/manage-proposal/view-ideas'] = array(
@@ -183,46 +183,46 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model view idea proposal'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'manage_proposal.inc'
     );
-    $items['custom-model/show-proposal'] = array(
-        'title' => 'custom model Solution Proposal',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array(
-            'custom_model_solution_proposal_form'
-        ),
-        'access arguments' => array(
-            'custom model propose solution'
-        ),
-        'type' => MENU_CALLBACK,
-        'file' => 'solution_proposal.inc'
-    );
+    // $items['custom-model/show-proposal'] = array(
+    //     'title' => 'custom model Solution Proposal',
+    //     'page callback' => 'drupal_get_form',
+    //     'page arguments' => array(
+    //         'custom_model_solution_proposal_form'
+    //     ),
+    //     'access arguments' => array(
+    //         'custom model propose solution'
+    //     ),
+    //     //'type' => MENU_CALLBACK,
+    //     'file' => 'solution_proposal.inc'
+    // );
     /* CODE REVIEW */
-    $items['custom-model/code-approval'] = array(
-        'title' => 'LM Manage Code Approval',
-        'description' => 'Manage Code Approval',
-        'page callback' => 'custom_model_code_approval',
-        'access arguments' => array(
-            'custom model approve code'
-        ),
-        'type' => MENU_NORMAL_ITEM,
-        'file' => 'code_approval.inc'
-    );
-    $items['custom-model/abstract-approval/approve'] = array(
-        'title' => 'Code Approval',
-        'description' => 'Code Approval',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array(
-            'custom_model_abstract_approval_form'
-        ),
-        'access arguments' => array(
-            'custom model approve code'
-        ),
-        'type' => MENU_DEFAULT_LOCAL_TASK,
-        'weight' => 1,
-        'file' => 'code_approval.inc'
-    );
+    // $items['custom-model/code-approval'] = array(
+    //     'title' => 'LM Manage Code Approval',
+    //     'description' => 'Manage Code Approval',
+    //     'page callback' => 'custom_model_code_approval',
+    //     'access arguments' => array(
+    //         'custom model approve code'
+    //     ),
+    //     //'type' => MENU_NORMAL_ITEM,
+    //     'file' => 'code_approval.inc'
+    // );
+    // $items['custom-model/abstract-approval/approve'] = array(
+    //     'title' => 'Code Approval',
+    //     'description' => 'Code Approval',
+    //     'page callback' => 'drupal_get_form',
+    //     'page arguments' => array(
+    //         'custom_model_abstract_approval_form'
+    //     ),
+    //     'access arguments' => array(
+    //         'custom model approve code'
+    //     ),
+    //     //'type' => MENU_DEFAULT_LOCAL_TASK,
+    //     'weight' => 1,
+    //     'file' => 'code_approval.inc'
+    // );
     $items['custom-model/abstract-approval/bulk'] = array(
         'title' => 'Bulk Manage submission',
         'description' => 'Bulk Mangage submission',
@@ -234,7 +234,7 @@ function custom_model_menu()
             'custom model bulk manage submission'
         ),
         'type' => MENU_CALLBACK,
-        //'weight' => 2,
+        'weight' => 2,
         'file' => 'abstract_submission_bulk_approval.inc'
     );
     $items['custom-model/code-approval/bulk'] = array(
@@ -247,38 +247,38 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model bulk manage abstract'
         ),
-        'type' => MENU_LOCAL_TASK,
+        //'type' => MENU_LOCAL_TASK,
         'weight' => 2,
         'file' => 'bulk_approval.inc'
     );
-    $items['custom-model/code-approval/upload'] = array(
-        'title' => 'Upload Code',
-        'description' => 'Admin Upload',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array(
-            'custom_model_bulk_upload_code_form'
-        ),
-        'access arguments' => array(
-            'custom model bulk manage abstract'
-        ),
-        'type' => MENU_CALLBACK,
-        'weight' => 4,
-        'file' => 'bulk_upload_code.inc'
-    );
-    $items['custom-model/code-approval/notes'] = array(
-        'title' => 'Notes for Reviewers',
-        'description' => 'Notes for Reviewers',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array(
-            'custom_model_lab_notes_form'
-        ),
-        'access arguments' => array(
-            'custom model bulk manage abstract'
-        ),
-        'type' => MENU_CALLBACK,
-        'weight' => 4,
-        'file' => 'notes.inc'
-    );
+    // $items['custom-model/code-approval/upload'] = array(
+    //     'title' => 'Upload Code',
+    //     'description' => 'Admin Upload',
+    //     'page callback' => 'drupal_get_form',
+    //     'page arguments' => array(
+    //         'custom_model_bulk_upload_code_form'
+    //     ),
+    //     'access arguments' => array(
+    //         'custom model bulk manage abstract'
+    //     ),
+    //     //'type' => MENU_CALLBACK,
+    //     'weight' => 4,
+    //     'file' => 'bulk_upload_code.inc'
+    // );
+    // $items['custom-model/code-approval/notes'] = array(
+    //     'title' => 'Notes for Reviewers',
+    //     'description' => 'Notes for Reviewers',
+    //     'page callback' => 'drupal_get_form',
+    //     'page arguments' => array(
+    //         'custom_model_lab_notes_form'
+    //     ),
+    //     'access arguments' => array(
+    //         'custom model bulk manage abstract'
+    //     ),
+    //     //'type' => MENU_CALLBACK,
+    //     'weight' => 4,
+    //     'file' => 'notes.inc'
+    // );
     /* CODE UPLOAD */
     $items['custom-model/abstract-code'] = array(
         'title' => 'Custom Model Submission Form',
@@ -297,7 +297,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model upload abstract'
         ),
-        'type' => MENU_DEFAULT_LOCAL_TASK,
+        //'type' => MENU_DEFAULT_LOCAL_TASK,
         'file' => 'upload_code.inc',
         'weight' => 1
     );
@@ -311,20 +311,20 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model upload abstract'
         ),
-        'type' => MENU_LOCAL_TASK,
+        //'type' => MENU_LOCAL_TASK,
         'file' => 'upload_code.inc',
         'weight' => 2
     );
-    $items['custom-model/abstract-code/delete'] = array(
-        'title' => 'Delete Solution',
-        'description' => 'Delete Solution',
-        'page callback' => 'custom_model_upload_code_delete',
-        'access arguments' => array(
-            'custom model upload code'
-        ),
-        'type' => MENU_CALLBACK,
-        'file' => 'upload_code_delete.inc'
-    );
+    // $items['custom-model/abstract-code/delete'] = array(
+    //     'title' => 'Delete Solution',
+    //     'description' => 'Delete Solution',
+    //     'page callback' => 'custom_model_upload_code_delete',
+    //     'access arguments' => array(
+    //         'custom model upload code'
+    //     ),
+    //     //'type' => MENU_CALLBACK,
+    //     'file' => 'upload_code_delete.inc'
+    // );
     /* CODE DOWNLOADS */
     $items['custom-model/full-download/experiment'] = array(
         'title' => 'Code Download',
@@ -333,7 +333,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model approve code'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'full_download.inc'
     );
     $items['custom-model/full-download/project'] = array(
@@ -343,7 +343,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model download code'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'full_download.inc'
     );
     /* COMPLETED custom modelS */
@@ -374,7 +374,7 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model download code'
         ),
-        'type' => MENU_NORMAL_ITEM,
+        //'type' => MENU_NORMAL_ITEM,
         'file' => 'run.inc'
     );
     $items['custom-model/download/resource-file'] = array(
@@ -384,7 +384,7 @@ function custom_model_menu()
         'access arguments' => array(
             'download code'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'download.inc'
     );
     $items['custom-model/download/idea-reference-file'] = array(
@@ -394,7 +394,7 @@ function custom_model_menu()
         'access arguments' => array(
             'download code'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'download.inc'
     );
     $items['custom-model/download/project-file'] = array(
@@ -404,30 +404,30 @@ function custom_model_menu()
         'access arguments' => array(
             'download code'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'download.inc'
     );
     /* LATEX SCRIPT */
-    $items['custom-model/generate-lab'] = array(
-        'title' => 'Generate Lab',
-        'description' => 'Generate Lab From Latex Script',
-        'page callback' => 'custom_model_download_lab_pdf',
-        'access arguments' => array(
-            'custom model generate lab'
-        ),
-        'type' => MENU_CALLBACK,
-        'file' => 'latex.inc'
-    );
-    $items['custom-model/delete-lab'] = array(
-        'title' => 'Delete Lab PDF',
-        'description' => 'Delete Lab PDF',
-        'page callback' => 'custom_model_delete_lab_pdf',
-        'access arguments' => array(
-            'custom model approve code'
-        ),
-        'type' => MENU_CALLBACK,
-        'file' => 'latex.inc'
-    );
+    // $items['custom-model/generate-lab'] = array(
+    //     'title' => 'Generate Lab',
+    //     'description' => 'Generate Lab From Latex Script',
+    //     'page callback' => 'custom_model_download_lab_pdf',
+    //     'access arguments' => array(
+    //         'custom model generate lab'
+    //     ),
+    //     //'type' => MENU_CALLBACK,
+    //     'file' => 'latex.inc'
+    // );
+    // $items['custom-model/delete-lab'] = array(
+    //     'title' => 'Delete Lab PDF',
+    //     'description' => 'Delete Lab PDF',
+    //     'page callback' => 'custom_model_delete_lab_pdf',
+    //     'access arguments' => array(
+    //         'custom model approve code'
+    //     ),
+    //     //'type' => MENU_CALLBACK,
+    //     'file' => 'latex.inc'
+    // );
     /* ADMIN SETTINGS */
     $items['admin/settings/custom-model'] = array(
         'title' => 'custom model Settings',
@@ -439,19 +439,19 @@ function custom_model_menu()
         'access arguments' => array(
             'administe DWSIM Custom Model'
         ),
-        'type' => MENU_NORMAL_ITEM,
+        //'type' => MENU_NORMAL_ITEM,
         'file' => 'settings.inc'
     );
     /* AJAX REQUEST */
-    $items["lab-bulk-manage-exp/ajax"] = array(
-        "title" => "Ajax callbacks",
-        "page callback" => "lab_bulk_manage_exp_ajax",
-        "access arguments" => array(
-            "custom model bulk manage abstract"
-        ),
-        "type" => MENU_CALLBACK,
-        'file' => 'bulk_approval.inc'
-    );
+    // $items["lab-bulk-manage-exp/ajax"] = array(
+    //     "title" => "Ajax callbacks",
+    //     "page callback" => "lab_bulk_manage_exp_ajax",
+    //     "access arguments" => array(
+    //         "custom model bulk manage abstract"
+    //     ),
+    //     "type" => MENU_CALLBACK,
+    //     'file' => 'bulk_approval.inc'
+    // );
     $items['custom-model/certificates'] = array(
         'title' => 'List of Custom Model Certificates',
         'description' => 'List of Custom Model Certificates',
@@ -468,7 +468,7 @@ function custom_model_menu()
         'page arguments' => array(
             'generate_pdf'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'access arguments' => array(
             'generate pdf'
         ),
@@ -490,7 +490,7 @@ function custom_model_menu()
         'page arguments' => array(
             'generate_pdf'
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'access arguments' => array(
             'generate pdf'
         ),
@@ -505,7 +505,7 @@ function custom_model_menu()
         "access arguments" => array(
             "verify certificates"
         ),
-        'type' => MENU_CALLBACK,
+        //'type' => MENU_CALLBACK,
         'file' => 'pdf/verify_certificates.inc'
     );
     return $items;
@@ -603,8 +603,8 @@ function custom_model_ajax()
       {
         $chapter_number = arg(3);
         $preference_id = arg(4);
-        //$chapter_q = db_query("SELECT * FROM {custom_model_chapter} WHERE number = %d AND preference_id = %d LIMIT 1", $chapter_number, $preference_id);
-        $query = db_select('custom_model_chapter');
+        //$chapter_q = \Drupal::database()->query("SELECT * FROM {custom_model_chapter} WHERE number = %d AND preference_id = %d LIMIT 1", $chapter_number, $preference_id);
+        $query = \Drupal::database()->select('custom_model_chapter');
         $query->fields('custom_model_chapter');
         $query->condition('number', $chapter_number);
         $query->condition('preference_id', $preference_id);
@@ -622,7 +622,7 @@ function custom_model_ajax()
         $preference_id = arg(4);
         $example_number = arg(5);
         $chapter_id = 0;
-        $query = db_select('custom_model_chapter');
+        $query = \Drupal::database()->select('custom_model_chapter');
         $query->fields('custom_model_chapter');
         $query->condition('number', $chapter_number);
         $query->condition('preference_id', $preference_id);
@@ -637,7 +637,7 @@ function custom_model_ajax()
           {
             $chapter_id = $chapter_data->id;
           }
-        $query = db_select('custom_model_example');
+        $query = \Drupal::database()->select('custom_model_example');
         $query->fields('custom_model_example');
         $query->condition('chapter_id', $chapter_id);
         $query->condition('number', $example_number);
@@ -689,7 +689,7 @@ function custom_model_ideas_files_path()
 function _cm_list_of_departments()
 {
     $department = array();
-    $query = db_select('custom_model_list_of_departments');
+    $query = \Drupal::database()->select('custom_model_list_of_departments');
     $query->fields('custom_model_list_of_departments');
     $query->orderBy('id', 'ASC');
     $department_list = $query->execute();
@@ -702,7 +702,7 @@ function _cm_list_of_departments()
 function _list_of_software_versions()
 {
     $software_version = array();
-    $query = db_select('dwsim_software_version');
+    $query = \Drupal::database()->select('dwsim_software_version');
     $query->fields('dwsim_software_version');
     $query->orderBy('id', 'ASC');
     $software_version_list = $query->execute();
@@ -717,7 +717,7 @@ function _cm_list_of_states()
     $states = array(
         0 => '-Select-'
     );
-    $query = db_select('list_states_of_india');
+    $query = \Drupal::database()->select('list_states_of_india');
     $query->fields('list_states_of_india');
     //$query->orderBy('', '');
     $states_list = $query->execute();
@@ -733,7 +733,7 @@ function _cm_list_of_cities()
     $city = array(
         0 => '-Select-'
     );
-    $query = db_select('list_cities_of_india');
+    $query = \Drupal::database()->select('list_cities_of_india');
     $query->fields('list_cities_of_india');
     $query->orderBy('city', 'ASC');
     $city_list = $query->execute();
@@ -748,7 +748,7 @@ function _cm_list_of_pincodes()
     $pincode = array(
         0 => '-Select-'
     );
-    $query = db_select('list_of_all_india_pincode');
+    $query = \Drupal::database()->select('list_of_all_india_pincode');
     $query->fields('list_of_all_india_pincode');
     $query->orderBy('pincode', 'ASC');
     $pincode_list = $query->execute();
@@ -771,7 +771,7 @@ function cm_RenameDir($proposal_id, $dir_name)
 {
     $proposal_id = $proposal_id;
     $dir_name = $dir_name;
-    $query = db_query("SELECT directory_name,id FROM custom_model_proposal WHERE id = :proposal_id", array(
+    $query = \Drupal::database()->query("SELECT directory_name,id FROM custom_model_proposal WHERE id = :proposal_id", array(
         ':proposal_id' => $proposal_id
     ));
     $result = $query->fetchObject();
@@ -793,19 +793,19 @@ function cm_RenameDir($proposal_id, $dir_name)
         } //is_dir($files_id_dir)
         else
         {
-            drupal_set_message('Directory not available for rename.');
+            \Drupal::messenger()->addMessage('Directory not available for rename.');
             return;
         }
     } //$result != NULL
     else
     {
-        drupal_set_message('Project directory name not present in databse');
+        \Drupal::messenger()->addMessage('Project directory name not present in databse');
         return;
     }
     //var_dump($files);die;
     /* if ($files != NULL)
     {
-    $new_directory_name = rename(custom_model_path() . $result->directory_name, custom_model_path() . $dir_name) or drupal_set_message("Unable to rename folder");
+    $new_directory_name = rename(custom_model_path() . $result->directory_name, custom_model_path() . $dir_name) or \Drupal::messenger()->addMessage("Unable to rename folder");
     }
     else
     {
@@ -815,7 +815,7 @@ function cm_RenameDir($proposal_id, $dir_name)
 }
 function CreateReadmeFileCustomModel($proposal_id)
 {
-    $result = db_query("
+    $result = \Drupal::database()->query("
                         SELECT * from custom_model_proposal WHERE id = :proposal_id", array(
         ":proposal_id" => $proposal_id
     ));
@@ -837,7 +837,7 @@ function CreateReadmeFileCustomModel($proposal_id)
 function cm_rrmdir_project($prop_id)
 {
     $proposal_id = $prop_id;
-    $result = db_query("
+    $result = \Drupal::database()->query("
                     SELECT * from custom_model_proposal WHERE id = :proposal_id", array(
         ":proposal_id" => $proposal_id
     ));
@@ -865,15 +865,15 @@ function cm_rrmdir_project($prop_id)
             } //$objects as $object
             reset($objects);
             rmdir($dir);
-            $msg = drupal_set_message("Directory deleted successfully");
+            $msg = \Drupal::messenger()->addMessage("Directory deleted successfully");
             return $msg;
         } //is_dir($dir)
-        $msg = drupal_set_message("Directory not present");
+        $msg = \Drupal::messenger()->addMessage("Directory not present");
         return $msg;
     } //$proposal_data->id == $prop_id
     else
     {
-        $msg = drupal_set_message("Data not found");
+        $msg = \Drupal::messenger()->addMessage("Data not found");
         return $msg;
     }
 }
@@ -899,9 +899,9 @@ function cm_rrmdir($dir)
 /************************* USER VERIFICATION FUNCTIONS ************************/
 function custom_model_get_proposal()
   {
-    global $user;
-    //$proposal_q = db_query("SELECT * FROM {custom_model_proposal} WHERE solution_provider_uid = ".$user->uid." AND solution_status = 2 ORDER BY id DESC LIMIT 1");
-    $query = db_select('custom_model_proposal');
+    $user = \Drupal::currentUser();
+    //$proposal_q = \Drupal::database()->query("SELECT * FROM {custom_model_proposal} WHERE solution_provider_uid = ".$user->uid." AND solution_status = 2 ORDER BY id DESC LIMIT 1");
+    $query = \Drupal::database()->select('custom_model_proposal');
     $query->fields('custom_model_proposal');
     $query->orderBy('id', 'DESC');
     $query->range(0, 1);
@@ -909,24 +909,24 @@ function custom_model_get_proposal()
     $proposal_data = $proposal_q->fetchObject();
     if (!$proposal_data)
       {
-        drupal_set_message("You do not have any approved custom model proposal. Please check the ");
+        \Drupal::messenger()->addMessage("You do not have any approved custom model proposal. Please check the ");
         drupal_goto('');
       }
     switch ($proposal_data->approval_status)
     {
         case 0:
-            drupal_set_message(t('Proposal is awaiting approval.'), 'status');
+            \Drupal::messenger()->addStatus(t('Proposal is awaiting approval.'));
             return FALSE;
         case 1:
             return $proposal_data;
         case 2:
-            drupal_set_message(t('Proposal has been dis-approved.'), 'error');
+            \Drupal::messenger()->addError(t('Proposal has been dis-approved.'));
             return FALSE;
         case 3:
-            drupal_set_message(t('Proposal has been marked as completed.'), 'status');
+            \Drupal::messenger()->addStatus(t('Proposal has been marked as completed.'));
             return FALSE;
         default:
-            drupal_set_message(t('Invalid proposal state. Please contact site administrator for further information.'), 'error');
+            \Drupal::messenger()->addError(t('Invalid proposal state. Please contact site administrator for further information.'));
             return FALSE;
     }
     return FALSE;
