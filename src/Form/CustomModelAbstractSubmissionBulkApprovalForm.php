@@ -224,7 +224,60 @@ function _custom_model_details($custom_model_proposal_id) {
       3 => 'Dis-Approve Entire Custom Model (This will delete Custom Model)',
     ];
   }
-  
+  function custom_model_abstract_delete_project($proposal_id) {
+  $status = TRUE;
+  $root_path = \Drupal::service("custom_model_global")->custom_model_path();
+  $database = \Drupal::database();
+
+  $query = $database->select('custom_model_proposal', 'cmp');
+  $query->fields('cmp');
+  $query->condition('id', $proposal_id);
+  $proposal_q = $query->execute();
+  $proposal_data = $proposal_q->fetchObject();
+
+  if (!$proposal_data) {
+    \Drupal::messenger()->addMessage('Invalid Custom Model Project.', 'error');
+    return FALSE;
+  }
+
+  $query = $database->select('custom_model_submitted_abstracts_file', 'cmsaf');
+  $query->fields('cmsaf');
+  $query->condition('proposal_id', $proposal_id);
+  $abstract_q = $query->execute();
+
+  $dir_project_files = $root_path . $proposal_data->directory_name . '/project_files';
+
+  while ($abstract_data = $abstract_q->fetchObject()) {
+    if (is_dir($dir_project_files)) {
+      unlink($root_path . $proposal_data->directory_name . '/project_files/' . $abstract_data->filepath);
+    }
+    else {
+      \Drupal::messenger()->addMessage('Invalid Custom Model project abstract.', 'error');
+    }
+
+    $database->delete('custom_model_submitted_abstracts_file')
+      ->condition('proposal_id', $proposal_id)
+      ->execute();
+  }
+
+  $res = \Drupal::service("custom_model_global")->cm_rrmdir($root_path . $proposal_data->directory_name . '/project_files');
+
+  $dir_path_udc = $root_path . $proposal_data->directory_name;
+  if (is_dir($dir_path_udc)) {
+    unlink($root_path . $proposal_data->samplefilepath);
+    $res = \Drupal::service("custom_model_global")->cm_rrmdir($dir_path_udc);
+  }
+
+  $database->delete('custom_model_submitted_abstracts')
+    ->condition('proposal_id', $proposal_id)
+    ->execute();
+
+  $database->delete('custom_model_proposal')
+    ->condition('id', $proposal_data->id)
+    ->execute();
+
+  return $status;
+}
   
   
 function _bulk_list_of_custom_model_proposals() {
@@ -253,7 +306,8 @@ function _bulk_list_of_custom_model_proposals() {
    */
     
 public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
-  $current_user = \Drupal::currentUser();
+      $user = \Drupal::currentUser();
+
   $database = \Drupal::database();
   $messenger = \Drupal::messenger();
   $mailManager = \Drupal::service('plugin.manager.mail');
@@ -263,8 +317,8 @@ public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $f
   $action = $form_state->getValue('custom_model_actions');
   $message_text = trim($form_state->getValue('message'));
 
-  if (!$proposal_id || !$current_user->hasPermission('custom model bulk manage submission')) {
-    $messenger->addError(t('Access denied or invalid proposal.'));
+if (!$proposal_id || !$user->hasPermission('custom model bulk manage submission'))
+  {    $messenger->addError(t('Access denied or invalid proposal.'));
     return;
   }
 
@@ -280,6 +334,7 @@ public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $f
     return;
   }
 
+  // var_dump($proposal_id);die;
   $user = User::load($proposal->uid);
 
   if ($action == 1) {
@@ -288,7 +343,7 @@ public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $f
       ->fields('a')
       ->condition('proposal_id', $proposal_id)
       ->execute();
-
+$current_user = \Drupal::currentUser();
     foreach ($abstracts as $abstract) {
       $database->update('custom_model_submitted_abstracts')
         ->fields([
@@ -312,55 +367,55 @@ public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $f
 
     // Email
 
-$mailManager = \Drupal::service('plugin.manager.mail');
-$langcode = \Drupal::languageManager()->getDefaultLanguage()->getId();
 
+// Load user  
+// Mail for abstarct-approval
+$user = User::load($proposal->uid);
+$email_to = $user ? $user->getEmail() : '';
+// $email_to = $user->getEmail();
+
+// Load config
 $config = \Drupal::config('custom_model.settings');
 
-$email_to = $user_data ? $user_data->getEmail() : '';
-$from = $config->get('custom_model_from_email') ?: \Drupal::config('system.site')->get('mail');
-$cc   = $config->get('custom_model_cc_emails');
-$bcc  = $config->get('custom_model_emails');
+$from = $config->get('custom_model_from_email');
+$bcc_config = $config->get('custom_model_emails');
+$cc = $config->get('custom_model_cc_emails');
 
-if (!empty($email_to) && !empty($from)) {
+// Build BCC
+$bcc = $email_to;
+if (!empty($bcc_config)) {
+  $bcc .= ', ' . $bcc_config;
+}
 
-  $params['abstract_approval'] = [
-    'proposal_id' => $proposal_id,
-    'user_id' => $user_info->uid,
-    'headers' => [
-      'From' => $from,
-      'MIME-Version' => '1.0',
-      'Content-Type' => 'text/plain; charset=UTF-8',
-      'Content-Transfer-Encoding' => '8Bit',
-      'X-Mailer' => 'Drupal',
-    ],
-  ];
+// Mail params
+$params['abstract_approval'] = [
+  'proposal_id' => $proposal_id,
+  'user_id' => $proposal_data->uid,
+];
 
-  // Add CC/BCC only if present
-  if (!empty($cc)) {
-    $params['abstract_approval']['headers']['Cc'] = $cc;
-  }
-  if (!empty($bcc)) {
-    $params['abstract_approval']['headers']['Bcc'] = $bcc;
-  }
+// Send mail
+$mailManager = \Drupal::service('plugin.manager.mail');
 
-  $result = $mailManager->mail(
-    'custom_model',              // module name
-    'abstract_approval',         // key (case)
-    $email_to,
-    $langcode,
-    $params,
-    $from,
-    TRUE
-  );
+$langcode = $user->getPreferredLangcode();
 
-  if (empty($result['result'])) {
-    \Drupal::messenger()->addError('Error sending email message.');
-  }
+$result = $mailManager->mail(
+  'custom_model',
+  'abstract_approval',
+  $email_to,
+  $langcode,
+  $params,
+  $from,
+  TRUE
+);
+
+// Handle failure
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage(t(' Sending email message.'));
+}
   else {
     \Drupal::messenger()->addStatus('Email sent successfully.');
   }
-}
+
   }
    elseif ($action == 2) {
     // Resubmit (Pending)
@@ -373,6 +428,8 @@ if (!empty($email_to) && !empty($from)) {
       ->fields('a')
       ->condition('proposal_id', $proposal_id)
       ->execute();
+
+$current_user = \Drupal::currentUser();
 
     foreach ($abstracts as $abstract) {
       $database->update('custom_model_submitted_abstracts')
@@ -403,85 +460,150 @@ if (!empty($email_to) && !empty($from)) {
 
     $messenger->addStatus(t('Resubmit the project files'));
 
-    $params['subject'] = t('[!site_name][Custom Model] Your uploaded Custom Model has been marked as pending', ['!site_name' => \Drupal::config('system.site')->get('name')]);
-    $params['body'][] = t("
-Dear @name,
 
-Kindly resubmit the project files for the project: @title.
 
-Reason for dis-approval: @reason
+    // Email function for resubmmit abstract
 
-Best Wishes,
-@site Team,
-FOSSEE, IIT Bombay", [
-      '@name' => $proposal->contributor_name,
-      '@title' => $proposal->project_title,
-      '@reason' => $message_text,
-      '@site' => \Drupal::config('system.site')->get('name'),
-    ]);
+    $user = User::load($proposal->uid);
+$email_to = $user ? $user->getEmail() : '';
+// $email_to = $user->getEmail();
 
-  } elseif ($action == 3) {
+// Load config
+$config = \Drupal::config('custom_model.settings');
+
+$from = $config->get('custom_model_from_email');
+$bcc_config = $config->get('custom_model_emails');
+$cc = $config->get('custom_model_cc_emails');
+
+// Build BCC
+$bcc = $email_to;
+if (!empty($bcc_config)) {
+  $bcc .= ', ' . $bcc_config;
+}
+
+// Mail params
+$params['abstract_resubmit'] = [
+  'proposal_id' => $proposal_id,
+  'user_id' => $proposal_data->uid,
+];
+
+// Send mail
+$mailManager = \Drupal::service('plugin.manager.mail');
+
+$langcode = $user->getPreferredLangcode();
+
+$result = $mailManager->mail(
+  'custom_model',
+  'abstract_resubmit',
+  $email_to,
+  $langcode,
+  $params,
+  $from,
+  TRUE
+);
+
+// Handle failure
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage(t(' Sending email message.'));
+}
+  else {
+    \Drupal::messenger()->addStatus('Email sent successfully.');
+  }
+
+    } elseif ($action == 3) {
     // Disapprove/Delete
     if (strlen($message_text) < 30) {
       $form_state->setErrorByName('message', t('Please mention the reason for disapproval. Minimum 30 characters required.'));
       return;
     }
 
-    if (!$current_user->hasPermission('custom model bulk delete abstract')) {
-      $messenger->addError(t('You do not have permission to delete this Custom Model project.'));
+if (!$proposal_id || !$user->hasPermission('custom model bulk manage submission'))
+{      $messenger->addError(t('You do not have permission to delete this Custom Model project.'));
       return;
     }
 
-    if (custom_model_abstract_delete_project($proposal_id)) {
-      $messenger->addStatus(t('Disapproved and Deleted Entire Custom Model project.'));
+    $abstracts = $database->select('custom_model_submitted_abstracts', 'a')
+      ->fields('a')
+      ->condition('proposal_id', $proposal_id)
+      ->execute();
+$current_user = \Drupal::currentUser();
+    foreach ($abstracts as $abstract) {
+      $database->update('custom_model_submitted_abstracts')
+        ->fields([
+          'abstract_approval_status' => 2,
+          'is_submitted' => 1,
+          'approver_uid' => $current_user->id(),
+        ])
+        ->condition('id', $abstract->id)
+        ->execute();
 
-      $params['subject'] = t('[!site_name][Custom Model] Your uploaded Custom Model has been marked as dis-approved', ['!site_name' => \Drupal::config('system.site')->get('name')]);
-      $params['body'][] = t("
-Dear @name,
-
-Your uploaded Custom Model files for the Custom Model Title: @title have been marked as dis-approved.
-
-Reason for dis-approval: @reason
-
-Best Wishes,
-@site Team,
-FOSSEE, IIT Bombay", [
-        '@name' => $proposal->contributor_name,
-        '@title' => $proposal->project_title,
-        '@reason' => $message_text,
-        '@site' => \Drupal::config('system.site')->get('name'),
-      ]);
-    } else {
-      $messenger->addError(t('Error deleting the Custom Model project.'));
+      $database->update('custom_model_submitted_abstracts_file')
+        ->fields([
+          'file_approval_status' => 1,
+          'approvar_uid' => $current_user->id(),
+        ])
+        ->condition('submitted_abstract_id', $abstract->id)
+        ->execute();
     }
-  }
 
-  // Send email
-// if (!empty($params)) {
-//   $mailManager = \Drupal::service('plugin.manager.mail');
+    $messenger->addStatus(t('Disaaproved Custom Model project.'));
 
-//   $config = \Drupal::config('system.site');
-//   $from = $config->get('mail');
 
-//   $result = $mailManager->mail(
-//     'custom_model',
-//     'standard',
-//     $user->getEmail(),
-//     $language->getId(),
-//     [
-//       'subject' => $params['subject'] ?? 'No subject',
-//       'body' => $params['body'] ?? '',
-//     ],
-//     $from,
-//     TRUE
-//   );
 
-//   if (!$result['result']) {
-//     \Drupal::messenger()->addError('Error sending email.');
-//   }
-// }}
+    // Email function for disapproved abstract
 
-  }
+    $user = User::load($proposal->uid);
+$email_to = $user ? $user->getEmail() : '';
+// $email_to = $user->getEmail();
+
+// Load config
+$config = \Drupal::config('custom_model.settings');
+
+$from = $config->get('custom_model_from_email');
+$bcc_config = $config->get('custom_model_emails');
+$cc = $config->get('custom_model_cc_emails');
+
+// Build BCC
+$bcc = $email_to;
+if (!empty($bcc_config)) {
+  $bcc .= ', ' . $bcc_config;
+}
+
+// Mail params
+$params['abstract_disapproval'] = [
+  'proposal_id' => $proposal_id,
+  'user_id' => $proposal_data->uid,
+];
+
+// Send mail
+$mailManager = \Drupal::service('plugin.manager.mail');
+
+$langcode = $user->getPreferredLangcode();
+
+$result = $mailManager->mail(
+  'custom_model',
+  'abstract_disapproval',
+  $email_to,
+  $langcode,
+  $params,
+  $from,
+  TRUE
+);
+
+// Handle failure
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage(t(' Sending email message.'));
+}
+else {
+  \Drupal::messenger()->addMessage('Error disapproving and deleting solution. Please contact administrator.', 'error');
+}
+    }
+\Drupal::messenger()->addMessage('Updated successfully.', 'status');
+
+$response = new \Symfony\Component\HttpFoundation\RedirectResponse(
+  \Drupal\Core\Url::fromUserInput('/lab-migration/code-approval')->toString()
+);
+return $response;  }
 }
 
 

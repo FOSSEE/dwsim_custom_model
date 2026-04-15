@@ -341,8 +341,8 @@ FOSSEE, IIT Bombay',
   $message['headers']['Bcc'] = $config->get('custom_model_emails');
 
   break;
-  
-      case 'abstract_approval':
+
+ case 'abstract_approval':
 
       $proposal_id = (int) $params['abstract_approval']['proposal_id'];
 
@@ -383,18 +383,107 @@ FOSSEE, IIT Bombay', [
 
     break;
 
-  case 'standard':
+     case 'abstract_disapproval':
 
-  $message['subject'] = $params['standard']['subject'];
+      $proposal_id = (int) $params['abstract_disapproval']['proposal_id'];
 
-  // Ensure body is always an array
-  $message['body'] = is_array($params['standard']['body'])
-    ? $params['standard']['body']
-    : [$params['standard']['body']];
+      $proposal_data = \Drupal::database()->select('custom_model_proposal', 'cmp')
+        ->fields('cmp')
+        ->condition('id', $proposal_id)
+        ->range(0, 1)
+        ->execute()
+        ->fetchObject();
 
-  $message['headers'] = $params['standard']['headers'];
+      $user = \Drupal\user\Entity\User::load($params['abstract_disapproval']['user_id']);
+      $site_name = \Drupal::config('system.site')->get('name');
 
-  break;
+      // Headers
+      $message['headers'] = $params['abstract_disapproval']['headers'];
+
+      // Subject
+      $message['subject'] = t('[@site][Custom Model] Your uploaded Custom Model has been disapproved', [
+        '@site' => $site_name,
+      ]);
+
+      // Body (IMPORTANT: use [] to avoid empty mail)
+      $message['body'][] = t('
+Dear @name,
+
+Your uploaded abstract for the Custom Model has been disapproved:
+
+Title of Custom Model: @title
+
+Best Wishes,
+
+@site Team,
+FOSSEE, IIT Bombay', [
+        '@name' => $proposal_data ? $proposal_data->contributor_name : 'User',
+        '@title' => $proposal_data ? $proposal_data->project_title : 'N/A',
+        '@site' => $site_name,
+      ]);
+
+    break;
+
+
+     case 'abstract_resubmit':
+
+      $proposal_id = (int) $params['abstract_resubmit']['proposal_id'];
+
+      $proposal_data = \Drupal::database()->select('custom_model_proposal', 'cmp')
+        ->fields('cmp')
+        ->condition('id', $proposal_id)
+        ->range(0, 1)
+        ->execute()
+        ->fetchObject();
+
+      $user = \Drupal\user\Entity\User::load($params['abstract_resubmit']['user_id']);
+      $site_name = \Drupal::config('system.site')->get('name');
+
+      // Headers
+      $message['headers'] = $params['abstract_resubmit']['headers'];
+
+      // Subject
+      $message['subject'] = t('[@site][Custom Model]Your uploaded Custom Model have been marked as pending', [
+        '@site' => $site_name,
+      ]);
+
+      // Body (IMPORTANT: use [] to avoid empty mail)
+      $message['body'][] = t('
+Dear @name,
+
+Kindly resubmit the project files for the project .
+Reason for rejection: @reason
+
+
+Title of Custom Model: @title
+
+Best Wishes,
+
+@site Team,
+FOSSEE, IIT Bombay', [
+        '@name' => $proposal_data ? $proposal_data->contributor_name : 'User',
+        '@title' => $proposal_data ? $proposal_data->project_title : 'N/A',
+        '@site' => $site_name,
+        '@reason' => $proposal_data->dissapproval_reason,
+
+      ]);
+
+    break;
+
+
+
+  // case 'standard':
+
+  // $message['subject'] = $params['standard']['subject'];
+
+  // // Ensure body is always an array
+  // $message['body'] = is_array($params['standard']['body'])
+  //   ? $params['standard']['body']
+  //   : [$params['standard']['body']];
+
+  // $message['headers'] = $params['standard']['headers'];
+
+  // break;
   }
 }
    

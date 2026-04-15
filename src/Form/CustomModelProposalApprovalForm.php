@@ -319,9 +319,7 @@ if (!$result['result']) {
 );
 
 // Redirect (IMPORTANT: return, not send())
-return new RedirectResponse(
-  Url::fromRoute('custom_model.proposal_pending')->toString()
-);
+$form_state->setRedirect('custom_model.proposal_pending');
       // return;
     } //$form_state['values']['approval'] == 1
     else {
@@ -387,9 +385,7 @@ if (!$result['result']) {
 );
 
 // Redirect (DO NOT use ->send())
-return new RedirectResponse(
-  Url::fromRoute('custom_model.proposal_pending')->toString()
-);
+$form_state->setRedirect('custom_model.proposal_pending');
       }
     }
   }
