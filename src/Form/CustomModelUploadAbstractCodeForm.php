@@ -15,6 +15,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Link;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Database;
+use Drupal\user\Entity\User;
 
 class CustomModelUploadAbstractCodeForm extends FormBase {
 
@@ -32,7 +33,7 @@ class CustomModelUploadAbstractCodeForm extends FormBase {
     //$proposal_id = (int) arg(3);
     $route_match = \Drupal::routeMatch();
     $proposal_id = (int) $route_match->getParameter('id');
-    $proposal_data = custom_model_get_proposal($proposal_id);
+    $proposal_data = \Drupal::service("custom_model_global")->custom_model_get_proposal($proposal_id);
 if (!$proposal_data) {
   \Drupal::messenger()->addMessage(t('Invalid proposal selected. Please try again.'), 'error');
   return new RedirectResponse('/custom-model/abstract-code/upload');
@@ -127,15 +128,22 @@ if (!$proposal_data) {
       '#type' => 'hidden',
       '#value' => $proposal_data->uid,
     ];
+    // $form['submit'] = [
+    //   '#type' => 'submit',
+    //   '#value' => t('Submit'),
+    //   // '#value' => $this->t('Submit'),
+    //   '#submit' => [
+    //     // 'custom_model_upload_abstract_code_form_submit'
+    //     'custom_model.upload_abstract_code_form'
+    //     ],
+    // ];
     $form['submit'] = [
-      '#type' => 'submit',
-      '#value' => t('Submit'),
-      // '#value' => $this->t('Submit'),
-      '#submit' => [
-        // 'custom_model_upload_abstract_code_form_submit'
-        'custom_model.upload_abstract_code_form'
-        ],
-    ];
+  '#type' => 'submit',
+  '#value' => $this->t('Submit'),
+  '#submit' => [
+    '::submitForm',
+  ],
+];
     $form['cancel'] = [
       '#type' => 'item',
       // '#markup' => l(t('Cancel'), 'custom-model/abstract-code'),
@@ -217,7 +225,7 @@ if (!$proposal_data) {
               $form_state->setErrorByName($file_form_name, t('File size cannot be zero.'));
             }
             /* check if valid file name */
-            if (!custom_model_check_valid_filename($_FILES['files']['name'][$file_form_name])) {
+            if (!\Drupal::service("custom_model_global")->custom_model_check_valid_filename($_FILES['files']['name'][$file_form_name])) {
               $form_state->setErrorByName($file_form_name, t('Invalid file name specified. Only alphabets and numbers are allowed as a valid filename.'));
             }
           } //$file_name
@@ -232,7 +240,7 @@ if (!$proposal_data) {
     $user = \Drupal::currentUser();
     $v = $form_state->getValues();
     $root_path = \Drupal::service("custom_model_global")->custom_model_path();
-    $proposal_data = custom_model_get_proposal();
+    $proposal_data = \Drupal::service("custom_model_global")->custom_model_get_proposal();
     $proposal_id = $proposal_data->id;
     if (!$proposal_data) {
       // drupal_goto('');
@@ -495,30 +503,53 @@ if (!$proposal_data) {
             break;
         } //$file_type
       } //$file_name
-    } //$_FILES['files']['name'] as $file_form_name => $file_name
-	/* sending email */
-    // $email_to = $user->mail;
-    // $from = variable_get('custom_model_from_email', '');
-    // $bcc = variable_get('custom_model_emails', '');
-    // $cc = variable_get('custom_model_cc_emails', '');
-    // $params['abstract_uploaded']['proposal_id'] = $proposal_id;
-    // $params['abstract_uploaded']['submitted_abstract_id'] = $submitted_abstract_id;
-    // $params['abstract_uploaded']['user_id'] = $user->uid;
-    // $params['abstract_uploaded']['headers'] = [
-    //   'From' => $from,
-    //   'MIME-Version' => '1.0',
-    //   'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-    //   'Content-Transfer-Encoding' => '8Bit',
-    //   'X-Mailer' => 'Drupal',
-    //   'Cc' => $cc,
-    //   'Bcc' => $bcc,
-    // ];
-    // if (!drupal_mail('custom_model', 'abstract_uploaded', $email_to, language_default(), $params, $from, TRUE)) {
-    //   \Drupal::messenger()->addMessage('Error sending email message.', 'error');
-    // }
-    // drupal_goto('custom-model/abstract-code');
-    // return new RedirectResponse('/custom-model/abstract-code/upload');
-  }
+    }
+     //$_FILES['files']['name'] as $file_form_name => $file_name
 
+/* Sending email */
+
+// Load user
+$user = User::load($user->id());
+$email_to = $user->getEmail();
+
+// Config values
+$config = \Drupal::config('custom_model.settings');
+$from = $config->get('custom_model_from_email');
+
+// Mail params (IMPORTANT: flat structure)
+$params = [
+  'proposal_id' => $proposal_id,
+  'submitted_abstract_id' => $submitted_abstract_id,
+  'user_id' => $user->id(),
+];
+
+// Send mail
+$mailManager = \Drupal::service('plugin.manager.mail');
+
+$langcode = $user->getPreferredLangcode();
+
+$result = $mailManager->mail(
+  'custom_model', // must match hook_mail
+  'abstract_uploaded',
+  $email_to,
+  $langcode,
+  $params,
+  $from,
+  TRUE
+);
+
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage(t('Sending email message.'));
 }
+
+// Redirect (correct way in Drupal 10)
+// return new RedirectResponse(
+//   Url::fromRoute('custom_model.upload_abstract_code_form')->toString()
+// );
+$response = new RedirectResponse(Url::fromUri('internal:/custom-model/abstract-code')->toString());
+$response->send();
+return;
+}
+}
+
 

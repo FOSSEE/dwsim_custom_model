@@ -1,0 +1,115 @@
+custom_model.proposal_form:
+  title: 'Submit Proposal'
+  description: 'Submit a new custom model proposal'
+  route_name: custom_model.proposal_form
+  menu_name: main
+  weight: 0
+
+custom_model.idea_proposal_form:
+  title: 'Submit Idea Proposal'
+  description: 'Submit a new idea proposal'
+  route_name: custom_model.idea_proposal_form
+  menu_name: main
+  weight: 1
+
+# ---- ADMIN SECTION ----
+custom_model.admin:
+  title: 'Custom Model'
+  description: 'Custom Model Management'
+  route_name: custom_model.proposal_pending
+  parent: system.admin_content
+  weight: 0
+
+custom_model.proposal_pending:
+  title: 'Pending Proposals'
+  route_name: custom_model.proposal_pending
+  parent: custom_model.admin
+  weight: 0
+
+custom_model.proposal_all:
+  title: 'All Proposals'
+  route_name: custom_model.proposal_all
+  parent: custom_model.admin
+  weight: 1
+
+custom_model.idea_proposal_all:
+  title: 'Idea Proposals'
+  route_name: custom_model.idea_proposal_all
+  parent: custom_model.admin
+  weight: 2
+
+custom_model.approved:
+  title: 'Approved Proposals'
+  route_name: custom_model.dwsim_custom_model_approved_tab
+  parent: custom_model.admin
+  weight: 3
+
+custom_model.uploaded:
+  title: 'Uploaded Proposals'
+  route_name: custom_model.dwsim_custom_model_uploaded_tab
+  parent: custom_model.admin
+  weight: 4
+
+custom_model.completed:
+  title: 'Completed Proposals'
+  route_name: custom_model.dwsim_custom_model_completed_tab_form
+  parent: custom_model.admin
+  weight: 5
+
+# ---- ABSTRACT SECTION ----
+custom_model.abstract:
+  title: 'Abstract Code'
+  route_name: custom_model.abstract
+  parent: custom_model.admin
+  weight: 6
+
+custom_model.upload_abstract:
+  title: 'Upload Abstract Code'
+  route_name: custom_model.upload_abstract_code_form
+  parent: custom_model.abstract
+  weight: 0
+
+custom_model.bulk_abstract:
+  title: 'Bulk Approval'
+  route_name: custom_model.abstract_bulk_approval_form
+  parent: custom_model.abstract
+  weight: 1
+
+# ---- DOWNLOADS ----
+custom_model.completed_models:
+  title: 'Completed Custom Models'
+  route_name: custom_model.completed_proposals_all
+  menu_name: main
+  weight: 2
+
+custom_model.progress_models:
+  title: 'Models in Progress'
+  route_name: custom_model.progress_all
+  menu_name: main
+  weight: 3
+
+# ---- CERTIFICATES ----
+custom_model.certificates:
+  title: 'Certificates'
+  route_name: custom_model._list_custom_model_certificates
+  parent: custom_model.admin
+  weight: 7
+
+custom_model.generate_pdf:
+  title: 'Generate Certificate'
+  route_name: custom_model.generate_pdf
+  parent: custom_model.certificates
+  weight: 0
+
+custom_model.verify_certificate:
+  title: 'Verify Certificate'
+  route_name: custom_model.verify_certificates_verify_certificates
+  parent: custom_model.certificates
+  weight: 1
+
+# ---- SETTINGS ----
+custom_model.settings:
+  title: 'Settings'
+  route_name: custom_model.settings_form
+  parent: system.admin_config
+  weight: 0

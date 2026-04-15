@@ -94,7 +94,7 @@ class CustomModelIdeaProposalForm extends FormBase {
     $form['contributor_name'] = [
       '#type' => 'textfield',
       '#title' => t('Name of the contributor'),
-      '#size' => 250,
+      // '//  '#size' ' => 250,
       '#attributes' => [
         'placeholder' => t('Enter your full name.....')
         ],
@@ -104,7 +104,7 @@ class CustomModelIdeaProposalForm extends FormBase {
     $form['contributor_contact_no'] = [
       '#type' => 'textfield',
       '#title' => t('Contact No.'),
-      '#size' => 10,
+        // '#size' ' => 10,
       '#attributes' => [
         'placeholder' => t('Enter your contact number')
         ],
@@ -114,21 +114,21 @@ class CustomModelIdeaProposalForm extends FormBase {
     // $form['contributor_email_id'] = [
     //   '#type' => 'textfield',
     //   '#title' => t('Email'),
-    //   '#size' => 30,
+    //   '//  '#size' ' => 30,
     //   '#value' => $user->mail,
     //   '#disabled' => TRUE,
     // ];
     $form['contributor_email_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Email'),
-      '#size' => 30,
+      // '//  '#size' ' => 30,
       '#value' => $user ? $user->getEmail() : '', 
       '#disabled' => TRUE,
     ];
     $form['university'] = [
       '#type' => 'textfield',
       '#title' => t('University / Institute / Organisation'),
-      '#size' => 80,
+      // '//  '#size' ' => 80,
       '#maxlength' => 200,
       '#required' => TRUE,
       '#attributes' => [
@@ -151,7 +151,7 @@ class CustomModelIdeaProposalForm extends FormBase {
     $form['other_country'] = [
       '#type' => 'textfield',
       '#title' => t('Other than India'),
-      '#size' => 100,
+      // '//  '#size' ' => 100,
       '#attributes' => [
         'placeholder' => t('Enter your country name')
         ],
@@ -166,7 +166,7 @@ class CustomModelIdeaProposalForm extends FormBase {
     $form['other_state'] = [
       '#type' => 'textfield',
       '#title' => t('State other than India'),
-      '#size' => 100,
+      // '//  '#size' ' => 100,
       '#attributes' => [
         'placeholder' => t('Enter your state/region name')
         ],
@@ -181,7 +181,7 @@ class CustomModelIdeaProposalForm extends FormBase {
     $form['other_city'] = [
       '#type' => 'textfield',
       '#title' => t('City other than India'),
-      '#size' => 100,
+      //  '#size' ' => 100,
       '#attributes' => [
         'placeholder' => t('Enter your city name')
         ],
@@ -221,7 +221,7 @@ class CustomModelIdeaProposalForm extends FormBase {
     $form['pincode'] = [
       '#type' => 'textfield',
       '#title' => t('Pincode'),
-      '#size' => 6,
+      //  '#size' ' => 6,
       '#required' => TRUE,
     ];
     /***************************************************************************/
@@ -232,14 +232,14 @@ class CustomModelIdeaProposalForm extends FormBase {
     $form['project_title'] = [
       '#type' => 'textarea',
       '#title' => t('Title of the Custom Model'),
-      '#size' => 250,
+        // '#size' ' => 250,
       '#description' => t('Maximum character limit is 250'),
       '#required' => TRUE,
     ];
     $form['reference_link'] = [
       '#type' => 'textfield',
       '#title' => t('Any Reference Web Link:'),
-      //'#size' => 500,
+      //'//  '#size' ' => 500,
 		'#description' => t('Weblink to be used as a reference to understand and create the custom model'),
       //'#required' => TRUE
     ];
@@ -251,7 +251,7 @@ class CustomModelIdeaProposalForm extends FormBase {
     ];
     $form['samplefile']['reference_file'] = [
       '#type' => 'file',
-      '#size' => 48,
+        // '#size' ' => 48,
       '#description' => $this->t('Any file/document to be used as a reference to understand and create the custom model. Multiple files can be zipped together as a single file.') . '<br />' . $this->t('<span style="color:red;">Allowed file extensions: ') .\Drupal::config('custom_model.settings') ->get('idea_proposal_resource_upload_extensions', '') . '</span>',
     ];
     $form['term_condition'] = [
@@ -522,32 +522,59 @@ class CustomModelIdeaProposalForm extends FormBase {
       \Drupal::messenger()->addMessage(t('Error receiving your proposal. Please try again.'), 'error');
       return;
     } //!$proposal_id
-	/* sending email */
-    // $email_to = $user->mail;
-    // $form = variable_get('custom_model_from_email', '');
-    // $bcc = variable_get('custom_model_emails', '');
-    // $cc = variable_get('custom_model_cc_emails', '');
-    // $params['custom_model_idea_proposal_received']['proposal_id'] = $proposal_id;
-    // $params['custom_model_idea_proposal_received']['user_id'] = $user->uid;
-    // $params['custom_model_idea_proposal_received']['headers'] = [
-    //   'From' => $form,
-    //   'MIME-Version' => '1.0',
-    //   'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-    //   'Content-Transfer-Encoding' => '8Bit',
-    //   'X-Mailer' => 'Drupal',
-    //   'Cc' => $cc,
-    //   'Bcc' => $bcc,
-    // ];
-    // if (!drupal_mail('custom_model', 'custom_model_idea_proposal_received', $email_to, user_preferred_language($user), $params, $form, TRUE)) {
-    //   \Drupal::messenger()->addMessage('Error sending email message.', 'error');
-    // }
-    \Drupal::messenger()->addMessage(t('We have received your DWSIM Custom Model proposal.'), 'status');
-    // drupal_goto('');
-    $response = new RedirectResponse(Url::fromRoute('<front>')->toString());
-  
-    // Send the redirect response
-      $response->send();
-  }
 
+/* Sending email */
+
+// Load config (replaces variable_get)
+$config = \Drupal::config('custom_model.settings');
+
+$from = $config->get('custom_model_from_email');
+$cc   = $config->get('custom_model_cc_emails');
+$bcc  = $config->get('custom_model_emails');
+
+// Ensure string format
+$cc  = is_array($cc)  ? implode(',', $cc)  : $cc;
+$bcc = is_array($bcc) ? implode(',', $bcc) : $bcc;
+
+// Prepare params
+$params = [
+  'custom_model_idea_proposal_received' => [
+    'proposal_id' => $proposal_id,
+    'user_id' => $user->id(),
+    'headers' => [
+      'From' => $from,
+      'Cc' => $cc,
+      'Bcc' => $bcc,
+      'MIME-Version' => '1.0',
+      'Content-Type' => 'text/plain; charset=UTF-8',
+    ],
+  ],
+];
+
+// Language
+$langcode = $user->getPreferredLangcode();
+
+// Send mail (replaces drupal_mail)
+$mail_manager = \Drupal::service('plugin.manager.mail');
+
+$result = $mail_manager->mail(
+  'custom_model',
+  'custom_model_idea_proposal_received',
+  $user->getEmail(),
+  $langcode,
+  $params,
+  $from
+);
+
+// Handle result
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage('Error sending email message.');
+} else {
+  \Drupal::messenger()->addStatus('We have received your DWSIM Custom Model proposal.');
+}
+
+// Redirect (replaces drupal_goto)
+$form_state->setRedirect('<front>');
+  }
 }
 
