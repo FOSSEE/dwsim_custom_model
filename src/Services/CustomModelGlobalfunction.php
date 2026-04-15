@@ -110,6 +110,17 @@ public function _cm_list_of_states()
     return $states;
 }
 
+public function custom_model_check_valid_filename($file_name) {
+  if (!preg_match('/^[0-9a-zA-Z._]+$/', $file_name)) {
+    return FALSE;
+  }
+  elseif (substr_count($file_name, '.') > 1) {
+    return FALSE;
+  }
+  else {
+    return TRUE;
+  }
+}
 public function _cm_list_of_cities()
 {
     $city = array(
@@ -144,8 +155,8 @@ public function _cm_list_of_pincodes()
 public function _cm_dir_name($project, $proposar_name)
 {
 
-    $project_title = ucname($project);
-    $proposar_name = ucname($proposar_name);
+    $project_title = $this->custom_model_ucname($project);
+    $proposar_name = $this->custom_model_ucname($proposar_name);
     $dir_name = $project_title . ' By ' . $proposar_name;
     $directory_name = str_replace("__", "_", str_replace(" ", "_", str_replace("/", " ", $dir_name)));
     return $directory_name;
@@ -160,18 +171,18 @@ public function cm_RenameDir($proposal_id, $dir_name)
     $result = $query->fetchObject();
     if ($result != NULL)
     {
-        $files = scandir(custom_model_path());
-        $files_id_dir = custom_model_path() . $result->id;
+        $files = scandir($this->custom_model_path());
+        $files_id_dir = $this->custom_model_path() . $result->id;
         //var_dump($files);die;
-        $file_dir = custom_model_path() . $result->directory_name;
+        $file_dir = $this->custom_model_path() . $result->directory_name;
         if (is_dir($file_dir))
         {
-            $new_directory_name = rename(custom_model_path() . $result->directory_name, custom_model_path() . $dir_name);
+            $new_directory_name = rename($this->custom_model_path() . $result->directory_name, $this->custom_model_path() . $dir_name);
             return $new_directory_name;
         } //is_dir($file_dir)
         else if (is_dir($files_id_dir))
         {
-            $new_directory_name = rename(custom_model_path() . $result->id, custom_model_path() . $dir_name);
+            $new_directory_name = rename($this->custom_model_path() . $result->id, $this->custom_model_path() . $dir_name);
             return $new_directory_name;
         } //is_dir($files_id_dir)
         else
@@ -203,7 +214,7 @@ public function CreateReadmeFileCustomModel($proposal_id)
         ":proposal_id" => $proposal_id
     ));
     $proposal_data = $result->fetchObject();
-    $root_path = custom_model_path();
+    $root_path = $this->custom_model_path();
     $readme_file = fopen($root_path . $proposal_data->directory_name . "/README.txt", "w") or die("Unable to open file!");
     $txt = "";
     $txt .= "About the Custom Model";
@@ -226,7 +237,7 @@ public function cm_rrmdir_project($prop_id)
         ":proposal_id" => $proposal_id
     ));
     $proposal_data = $result->fetchObject();
-    $root_path = custom_model_path();
+    $root_path = $this->custom_model_path();
     $dir = $root_path . $proposal_data->directory_name;
     if ($proposal_data->id == $prop_id)
     {

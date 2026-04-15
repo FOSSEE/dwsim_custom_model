@@ -21,6 +21,7 @@ use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\DependencyInjection\ContainerInterface;
 use Drupal\Core\Mail\MailManager;
 use Drupal\Core\Session\AccountProxy;
+
 class CustomModelProposalStatusForm extends FormBase {
 
   /**
@@ -68,8 +69,8 @@ class CustomModelProposalStatusForm extends FormBase {
       '#title' => t('Student Email'),
       '#type' => 'item',
       // '#markup' => User::load($proposal_data->uid)->getEmail(),
-    //  '#markup' => \Drupal::entityTypeManager()->getStorage('user')->load($proposal_data->uid)->getEmail(),
-      '#title' => t('Email'),
+     '#markup' => \Drupal::entityTypeManager()->getStorage('user')->load($proposal_data->uid)->getEmail(),
+      // '#title' => t('Email'),
     ];
     /*$form['month_year_of_degree'] = array(
 		'#type' => 'date_popup',
@@ -225,26 +226,84 @@ class CustomModelProposalStatusForm extends FormBase {
       //   \Drupal::messenger()->addMessage('Error in update status', 'error');
       //   return;
       // } //!$result
-		/* sending email */
-      // $user_data = User::load($proposal_data->uid);
-      // $email_to = $user_data->mail;
-      // $from = variable_get('custom_model_from_email', '');
-      // $bcc = $user->mail . ', ' . variable_get('custom_model_emails', '');
-      // $cc = variable_get('custom_model_cc_emails', '');
-      // $params['custom_model_proposal_completed']['proposal_id'] = $proposal_id;
-      // $params['custom_model_proposal_completed']['user_id'] = $proposal_data->uid;
-      // $params['custom_model_proposal_completed']['headers'] = [
-      //   'From' => $from,
-      //   'MIME-Version' => '1.0',
-      //   'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-      //   'Content-Transfer-Encoding' => '8Bit',
-      //   'X-Mailer' => 'Drupal',
-      //   'Cc' => $cc,
-      //   'Bcc' => $bcc,
-      // ];
-      // if (!drupal_mail('custom_model', 'custom_model_proposal_completed', $email_to, language_default(), $params, $from, TRUE)) {
-      //   \Drupal::messenger()->addMessage('Error sending email message.', 'error');
-      // }
+
+// Load user
+$user_data = User::load($proposal_data->uid);
+
+// Validate user
+if (!$user_data) {
+  \Drupal::logger('custom_model')->error('User not found for UID: @uid', [
+    '@uid' => $proposal_data->uid,
+  ]);
+  return;
+}
+
+// Get recipient email safely
+$email_to = $user_data->getEmail();
+
+if (empty($email_to)) {
+  \Drupal::logger('custom_model')->error('User email is empty for UID: @uid', [
+    '@uid' => $proposal_data->uid,
+  ]);
+  return;
+}
+
+// Get config values (replacement for variable_get)
+$config = \Drupal::config('custom_model.settings');
+$site_config = \Drupal::config('system.site');
+
+$from = $config->get('custom_model_from_email') ?: $site_config->get('mail');
+$cc = $config->get('custom_model_cc_emails');
+$bcc_config = $config->get('custom_model_emails');
+
+// Include current user email in BCC if needed
+$current_user = \Drupal::currentUser();
+$current_user_entity = User::load($current_user->id());
+$current_user_email = $current_user_entity ? $current_user_entity->getEmail() : '';
+
+$bcc = trim($current_user_email . (!empty($bcc_config) ? ', ' . $bcc_config : ''));
+
+// Build params
+$params = [];
+$params['custom_model_proposal_completed'] = [
+  'proposal_id' => $proposal_id,
+  'user_id' => $proposal_data->uid,
+];
+
+// Build headers safely (NO NULL values)
+$headers = [
+  'From' => $from,
+  'MIME-Version' => '1.0',
+  'Content-Type' => 'text/plain; charset=UTF-8',
+];
+
+if (!empty($cc)) {
+  $headers['Cc'] = $cc;
+}
+
+if (!empty($bcc)) {
+  $headers['Bcc'] = $bcc;
+}
+
+$params['headers'] = $headers;
+
+// Send email
+$mailManager = \Drupal::service('plugin.manager.mail');
+
+$result = $mailManager->mail(
+  'custom_model',
+  'custom_model_proposal_completed',
+  $email_to,
+  \Drupal::languageManager()->getDefaultLanguage()->getId(),
+  $params,
+  $from,
+  TRUE
+);
+
+// Handle failure
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage(' Sending email message.');
+}
       \Drupal::messenger()->addMessage('Congratulations! Custom Model proposal has been marked as completed. User has been notified of the completion.', 'status');
     }
     // drupal_goto('custom-model/manage-proposal');

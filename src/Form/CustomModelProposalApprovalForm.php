@@ -240,32 +240,88 @@ if (!empty($proposal_data->samplefilepath) && $proposal_data->samplefilepath !==
         ":proposal_id" => $proposal_id,
       ];
       \Drupal::database()->query($query, $args);
-      /* sending email */
-      // $user_data = user_load($proposal_data->uid);
-      // $email_to = $user_data->mail;
-      // $from = variable_get('custom_model_from_email', '');
-      // $bcc = $user->mail . ', ' . variable_get('custom_model_emails', '');
-      // $cc = variable_get('custom_model_cc_emails', '');
-      // $params['custom_model_proposal_approved']['proposal_id'] = $proposal_id;
-      // $params['custom_model_proposal_approved']['user_id'] = $proposal_data->uid;
-      // $params['custom_model_proposal_approved']['headers'] = [
-      //   'From' => $from,
-      //   'MIME-Version' => '1.0',
-      //   'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-      //   'Content-Transfer-Encoding' => '8Bit',
-      //   'X-Mailer' => 'Drupal',
-      //   'Cc' => $cc,
-      //   'Bcc' => $bcc,
-      // ];
-      // if (!drupal_mail('custom_mmodel', 'custom_model_proposal_approved', $email_to, language_default(), $params, $from, TRUE)) {
-      //   \Drupal::messenger()->addMessage('Error sending email message.', 'error');
-      // }
-      \Drupal::messenger()->addMessage('Custom Model proposal No. ' . $proposal_id . ' approved. User has been notified of the approval.', 'status');
-      // drupal_goto('custom-model/manage-proposal');
-      $response = new RedirectResponse(Url::fromRoute('custom_model.proposal_pending')->toString());
-$response->send();
 
-      
+/* Sending email */
+
+// Load proposal owner
+$user = User::load($proposal_data->uid);
+$email_to = $user->getEmail();
+
+// Get config values
+$config = \Drupal::config('custom_model.settings');
+
+$from = $config->get('custom_model_from_email');
+$bcc_config = $config->get('custom_model_emails');
+$cc = $config->get('custom_model_cc_emails');
+
+// Combine BCC (user email + config emails)
+$bcc = $email_to;
+if (!empty($bcc_config)) {
+  $bcc .= ', ' . $bcc_config;
+}
+
+// Mail params (FLAT structure - important)
+$params = [
+  'proposal_id' => $proposal_id,
+  'user_id' => $proposal_data->uid,
+];
+
+// Send mail
+$result = \Drupal::service('plugin.manager.mail')->mail(
+  'custom_model', // ✅ FIXED (must match module name)
+  'custom_model_proposal_approved',
+  $email_to,
+  $langcode,
+  $params,
+  $from,
+  TRUE
+);// Headers
+$headers = [
+  'From' => $from,
+  'MIME-Version' => '1.0',
+  'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
+  'Content-Transfer-Encoding' => '8Bit',
+  'X-Mailer' => 'Drupal',
+];
+
+if (!empty($cc)) {
+  $headers['Cc'] = $cc;
+}
+if (!empty($bcc)) {
+  $headers['Bcc'] = $bcc;
+}
+
+// Send mail
+$mailManager = \Drupal::service('plugin.manager.mail');
+
+$langcode = $user->getPreferredLangcode();
+
+$result = $mailManager->mail(
+  'custom_mmodel', // keep same module key
+  'custom_model_proposal_approved',
+  $email_to,
+  $langcode,
+  $params,
+  $from,
+  TRUE
+);
+
+// Check result
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage(t('sending email message.'));
+}
+
+// Status message
+\Drupal::messenger()->addStatus(
+  t('Custom Model proposal No. @id approved. User has been notified of the approval.', [
+    '@id' => $proposal_id
+  ])
+);
+
+// Redirect (IMPORTANT: return, not send())
+return new RedirectResponse(
+  Url::fromRoute('custom_model.proposal_pending')->toString()
+);
       // return;
     } //$form_state['values']['approval'] == 1
     else {
@@ -278,35 +334,66 @@ $response->send();
           ":proposal_id" => $proposal_id,
         ];
         $result = \Drupal::database()->query($query, $args);
-        /* sending email */
-        // $user_data = user_load($proposal_data->uid);
-        // $email_to = $user_data->mail;
-        // $from = variable_get('custom_model_from_email', '');
-        // $bcc = $user->mail . ', ' . variable_get('custom_model_emails', '');
-        // $cc = variable_get('custom_model_cc_emails', '');
-        // $params['custom_model_proposal_disapproved']['proposal_id'] = $proposal_id;
-        // $params['custom_model_proposal_disapproved']['user_id'] = $proposal_data->uid;
-        // $params['custom_model_proposal_disapproved']['headers'] = [
-        //   'From' => $from,
-        //   'MIME-Version' => '1.0',
-        //   'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-        //   'Content-Transfer-Encoding' => '8Bit',
-        //   'X-Mailer' => 'Drupal',
-        //   'Cc' => $cc,
-        //   'Bcc' => $bcc,
-        // ];
-        // if (!drupal_mail('custom_model', 'custom_model_proposal_disapproved', $email_to, language_default(), $params, $from, TRUE)) {
-        //   \Drupal::messenger()->addMessage('Error sending email message.', 'error');
-        // }
-        \Drupal::messenger()->addMessage('Custom Model proposal No. ' . $proposal_id . ' dis-approved. User has been notified of the dis-approval.', 'error');
-        // drupal_goto('custom-model/manage-proposal');
-        $response = new RedirectResponse(Url::fromRoute('custom_model.proposal_pending')->toString());
-$response->send();
+/* Sending email */
 
-        // return;
+// Load user
+$user = User::load($proposal_data->uid);
+$email_to = $user->getEmail();
+
+// Load config
+$config = \Drupal::config('custom_model.settings');
+
+$from = $config->get('custom_model_from_email');
+$bcc_config = $config->get('custom_model_emails');
+$cc = $config->get('custom_model_cc_emails');
+
+// Build BCC
+$bcc = $email_to;
+if (!empty($bcc_config)) {
+  $bcc .= ', ' . $bcc_config;
+}
+
+// Mail params
+$params['custom_model_proposal_disapproved'] = [
+  'proposal_id' => $proposal_id,
+  'user_id' => $proposal_data->uid,
+];
+
+// Send mail
+$mailManager = \Drupal::service('plugin.manager.mail');
+
+$langcode = $user->getPreferredLangcode();
+
+$result = $mailManager->mail(
+  'custom_model',
+  'custom_model_proposal_disapproved',
+  $email_to,
+  $langcode,
+  $params,
+  $from,
+  TRUE
+);
+
+// Handle failure
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage(t(' Sending email message.'));
+}
+
+// Status message
+\Drupal::messenger()->addError(
+  t('Custom Model proposal No. @id dis-approved. User has been notified of the dis-approval.', [
+    '@id' => $proposal_id,
+  ])
+);
+
+// Redirect (DO NOT use ->send())
+return new RedirectResponse(
+  Url::fromRoute('custom_model.proposal_pending')->toString()
+);
       }
-    } //$form_state['values']['approval'] == 2
+    }
   }
+
 
 }
 

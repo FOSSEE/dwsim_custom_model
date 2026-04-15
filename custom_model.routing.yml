@@ -19,6 +19,8 @@ custom_model.proposal_pending:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_proposal_pending'
   requirements:
     _permission: 'custom model manage proposal'
+  options:
+    no_cache: TRUE
 custom_model.proposal_all:
   path:   /custom-model/manage-proposal/all
   defaults:
@@ -26,6 +28,8 @@ custom_model.proposal_all:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_proposal_all'
   requirements:
     _permission: 'custom model manage proposal'
+  options:
+    no_cache: TRUE
 custom_model.idea_proposal_all:
   path: /custom-model/manage-proposal/idea-proposals
   defaults:
@@ -33,6 +37,8 @@ custom_model.idea_proposal_all:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_idea_proposal_all'
   requirements:
     _permission: 'custom model manage proposal'
+  options:
+    no_cache: TRUE
 custom_model.dwsim_custom_model_approved_tab:
   path: /custom-model/manage-proposal/approved-proposals
   defaults:
@@ -40,6 +46,8 @@ custom_model.dwsim_custom_model_approved_tab:
     _controller: '\Drupal\custom_model\Controller\DefaultController::dwsim_custom_model_approved_tab'
   requirements:
     _permission: 'custom model manage proposal'
+  options:
+    no_cache: TRUE
 custom_model.dwsim_custom_model_uploaded_tab:
   path: /custom-model/manage-proposal/uploaded-proposals
   defaults:
@@ -47,6 +55,8 @@ custom_model.dwsim_custom_model_uploaded_tab:
     _controller: '\Drupal\custom_model\Controller\DefaultController::dwsim_custom_model_uploaded_tab'
   requirements:
     _permission: 'custom model manage proposal'
+  options:
+    no_cache: TRUE
 custom_model.dwsim_custom_model_completed_tab_form:
   path: /custom-model/manage-proposal/completed-proposals
   defaults:
@@ -89,6 +99,8 @@ custom_model.abstract:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_abstract'
   requirements:
     _permission: 'custom model upload abstract'
+  options:
+    no_cache: TRUE
 custom_model.upload_abstract_code_form:
   path: /custom-model/abstract-code/upload
   defaults:
@@ -112,6 +124,8 @@ custom_model.download_completed_project:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_download_completed_project'
   requirements:
     _permission: 'custom model approve code'
+  options:
+    no_cache: TRUE
 custom_model.download_full_project:
   path: /custom-model/full-download/project/{id}
   defaults:
@@ -119,6 +133,8 @@ custom_model.download_full_project:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_download_full_project'
   requirements:
     _permission: 'custom model download code'
+  options:
+    no_cache: TRUE
 custom_model.completed_proposals_all:
   path: /custom-model/completed-custom-models
   defaults:
@@ -126,6 +142,8 @@ custom_model.completed_proposals_all:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_completed_proposals_all'
   requirements:
     _permission: 'custom model download code'
+  options:
+    no_cache: TRUE
 custom_model.progress_all:
   path: /custom-model/custom-models-in-progress
   defaults:
@@ -133,6 +151,8 @@ custom_model.progress_all:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_progress_all'
   requirements:
     _permission: 'custom model download code'
+  options:
+    no_cache: TRUE
 custom_model.run_form:
   path: /custom-model/custom-model-run/{proposal_id}
   defaults:
@@ -146,7 +166,9 @@ custom_model.download_uploaded_file:
     _title: 'Download user defined compound file'
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_download_uploaded_file'
   requirements:
-    _permission: 'download code'
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
 custom_model.download_idea_reference_file:
   path: /custom-model/download/idea-reference-file/{id}
   defaults:
@@ -154,6 +176,8 @@ custom_model.download_idea_reference_file:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_download_idea_reference_file'
   requirements:
     _permission: 'download code'
+  options:
+    no_cache: TRUE
 custom_model.project_files:
   path: /custom-model/download/project-file/{proposal_id}
   defaults:
@@ -161,6 +185,8 @@ custom_model.project_files:
     _controller: '\Drupal\custom_model\Controller\DefaultController::custom_model_project_files'
   requirements:
     _permission: 'download code'
+  options:
+    no_cache: TRUE
 custom_model.settings_form:
   path: /admin/settings/custom-model
   defaults:
@@ -175,6 +201,8 @@ custom_model._list_custom_model_certificates:
     _controller: '\Drupal\custom_model\Controller\DefaultController::_list_custom_model_certificates'
   requirements:
     _permission: 'list custom model certificates'
+  options:
+    no_cache: TRUE
 custom_model.generate_pdf:
   path: /custom-model/certificates/generate-pdf
   defaults:
@@ -190,3 +218,5 @@ custom_model.verify_certificates_verify_certificates:
     _controller: '\Drupal\custom_model\Controller\DefaultController::verify_certificates'
   requirements:
     _permission: 'verify certificates'
+  options:
+    no_cache: TRUE

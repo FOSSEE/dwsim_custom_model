@@ -9,11 +9,11 @@ use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
-    use Drupal\user\Entity\User;
+use Drupal\user\Entity\User;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
-
+use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Provides a form for bulk abstract approval in the Custom Model module.
@@ -311,23 +311,58 @@ public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $f
     $messenger->addStatus(t('Approved Custom Model project.'));
 
     // Email
-    $params['subject'] = t('[!site_name][Custom Model] Your uploaded Custom Model has been approved', ['!site_name' => \Drupal::config('system.site')->get('name')]);
-    $params['body'][] = t("
-Dear @name,
 
-Your uploaded abstract for the Custom Model has been approved:
+$mailManager = \Drupal::service('plugin.manager.mail');
+$langcode = \Drupal::languageManager()->getDefaultLanguage()->getId();
 
-Title of Custom Model: @title
+$config = \Drupal::config('custom_model.settings');
 
-Best Wishes,
-@site Team,
-FOSSEE, IIT Bombay", [
-      '@name' => $proposal->contributor_name,
-      '@title' => $proposal->project_title,
-      '@site' => \Drupal::config('system.site')->get('name'),
-    ]);
+$email_to = $user_data ? $user_data->getEmail() : '';
+$from = $config->get('custom_model_from_email') ?: \Drupal::config('system.site')->get('mail');
+$cc   = $config->get('custom_model_cc_emails');
+$bcc  = $config->get('custom_model_emails');
 
-  } elseif ($action == 2) {
+if (!empty($email_to) && !empty($from)) {
+
+  $params['abstract_approval'] = [
+    'proposal_id' => $proposal_id,
+    'user_id' => $user_info->uid,
+    'headers' => [
+      'From' => $from,
+      'MIME-Version' => '1.0',
+      'Content-Type' => 'text/plain; charset=UTF-8',
+      'Content-Transfer-Encoding' => '8Bit',
+      'X-Mailer' => 'Drupal',
+    ],
+  ];
+
+  // Add CC/BCC only if present
+  if (!empty($cc)) {
+    $params['abstract_approval']['headers']['Cc'] = $cc;
+  }
+  if (!empty($bcc)) {
+    $params['abstract_approval']['headers']['Bcc'] = $bcc;
+  }
+
+  $result = $mailManager->mail(
+    'custom_model',              // module name
+    'abstract_approval',         // key (case)
+    $email_to,
+    $langcode,
+    $params,
+    $from,
+    TRUE
+  );
+
+  if (empty($result['result'])) {
+    \Drupal::messenger()->addError('Error sending email message.');
+  }
+  else {
+    \Drupal::messenger()->addStatus('Email sent successfully.');
+  }
+}
+  }
+   elseif ($action == 2) {
     // Resubmit (Pending)
     if (strlen($message_text) < 30) {
       $form_state->setErrorByName('message', t('Please mention the reason for resubmission. Minimum 30 characters required.'));
@@ -422,14 +457,31 @@ FOSSEE, IIT Bombay", [
   }
 
   // Send email
-  if (!empty($params)) {
-    $mailManager->mail('custom_model', 'standard', $user->getEmail(), $language->getId(), [
-      'subject' => $params['subject'],
-      'body' => $params['body'],
-    ], NULL, TRUE);
-  }
-}
+// if (!empty($params)) {
+//   $mailManager = \Drupal::service('plugin.manager.mail');
+
+//   $config = \Drupal::config('system.site');
+//   $from = $config->get('mail');
+
+//   $result = $mailManager->mail(
+//     'custom_model',
+//     'standard',
+//     $user->getEmail(),
+//     $language->getId(),
+//     [
+//       'subject' => $params['subject'] ?? 'No subject',
+//       'body' => $params['body'] ?? '',
+//     ],
+//     $from,
+//     TRUE
+//   );
+
+//   if (!$result['result']) {
+//     \Drupal::messenger()->addError('Error sending email.');
+//   }
+// }}
 
   }
+}
 
 

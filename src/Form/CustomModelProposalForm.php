@@ -24,6 +24,7 @@ use Drupal\user\Entity\User;
 use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+
 class CustomModelProposalForm extends FormBase {
 
   /**
@@ -80,7 +81,7 @@ class CustomModelProposalForm extends FormBase {
     $form['contributor_name'] = [
       '#type' => 'textfield',
       '#title' => t('Name of the contributor'),
-      '#size' => 250,
+      // #size => 250,
       '#attributes' => [
         'placeholder' => t('Enter your full name.....')
         ],
@@ -90,7 +91,7 @@ class CustomModelProposalForm extends FormBase {
     $form['contributor_contact_no'] = [
       '#type' => 'textfield',
       '#title' => t('Contact No.'),
-      '#size' => 10,
+      // #size => 10,
       '#attributes' => [
         'placeholder' => t('Enter your contact number')
         ],
@@ -100,14 +101,14 @@ class CustomModelProposalForm extends FormBase {
     $form['contributor_email_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Email'),
-      '#size' => 30,
+      // #size => 30,
       '#value' => $user ? $user->getEmail() : '', 
       '#disabled' => TRUE,
     ];
     $form['university'] = [
       '#type' => 'textfield',
       '#title' => t('University / Institute / Organisation'),
-      '#size' => 80,
+      // #size => 80,
       '#maxlength' => 200,
       '#required' => TRUE,
       '#attributes' => [
@@ -117,13 +118,13 @@ class CustomModelProposalForm extends FormBase {
     $form['department'] = [
       '#type' => 'select',
       '#title' => t('Department / Branch'),
-      '#options' => _cm_list_of_departments(),
+      '#options' => \Drupal::service("custom_model_global")->_cm_list_of_departments(),
       '#required' => TRUE,
     ];
     $form['other_department'] = [
       '#type' => 'textfield',
       '#title' => t('Department/Branch name not in list'),
-      '#size' => 100,
+      // #size => 100,
       '#attributes' => [
         'placeholder' => t('Enter your department name')
         ],
@@ -149,7 +150,7 @@ class CustomModelProposalForm extends FormBase {
     $form['other_country'] = [
       '#type' => 'textfield',
       '#title' => t('Other than India'),
-      '#size' => 100,
+      // #size => 100,
       '#attributes' => [
         'placeholder' => t('Enter your country name')
         ],
@@ -164,7 +165,7 @@ class CustomModelProposalForm extends FormBase {
     $form['other_state'] = [
       '#type' => 'textfield',
       '#title' => t('State other than India'),
-      '#size' => 100,
+      // #size => 100,
       '#attributes' => [
         'placeholder' => t('Enter your state/region name')
         ],
@@ -179,7 +180,7 @@ class CustomModelProposalForm extends FormBase {
     $form['other_city'] = [
       '#type' => 'textfield',
       '#title' => t('City other than India'),
-      '#size' => 100,
+      // #size => 100,
       '#attributes' => [
         'placeholder' => t('Enter your city name')
         ],
@@ -194,7 +195,7 @@ class CustomModelProposalForm extends FormBase {
     $form['all_state'] = [
       '#type' => 'select',
       '#title' => t('State'),
-      '#options' =>_cm_list_of_states(),
+      '#options' =>\Drupal::service("custom_model_global")->_cm_list_of_states(),
       '#validated' => TRUE,
       '#states' => [
         'visible' => [
@@ -207,7 +208,7 @@ class CustomModelProposalForm extends FormBase {
     $form['city'] = [
       '#type' => 'select',
       '#title' => t('City'),
-      '#options' => _cm_list_of_cities(),
+      '#options' => \Drupal::service("custom_model_global")->_cm_list_of_cities(),
       '#states' => [
         'visible' => [
           ':input[name="country"]' => [
@@ -219,7 +220,7 @@ class CustomModelProposalForm extends FormBase {
     $form['pincode'] = [
       '#type' => 'textfield',
       '#title' => t('Pincode'),
-      '#size' => 6,
+      // #size => 6,
       '#required' => TRUE,
     ];
     /***************************************************************************/
@@ -230,20 +231,20 @@ class CustomModelProposalForm extends FormBase {
     $form['version'] = [
       '#type' => 'select',
       '#title' => t('DWSIM Version'),
-      '#options' => _list_of_software_versions(),
+      '#options' => \Drupal::service("custom_model_global")->_list_of_software_versions(),
       '#required' => TRUE,
     ];
     $form['project_title'] = [
       '#type' => 'textarea',
       '#title' => t('Title of the Custom Model'),
-      '#size' => 250,
+      // #size => 250,
       '#description' => t('Maximum character limit is 250'),
       '#required' => TRUE,
     ];
     $form['reference'] = [
       '#type' => 'textfield',
       '#title' => t('Reference'),
-      '#size' => 10000,
+      // #size => 10000,
       '#attributes' => [
         'placeholder' => 'Enter Reference'
         ],
@@ -267,7 +268,7 @@ class CustomModelProposalForm extends FormBase {
     $form['samplefile']['samplefilepath'] = [
       '#type' => 'file',
       //'#title' => t('Upload circuit diagram'),
-		'#size' => 48,
+		// #size => 48,
       '#description' => $this->t('Upload a document of about 1-2 pages explaining 
       the custom model you intend to create') . '<br />' . $this->t('<span style="color:red;">Allowed file extensions : ') . \Drupal::config('custom_model.settings')->get('resource_upload_extensions', '') . '</span>',
      
@@ -455,7 +456,7 @@ class CustomModelProposalForm extends FormBase {
     $proposar_name = $v['name_title'] . ' ' . $v['contributor_name'];
     $university = $v['university'];
     
-    $directory_name = _cm_dir_name($project_title, $proposar_name);
+    $directory_name = \Drupal::service("custom_model_global")->_cm_dir_name($project_title, $proposar_name);
     // var_dump($root_path); die;
     
     $result = "INSERT INTO {custom_model_proposal} 
@@ -580,32 +581,70 @@ class CustomModelProposalForm extends FormBase {
       return;
     } 
     //!$proposal_id
-	/* sending email */
-    // $email_to = $user->mail;
-    // $form = variable_get('custom_model_from_email', '');
-    // $bcc = variable_get('custom_model_emails', '');
-    // $cc = variable_get('custom_model_cc_emails', '');
-    // $params['custom_model_proposal_received']['result1'] = $result1;
-    // $params['custom_model_proposal_received']['user_id'] = $user->uid;
-    // $params['custom_model_proposal_received']['headers'] = [
-    //   'From' => $form,
-    //   'MIME-Version' => '1.0',
-    //   'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-    //   'Content-Transfer-Encoding' => '8Bit',
-    //   'X-Mailer' => 'Drupal',
-    //   'Cc' => $cc,
-    //   'Bcc' => $bcc,
-    // ];
-    // if (!drupal_mail('custom_model', 'custom_model_proposal_received', $email_to, user_preferred_language($user), $params, $form, TRUE)) {
-    //   \Drupal::messenger()->addMessage('Error sending email message.', 'error');
-    // }
-    \Drupal::messenger()->addMessage(t('We have received your DWSIM Custom Model proposal. We will get back to you soon.'), 'status');
-    // drupal_goto('');
-    $response = new RedirectResponse(Url::fromRoute('<front>')->toString());
-  
-    // Send the redirect response
-      $response->send();
-  }
 
+/* Sending email */
+
+// Get current user
+$current_user = \Drupal::currentUser();
+$user = \Drupal\user\Entity\User::load($current_user->id());
+
+// Get config values (replace with your config name)
+$config = \Drupal::config('custom_model.settings');
+
+$email_to = $user->getEmail();
+$from = $config->get('custom_model_from_email');
+$bcc  = $config->get('custom_model_emails');
+$cc   = $config->get('custom_model_cc_emails');
+
+// Params for hook_mail()
+$params['custom_model_proposal_received'] = [
+  'result1' => $result1,
+  'user_id' => $user->id(),
+];
+
+// Headers
+$headers = [
+  'From' => $from,
+  'MIME-Version' => '1.0',
+  'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
+  'Content-Transfer-Encoding' => '8Bit',
+  'X-Mailer' => 'Drupal',
+];
+
+if (!empty($cc)) {
+  $headers['Cc'] = $cc;
 }
+if (!empty($bcc)) {
+  $headers['Bcc'] = $bcc;
+}
+
+// Send mail using mail manager service
+$mailManager = \Drupal::service('plugin.manager.mail');
+
+$langcode = $user->getPreferredLangcode();
+
+$result = $mailManager->mail(
+  'custom_model',
+  'custom_model_proposal_received',
+  $email_to,
+  $langcode,
+  $params,
+  $from,
+  TRUE
+);
+
+// Check result
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage(t(' Sending email message.'));
+}
+
+// Success message
+\Drupal::messenger()->addStatus(t('We have received your DWSIM Custom Model proposal. We will get back to you soon.'));
+
+// Redirect to front page
+$response = new RedirectResponse(Url::fromRoute('<front>')->toString());
+return $response;
+}
+}
+
 

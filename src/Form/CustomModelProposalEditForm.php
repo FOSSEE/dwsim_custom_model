@@ -78,7 +78,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['contributor_name'] = [
       '#type' => 'textfield',
       '#title' => t('Name of the Proposer'),
-      '#size' => 30,
+      // #size => 30,
       '#maxlength' => 50,
       '#required' => TRUE,
       '#default_value' => $proposal_data->contributor_name,
@@ -96,7 +96,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['contributor_email_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Email'),
-      '#size' => 30,
+      // #size => 30,
       '#value' => $user ? $user->getEmail() : '', 
       '#disabled' => TRUE,
     ];
@@ -117,7 +117,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['university'] = [
       '#type' => 'textfield',
       '#title' => t('University/Institute'),
-      '#size' => 200,
+      // #size => 200,
       '#maxlength' => 200,
       '#required' => TRUE,
       '#default_value' => $proposal_data->university,
@@ -125,13 +125,13 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['department'] = [
       '#type' => 'textfield',
       '#title' => t('Department / Branch'),
-      '#options' => _cm_list_of_departments(),
+      '#options' => \Drupal::service('custom_model_global')->_cm_list_of_departments(),
       '#default_value' => $proposal_data->department,
     ];
     $form['other_department'] = [
       '#type' => 'textfield',
       '#title' => t('Department/Branch name not in list'),
-      '#size' => 100,
+      // #size => 100,
       '#attributes' => [
         'placeholder' => t('Enter your department name')
         ],
@@ -159,7 +159,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['other_country'] = [
       '#type' => 'textfield',
       '#title' => t('Other than India'),
-      '#size' => 100,
+      // #size => 100,
       '#default_value' => $proposal_data->country,
       '#attributes' => [
         'placeholder' => t('Enter your country name')
@@ -175,7 +175,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['other_state'] = [
       '#type' => 'textfield',
       '#title' => t('State other than India'),
-      '#size' => 100,
+      // #size => 100,
       '#attributes' => [
         'placeholder' => t('Enter your state/region name')
         ],
@@ -191,7 +191,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['other_city'] = [
       '#type' => 'textfield',
       '#title' => t('City other than India'),
-      '#size' => 100,
+      // #size => 100,
       '#attributes' => [
         'placeholder' => t('Enter your city name')
         ],
@@ -207,7 +207,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['all_state'] = [
       '#type' => 'select',
       '#title' => t('State'),
-      '#options' => _cm_list_of_states(),
+      '#options' => \Drupal::service('custom_model_global')->_cm_list_of_states(),
       '#default_value' => $proposal_data->state,
       '#validated' => TRUE,
       '#states' => [
@@ -221,7 +221,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['city'] = [
       '#type' => 'select',
       '#title' => t('City'),
-      '#options' => _cm_list_of_cities(),
+      '#options' => \Drupal::service('custom_model_global')->_cm_list_of_cities(),
       '#default_value' => $proposal_data->city,
       '#states' => [
         'visible' => [
@@ -234,7 +234,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['pincode'] = [
       '#type' => 'textfield',
       '#title' => t('Pincode'),
-      '#size' => 30,
+      // #size => 30,
       '#maxlength' => 6,
       '#default_value' => $proposal_data->pincode,
       '#attributes' => [
@@ -244,13 +244,13 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['version'] = [
       '#type' => 'textfield',
       '#title' => t('DWSIM Version'),
-      '#options' => _list_of_software_versions(),
+      '#options' => \Drupal::service('custom_model_global')->_list_of_software_versions(),
       '#default_value' => $proposal_data->version,
     ];
     $form['project_title'] = [
       '#type' => 'textarea',
       '#title' => t('Title of the Custom Model'),
-      '#size' => 300,
+      // #size => 300,
       '#maxlength' => 350,
       '#required' => TRUE,
       '#default_value' => $proposal_data->project_title,
@@ -258,7 +258,7 @@ $proposal_id = (int) $route_match->getParameter('id');
     $form['reference'] = [
       '#type' => 'textfield',
       '#title' => t('Reference'),
-      '#size' => 10000,
+      // #size => 10000,
       '#attributes' => [
         'placeholder' => 'Enter Reference'
         ],
@@ -334,27 +334,44 @@ $proposal_id = (int) $route_match->getParameter('id');
     }
     /* delete proposal */
     if ($form_state->getValue(['delete_proposal']) == 1) {
-      /* sending email */
-      // $user_data = User::load($proposal_data->uid);
-      // $email_to = $user_data->mail;
-      // $from = variable_get('custom_model_from_email', '');
-      // $bcc = variable_get('custom_model_emails', '');
-      // $cc = variable_get('custom_model_cc_emails', '');
-      // $params['custom_model_proposal_deleted']['proposal_id'] = $proposal_id;
-      // $params['custom_model_proposal_deleted']['user_id'] = $proposal_data->uid;
-      // $params['custom_model_proposal_deleted']['headers'] = [
-      //   'From' => $from,
-      //   'MIME-Version' => '1.0',
-      //   'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-      //   'Content-Transfer-Encoding' => '8Bit',
-      //   'X-Mailer' => 'Drupal',
-      //   'Cc' => $cc,
-      //   'Bcc' => $bcc,
-      // ];
-      // if (!drupal_mail('custom_model', 'custom_model_proposal_deleted', $email_to, user_preferred_language($user), $params, $from, TRUE)) {
-      //   \Drupal::messenger()->addMessage('Error sending email message.', 'error');
-      // }
-      \Drupal::messenger()->addMessage(t('Custom model proposal has been deleted.'), 'status');
+
+/* Sending email */
+
+// Load user
+$user = User::load($proposal_data->uid);
+$email_to = $user->getEmail();
+
+// Config values
+$config = \Drupal::config('custom_model.settings');
+
+$from = $config->get('custom_model_from_email');
+
+// Mail params (IMPORTANT: flat structure)
+$params = [
+  'proposal_id' => $proposal_id,
+  'user_id' => $proposal_data->uid,
+];
+
+// Send mail
+$mailManager = \Drupal::service('plugin.manager.mail');
+
+$langcode = $user->getPreferredLangcode();
+
+$result = $mailManager->mail(
+  'custom_model', // must match hook_mail()
+  'custom_model_proposal_deleted',
+  $email_to,
+  $langcode,
+  $params,
+  $from,
+  TRUE
+);
+
+// Error handling
+if (!$result['result']) {
+  \Drupal::messenger()->addMessage(t('Sending email message.'));
+}
+ \Drupal::messenger()->addMessage(t('Custom model proposal has been deleted.'), 'status');
       if (\Drupal::service("custom_model_global")->cm_rrmdir_project($proposal_id) == TRUE) {
         $query = \Drupal::database()->delete('custom_model_proposal');
         $query->condition('id', $proposal_id);

@@ -900,42 +900,87 @@ public function custom_model_progress_all() {
 }
 
   
-  public function custom_model_download_uploaded_file() {
-    // $proposal_id = arg(3);
-    $route_match = \Drupal::routeMatch();
-    $proposal_id = (int) $route_match->getParameter('proposal_id');
-    // var_dump($proposal_id);die;
+  // public function custom_model_download_uploaded_file() {
+  //   // $proposal_id = arg(3);
+  //   $route_match = \Drupal::routeMatch();
+  //   $proposal_id = (int) $route_match->getParameter('proposal_id');
+  //   // var_dump($proposal_id);die;
 
-    $root_path = \Drupal::service("custom_model_global")->custom_model_path();
-    $query = \Drupal::database()->select('custom_model_proposal');
-    $query->fields('custom_model_proposal');
-    $query->condition('id', $proposal_id);
-    $query->range(0, 1);
-    $result = $query->execute();
-    $custom_model_uploaded_file = $result->fetchObject();
-    $samplecodename = $custom_model_uploaded_file->samplefilepath;
-     //var_dump($root_path . $samplecodename);die;
-    ob_clean();
-    header("Pragma: public");
-    header("Expires: 0");
-    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-    header("Cache-Control: public");
-    header("Content-Description: File Transfer");
-    header('Content-Type: application/pdf');
-    header('Content-disposition: attachment; filename="' . $samplecodename . '"');
-    header('Content-Length: ' . filesize($root_path . $samplecodename));
-    header("Content-Transfer-Encoding: binary");
-    header('Expires: 0');
-    header('Pragma: no-cache');
-    ob_clean();
-    readfile($root_path . $samplecodename);
-    //ob_end_flush();
-    // var_dump($root_path . $custom_model_uploaded_file);die;
+  //   $root_path = \Drupal::service("custom_model_global")->custom_model_path();
+  //   // var_dump($root_path);die;
+  //   $query = \Drupal::database()->select('custom_model_proposal');
+  //   $query->fields('custom_model_proposal');
+  //   $query->condition('id', $proposal_id);
+  //   $query->range(0, 1);
+  //   $result = $query->execute();
+  //   $custom_model_uploaded_file = $result->fetchObject();
+  //   $samplecodename = $custom_model_uploaded_file->samplefilepath;
 
-    //flush();
+  //   //  var_dump($root_path . $samplecodename);die;
+  //   // ob_clean();
+  //   header("Pragma: public");
+  //   header("Expires: 0");
+  //   header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+  //   header("Cache-Control: public");
+  //   header("Content-Description: File Transfer");
+  //   header('Content-Type: application/pdf');
+  //   header('Content-disposition: attachment; filename="' . $samplecodename . '"');
+  //   header('Content-Length: ' . filesize($root_path . $samplecodename));
+  //   header("Content-Transfer-Encoding: binary");
+  //   header('Expires: 0');
+  //   header('Pragma: no-cache');
+  //   // ob_clean();
+  //   readfile($root_path . $samplecodename);
+  //   //ob_end_flush();
+  //   // var_dump($root_path . $custom_model_uploaded_file);die;
+
+  //   //flush();
+  // }
+
+// use Symfony\Component\HttpFoundation\BinaryFileResponse;
+// use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+// use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+public function custom_model_download_uploaded_file($proposal_id) {
+
+  $proposal_id = (int) $proposal_id;
+
+  // Database query (Drupal 10 style)
+  $connection = \Drupal::database();
+  $query = $connection->select('custom_model_proposal', 'cmp')
+    ->fields('cmp')
+    ->condition('id', $proposal_id)
+    ->range(0, 1);
+
+  $record = $query->execute()->fetchObject();
+
+  // ✅ Validate DB result
+  if (!$record || empty($record->samplefilepath)) {
+    throw new NotFoundHttpException('File record not found');
   }
 
-  
+  // Get root path from your service
+  $root_path = \Drupal::service('custom_model_global')->custom_model_path();
+
+  // Build full file path safely
+  $file_path = rtrim($root_path, '/') . '/' .
+               trim($record->directory_name, '/') . '/' .
+               ltrim($record->samplefilepath, '/');
+
+  // ✅ Check file existence
+  if (!file_exists($file_path)) {
+    throw new NotFoundHttpException('File not found on server');
+  }
+
+  // ✅ Return file response (Drupal way)
+  $response = new BinaryFileResponse($file_path);
+  $response->setContentDisposition(
+    ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+    basename($file_path)
+  );
+
+  return $response;
+}  
   
 
   public function custom_model_download_idea_reference_file() {
