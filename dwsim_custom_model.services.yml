@@ -1,0 +1,6 @@
+services:
+  dwsim_custom_model.ajax_helper:
+    class: Drupal\dwsim_custom_model\Services\DwsimAjaxHelper
+
+  dwsim_custom_model.mail_service:
+    class: Drupal\dwsim_custom_model\Services\DwsimMailService
