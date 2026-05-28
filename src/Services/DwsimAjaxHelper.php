@@ -80,4 +80,46 @@ class DwsimAjaxHelper {
     return ajax_command_replace($selector, drupal_render($form_element));
   }
 
+  /**
+   * Reusable JSON response output.
+   *
+   * Wraps drupal_json_output() so callers don't repeat the header/echo pattern.
+   * In D11, replace the body with: return new JsonResponse($data);
+   *
+   * @param mixed $data  Data to encode and output as JSON.
+   */
+  public function jsonOutput($data) {
+    // Avoid duplicate callback code — use this instead of raw echo/json_encode.
+    drupal_json_output($data);
+  }
+
+  /**
+   * Outputs a standard JSON error envelope and exits.
+   *
+   * @param string $message  Human-readable error message.
+   * @param int    $code     Optional error code (default 0).
+   */
+  public function jsonError($message, $code = 0) {
+    drupal_json_output(array(
+      'status'  => 'error',
+      'code'    => $code,
+      'message' => $message,
+    ));
+  }
+
+  /**
+   * Outputs a standard JSON success envelope and exits.
+   *
+   * @param mixed  $data     Payload to include in the response.
+   * @param string $message  Optional success message.
+   */
+  public function jsonSuccess($data = null, $message = '') {
+    drupal_json_output(array(
+      'status'  => 'success',
+      'message' => $message,
+      'data'    => $data,
+    ));
+  }
+
 }
+
