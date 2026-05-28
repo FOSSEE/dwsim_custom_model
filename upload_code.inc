@@ -587,24 +587,13 @@ function custom_model_upload_abstract_code_form_submit($form, &$form_state)
 		} //$file_name
 	} //$_FILES['files']['name'] as $file_form_name => $file_name
 	/* sending email */
-	$email_to = $user->mail;
-	$from = variable_get('custom_model_from_email', '');
-	$bcc = variable_get('custom_model_emails', '');
-	$cc = variable_get('custom_model_cc_emails', '');
-	$params['abstract_uploaded']['proposal_id'] = $proposal_id;
-	$params['abstract_uploaded']['submitted_abstract_id'] = $submitted_abstract_id;
-	$params['abstract_uploaded']['user_id'] = $user->uid;
-	$params['abstract_uploaded']['headers'] = array(
-		'From' => $from,
-		'MIME-Version' => '1.0',
-		'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-		'Content-Transfer-Encoding' => '8Bit',
-		'X-Mailer' => 'Drupal',
-		'Cc' => $cc,
-		'Bcc' => $bcc
-	);
-	if (!drupal_mail('custom_model', 'abstract_uploaded', $email_to, language_default(), $params, $from, TRUE))
-		drupal_set_message('Error sending email message.', 'error');
+	// Common mail sender
+	$mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
+	$mailer->send('abstract_uploaded', $user->mail, array(
+		'proposal_id'          => $proposal_id,
+		'submitted_abstract_id' => $submitted_abstract_id,
+		'user_id'              => $user->uid,
+	));
 	drupal_goto('custom-model/abstract-code');
 }
 function default_value_for_uploaded_files($filetype, $proposal_id)

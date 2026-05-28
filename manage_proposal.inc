@@ -369,23 +369,12 @@ function custom_model_proposal_approval_form_submit($form, &$form_state)
 		db_query($query, $args);
 		/* sending email */
 		$user_data = user_load($proposal_data->uid);
-		$email_to = $user_data->mail;
-		$from = variable_get('custom_model_from_email', '');
-		$bcc = $user->mail . ', ' . variable_get('custom_model_emails', '');
-		$cc = variable_get('custom_model_cc_emails', '');
-		$params['custom_model_proposal_approved']['proposal_id'] = $proposal_id;
-		$params['custom_model_proposal_approved']['user_id'] = $proposal_data->uid;
-		$params['custom_model_proposal_approved']['headers'] = array(
-			'From' => $from,
-			'MIME-Version' => '1.0',
-			'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-			'Content-Transfer-Encoding' => '8Bit',
-			'X-Mailer' => 'Drupal',
-			'Cc' => $cc,
-			'Bcc' => $bcc
-		);
-		if (!drupal_mail('custom_model', 'custom_model_proposal_approved', $email_to, language_default(), $params, $from, TRUE))
-			drupal_set_message('Error sending email message.', 'error');
+		// Common mail sender
+		$mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
+		$mailer->send('custom_model_proposal_approved', $user_data->mail, array(
+			'proposal_id' => $proposal_id,
+			'user_id'     => $proposal_data->uid,
+		), $user->mail);
 		drupal_set_message('Custom Model proposal No. ' . $proposal_id . ' approved. User has been notified of the approval.', 'status');
 		drupal_goto('custom-model/manage-proposal');
 		return;
@@ -402,23 +391,12 @@ function custom_model_proposal_approval_form_submit($form, &$form_state)
 		$result = db_query($query, $args);
 		/* sending email */
 		$user_data = user_load($proposal_data->uid);
-		$email_to = $user_data->mail;
-		$from = variable_get('custom_model_from_email', '');
-		$bcc = $user->mail . ', ' . variable_get('custom_model_emails', '');
-		$cc = variable_get('custom_model_cc_emails', '');
-		$params['custom_model_proposal_disapproved']['proposal_id'] = $proposal_id;
-		$params['custom_model_proposal_disapproved']['user_id'] = $proposal_data->uid;
-		$params['custom_model_proposal_disapproved']['headers'] = array(
-			'From' => $from,
-			'MIME-Version' => '1.0',
-			'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-			'Content-Transfer-Encoding' => '8Bit',
-			'X-Mailer' => 'Drupal',
-			'Cc' => $cc,
-			'Bcc' => $bcc
-		);
-		if (!drupal_mail('custom_model', 'custom_model_proposal_disapproved', $email_to, language_default(), $params, $from, TRUE))
-			drupal_set_message('Error sending email message.', 'error');
+		// Common mail sender
+		$mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
+		$mailer->send('custom_model_proposal_disapproved', $user_data->mail, array(
+			'proposal_id' => $proposal_id,
+			'user_id'     => $proposal_data->uid,
+		), $user->mail);
 		drupal_set_message('Custom Model proposal No. ' . $proposal_id . ' dis-approved. User has been notified of the dis-approval.', 'error');
 		drupal_goto('custom-model/manage-proposal');
 		return;
@@ -626,23 +604,12 @@ function custom_model_proposal_status_form_submit($form, &$form_state)
 		} //!$result
 		/* sending email */
 		$user_data = user_load($proposal_data->uid);
-		$email_to = $user_data->mail;
-		$from = variable_get('custom_model_from_email', '');
-		$bcc = $user->mail . ', ' . variable_get('custom_model_emails', '');
-		$cc = variable_get('custom_model_cc_emails', '');
-		$params['custom_model_proposal_completed']['proposal_id'] = $proposal_id;
-		$params['custom_model_proposal_completed']['user_id'] = $proposal_data->uid;
-		$params['custom_model_proposal_completed']['headers'] = array(
-			'From' => $from,
-			'MIME-Version' => '1.0',
-			'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-			'Content-Transfer-Encoding' => '8Bit',
-			'X-Mailer' => 'Drupal',
-			'Cc' => $cc,
-			'Bcc' => $bcc
-		);
-		if (!drupal_mail('custom_model', 'custom_model_proposal_completed', $email_to, language_default(), $params, $from, TRUE))
-			drupal_set_message('Error sending email message.', 'error');
+		// Common mail sender
+		$mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
+		$mailer->send('custom_model_proposal_completed', $user_data->mail, array(
+			'proposal_id' => $proposal_id,
+			'user_id'     => $proposal_data->uid,
+		), $user->mail);
 		drupal_set_message('Congratulations! Custom Model proposal has been marked as completed. User has been notified of the completion.', 'status');
 	}
 		drupal_goto('custom-model/manage-proposal');
@@ -946,23 +913,12 @@ function custom_model_proposal_edit_form_submit($form, &$form_state)
 	{
 		/* sending email */
 		$user_data = user_load($proposal_data->uid);
-		$email_to = $user_data->mail;
-		$from = variable_get('custom_model_from_email', '');
-		$bcc = variable_get('custom_model_emails', '');
-		$cc = variable_get('custom_model_cc_emails', '');
-		$params['custom_model_proposal_deleted']['proposal_id'] = $proposal_id;
-		$params['custom_model_proposal_deleted']['user_id'] = $proposal_data->uid;
-		$params['custom_model_proposal_deleted']['headers'] = array(
-			'From' => $from,
-			'MIME-Version' => '1.0',
-			'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-			'Content-Transfer-Encoding' => '8Bit',
-			'X-Mailer' => 'Drupal',
-			'Cc' => $cc,
-			'Bcc' => $bcc
-		);
-		if (!drupal_mail('custom_model', 'custom_model_proposal_deleted', $email_to, user_preferred_language($user), $params, $from, TRUE))
-			drupal_set_message('Error sending email message.', 'error');
+		// Common mail sender
+		$mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
+		$mailer->send('custom_model_proposal_deleted', $user_data->mail, array(
+			'proposal_id' => $proposal_id,
+			'user_id'     => $proposal_data->uid,
+		));
 		drupal_set_message(t('Custom model proposal has been deleted.'), 'status');
 		if (rrmdir_project($proposal_id) == TRUE)
 		{

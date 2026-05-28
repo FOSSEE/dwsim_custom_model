@@ -534,23 +534,12 @@ function custom_model_proposal_form_submit($form, &$form_state)
 		return;
 	} //!$proposal_id
 	/* sending email */
-	$email_to = $user->mail;
-	$form = variable_get('custom_model_from_email', '');
-	$bcc = variable_get('custom_model_emails', '');
-	$cc = variable_get('custom_model_cc_emails', '');
-	$params['custom_model_proposal_received']['result1'] = $result1;
-	$params['custom_model_proposal_received']['user_id'] = $user->uid;
-	$params['custom_model_proposal_received']['headers'] = array(
-		'From' => $form,
-		'MIME-Version' => '1.0',
-		'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-		'Content-Transfer-Encoding' => '8Bit',
-		'X-Mailer' => 'Drupal',
-		'Cc' => $cc,
-		'Bcc' => $bcc
-	);
-	if (!drupal_mail('custom_model', 'custom_model_proposal_received', $email_to, user_preferred_language($user), $params, $form, TRUE))
-		drupal_set_message('Error sending email message.', 'error');
+	// Common mail sender
+	$mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
+	$mailer->send('custom_model_proposal_received', $user->mail, array(
+		'result1' => $result1,
+		'user_id' => $user->uid,
+	));
 	drupal_set_message(t('We have received your DWSIM Custom Model proposal. We will get back to you soon.'), 'status');
 	drupal_goto('');
 }
