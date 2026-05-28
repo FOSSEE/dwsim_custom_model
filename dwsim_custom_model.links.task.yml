@@ -1,0 +1,61 @@
+# Local task tabs extracted from MENU_LOCAL_TASK entries in hook_menu().
+# In Drupal 11, MENU_LOCAL_TASK entries become links.task.yml definitions.
+# Maps to the tabs shown under /custom-model/manage-proposal.
+
+dwsim_custom_model.manage_proposal.pending_tab:
+  title: 'Pending Proposals'
+  route_name: dwsim_custom_model.manage_proposal.pending
+  base_route: dwsim_custom_model.manage_proposal
+  weight: 1
+
+dwsim_custom_model.manage_proposal.all_tab:
+  title: 'All Proposals'
+  route_name: dwsim_custom_model.manage_proposal.all
+  base_route: dwsim_custom_model.manage_proposal
+  weight: 2
+
+dwsim_custom_model.manage_proposal.idea_tab:
+  title: 'Idea Proposals'
+  route_name: dwsim_custom_model.manage_proposal.idea
+  base_route: dwsim_custom_model.manage_proposal
+  weight: 3
+
+dwsim_custom_model.manage_proposal.approved_tab:
+  title: 'Approved Proposals'
+  route_name: dwsim_custom_model.manage_proposal.approved
+  base_route: dwsim_custom_model.manage_proposal
+  weight: 4
+
+dwsim_custom_model.manage_proposal.uploaded_tab:
+  title: 'Uploaded Proposals'
+  route_name: dwsim_custom_model.manage_proposal.uploaded
+  base_route: dwsim_custom_model.manage_proposal
+  weight: 5
+
+dwsim_custom_model.manage_proposal.completed_tab:
+  title: 'Completed Proposals'
+  route_name: dwsim_custom_model.manage_proposal.completed
+  base_route: dwsim_custom_model.manage_proposal
+  weight: 6
+
+# Tabs under /custom-model/abstract-code
+
+dwsim_custom_model.abstract_code.list_tab:
+  title: 'Custom Model'
+  route_name: dwsim_custom_model.abstract_code
+  base_route: dwsim_custom_model.abstract_code
+  weight: 1
+
+dwsim_custom_model.abstract_code.upload_tab:
+  title: 'Custom Model Submission Form'
+  route_name: dwsim_custom_model.abstract_code.upload
+  base_route: dwsim_custom_model.abstract_code
+  weight: 2
+
+# Tabs under /custom-model/code-approval
+
+dwsim_custom_model.code_approval.bulk_tab:
+  title: 'Bulk Manage'
+  route_name: dwsim_custom_model.code_approval_bulk
+  base_route: dwsim_custom_model.abstract_submission_bulk
+  weight: 2

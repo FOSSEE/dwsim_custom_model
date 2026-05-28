@@ -1,0 +1,11 @@
+name: 'DWSIM Custom Model'
+type: module
+description: 'Manages DWSIM Custom Model proposals, code submissions, and approvals for IIT Bombay FOSSEE.'
+package: DWSIM FOSSEE
+version: '1.0.0'
+core_version_requirement: ^10 || ^11
+
+# Migration note:
+# Drupal 7 procedural files (*.inc, custom_model.module) remain active.
+# This file exists only to prepare the module for Drupal 11 compatibility.
+# Do NOT remove custom_model.info until full D11 migration is complete.
