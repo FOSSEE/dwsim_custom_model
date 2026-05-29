@@ -49,6 +49,8 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
+        // Explicit type prevents Drupal caching this as an anonymous page.
+        'type' => MENU_NORMAL_ITEM,
         'file' => 'manage_proposal.inc'
     );
     $items['custom-model/manage-proposal/pending'] = array(
