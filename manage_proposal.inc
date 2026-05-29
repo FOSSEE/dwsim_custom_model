@@ -2,6 +2,8 @@
 // $Id$
 function custom_model_proposal_pending()
 {
+	// Always fetch live data — never serve this from Drupal's page cache.
+	drupal_page_is_cacheable(FALSE);
 	/* get pending proposals to be approved */
 	$pending_rows = array();
 	$query = db_select('custom_model_proposal');
@@ -39,8 +41,11 @@ function custom_model_proposal_pending()
 }
 function custom_model_proposal_all()
 {
+	// Always fetch live data — never serve this from Drupal's page cache.
+	drupal_page_is_cacheable(FALSE);
 	/* get pending proposals to be approved */
 	$proposal_rows = array();
+
 	$query = db_select('custom_model_proposal');
 	$query->fields('custom_model_proposal');
 	$query->orderBy('id', 'DESC');
