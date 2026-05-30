@@ -5,16 +5,20 @@ namespace Drupal\dwsim_custom_model\Services;
 /**
  * Reusable mail service for dwsim_custom_model module.
  *
- * Centralises repeated drupal_mail() calls and header array
- * construction found across manage_proposal.inc,
+ * Centralises drupal_mail() calls found across manage_proposal.inc,
  * abstract_submission_bulk_approval.inc, and upload_code.inc.
  *
- * Usage (procedural, from any .inc file):
+ * Usage from any .inc file (D7 environment):
  *   $mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
  *   $mailer->send('custom_model_proposal_approved', $email_to, [
  *     'proposal_id' => $proposal_id,
  *     'user_id'     => $uid,
  *   ]);
+ *
+ * D11 migration note:
+ *   send() and sendStandard() still use drupal_mail() and variable_get()
+ *   which do not exist in Drupal 11. Before final D11 cutover, replace with
+ *   \Drupal::service('plugin.manager.mail')->mail() and the Config API.
  */
 class DwsimMailService {
 
