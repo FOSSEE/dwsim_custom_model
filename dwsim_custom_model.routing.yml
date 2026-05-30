@@ -1,0 +1,245 @@
+# Routing for dwsim_custom_model — extracted from hook_menu() in custom_model.module.
+#
+# All _controller entries point to DefaultController, which holds all page
+# callbacks in one file (matching the team's existing FreeCad module convention).
+#
+# Workflow: submit proposal → manage proposal → code submission →
+#           bulk approval → mark completed
+#
+# Migration note:
+#   'page callback' in hook_menu()  → _controller method in DefaultController
+#   'access arguments'              → _permission
+#   MENU_LOCAL_TASK                 → dwsim_custom_model.links.task.yml
+#   arg(N) in D7                    → {param} route parameter in D11
+
+# --- PROPOSAL ---
+
+dwsim_custom_model.proposal:
+  path: '/custom-model/proposal'
+  defaults:
+    _title: 'Custom Model Proposal Form'
+    _form: '\Drupal\dwsim_custom_model\Form\ProposalForm'
+  requirements:
+    _permission: 'custom model create proposal'
+
+dwsim_custom_model.idea_proposal:
+  path: '/custom-model/idea-proposal'
+  defaults:
+    _title: 'Custom Model Idea Proposal Form'
+    _form: '\Drupal\dwsim_custom_model\Form\IdeaProposalForm'
+  requirements:
+    _permission: 'custom model create idea proposal'
+
+# --- MANAGE PROPOSAL ---
+
+dwsim_custom_model.manage_proposal:
+  path: '/custom-model/manage-proposal'
+  defaults:
+    _title: 'Manage Custom Model Proposals'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::pending'
+  requirements:
+    _permission: 'custom model manage proposal'
+
+dwsim_custom_model.manage_proposal.pending:
+  path: '/custom-model/manage-proposal/pending'
+  defaults:
+    _title: 'Pending Proposals'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::pending'
+  requirements:
+    _permission: 'custom model manage proposal'
+
+dwsim_custom_model.manage_proposal.all:
+  path: '/custom-model/manage-proposal/all'
+  defaults:
+    _title: 'All Proposals'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::all'
+  requirements:
+    _permission: 'custom model manage proposal'
+
+dwsim_custom_model.manage_proposal.idea:
+  path: '/custom-model/manage-proposal/idea-proposals'
+  defaults:
+    _title: 'Idea Proposals'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::ideaAll'
+  requirements:
+    _permission: 'custom model manage proposal'
+
+dwsim_custom_model.manage_proposal.approved:
+  path: '/custom-model/manage-proposal/approved-proposals'
+  defaults:
+    _title: 'Approved Proposals'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::approved'
+  requirements:
+    _permission: 'custom model manage proposal'
+
+dwsim_custom_model.manage_proposal.uploaded:
+  path: '/custom-model/manage-proposal/uploaded-proposals'
+  defaults:
+    _title: 'Uploaded Proposals'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::uploaded'
+  requirements:
+    _permission: 'custom model manage proposal'
+
+dwsim_custom_model.manage_proposal.completed:
+  path: '/custom-model/manage-proposal/completed-proposals'
+  defaults:
+    _title: 'Completed Proposals'
+    _form: '\Drupal\dwsim_custom_model\Form\CompletedTabForm'
+  requirements:
+    _permission: 'custom model manage proposal'
+
+dwsim_custom_model.manage_proposal.approve:
+  path: '/custom-model/manage-proposal/approve/{id}'
+  defaults:
+    _title: 'Approve Proposal'
+    _form: '\Drupal\dwsim_custom_model\Form\ProposalApprovalForm'
+  requirements:
+    _permission: 'custom model manage proposal'
+    id: \d+
+
+dwsim_custom_model.manage_proposal.edit:
+  path: '/custom-model/manage-proposal/edit/{id}'
+  defaults:
+    _title: 'Edit Proposal'
+    _form: '\Drupal\dwsim_custom_model\Form\ProposalEditForm'
+  requirements:
+    _permission: 'custom model manage proposal'
+    id: \d+
+
+dwsim_custom_model.manage_proposal.status:
+  path: '/custom-model/manage-proposal/status/{id}'
+  defaults:
+    _title: 'Proposal Status'
+    _form: '\Drupal\dwsim_custom_model\Form\ProposalStatusForm'
+  requirements:
+    _permission: 'custom model approve proposal'
+    id: \d+
+
+dwsim_custom_model.manage_proposal.view_ideas:
+  path: '/custom-model/manage-proposal/view-ideas/{id}'
+  defaults:
+    _title: 'View Idea Proposal'
+    _form: '\Drupal\dwsim_custom_model\Form\ViewIdeaProposalForm'
+  requirements:
+    _permission: 'custom model view idea proposal'
+    id: \d+
+
+# --- CODE APPROVAL (BULK) ---
+
+dwsim_custom_model.abstract_submission_bulk:
+  path: '/custom-model/abstract-approval/bulk'
+  defaults:
+    _title: 'Bulk Manage Submission'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::submissionBulk'
+  requirements:
+    _permission: 'custom model bulk manage submission'
+
+dwsim_custom_model.code_approval_bulk:
+  path: '/custom-model/code-approval/bulk'
+  defaults:
+    _title: 'Bulk Manage'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::codeBulk'
+  requirements:
+    _permission: 'custom model bulk manage abstract'
+
+# --- CODE UPLOAD ---
+
+dwsim_custom_model.abstract_code:
+  path: '/custom-model/abstract-code'
+  defaults:
+    _title: 'Custom Model Submission'
+    _form: '\Drupal\dwsim_custom_model\Form\UploadCodeForm'
+  requirements:
+    _permission: 'custom model upload abstract'
+
+dwsim_custom_model.abstract_code.delete:
+  path: '/custom-model/abstract-code/delete/{id}'
+  defaults:
+    _title: 'Delete Solution'
+    _form: '\Drupal\dwsim_custom_model\Form\DeleteCodeForm'
+  requirements:
+    _permission: 'custom model upload code'
+    id: \d+
+
+# --- DOWNLOADS ---
+
+dwsim_custom_model.download.resource_file:
+  path: '/custom-model/download/resource-file/{id}'
+  defaults:
+    _title: 'Download Resource File'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::resourceFile'
+  requirements:
+    _permission: 'download code'
+    id: \d+
+
+dwsim_custom_model.download.project_file:
+  path: '/custom-model/download/project-file/{id}'
+  defaults:
+    _title: 'Download Project File'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::projectFile'
+  requirements:
+    _permission: 'download code'
+    id: \d+
+
+dwsim_custom_model.full_download.project:
+  path: '/custom-model/full-download/project/{id}'
+  defaults:
+    _title: 'Download Full Project'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::fullProject'
+  requirements:
+    _permission: 'custom model download code'
+    id: \d+
+
+# --- COMPLETED / IN PROGRESS ---
+
+dwsim_custom_model.completed:
+  path: '/custom-model/completed-custom-models'
+  defaults:
+    _title: 'Completed Custom Models'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::completedAll'
+  requirements:
+    _permission: 'custom model download code'
+
+dwsim_custom_model.in_progress:
+  path: '/custom-model/custom-models-in-progress'
+  defaults:
+    _title: 'Custom Models in Progress'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::inProgress'
+  requirements:
+    _permission: 'custom model download code'
+
+# --- CERTIFICATES ---
+
+dwsim_custom_model.certificates:
+  path: '/custom-model/certificates'
+  defaults:
+    _title: 'List of Custom Model Certificates'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::certificateList'
+  requirements:
+    _permission: 'list custom model certificates'
+
+dwsim_custom_model.certificates.generate_pdf:
+  path: '/custom-model/certificates/generate-pdf'
+  defaults:
+    _title: 'Download Certificate'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::generatePdf'
+  requirements:
+    _permission: 'generate pdf'
+
+dwsim_custom_model.certificates.verify:
+  path: '/custom-model/certificates/verify'
+  defaults:
+    _title: 'Certificate Verification'
+    _controller: '\Drupal\dwsim_custom_model\Controller\DefaultController::certificateVerify'
+  requirements:
+    _permission: 'verify certificates'
+
+# --- ADMIN SETTINGS ---
+
+dwsim_custom_model.settings:
+  path: '/admin/settings/custom-model'
+  defaults:
+    _title: 'Custom Model Settings'
+    _form: '\Drupal\dwsim_custom_model\Form\SettingsForm'
+  requirements:
+    _permission: 'administer custom model'

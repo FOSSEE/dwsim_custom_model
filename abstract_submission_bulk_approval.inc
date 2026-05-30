@@ -60,23 +60,22 @@ function custom_model_abstract_submission_bulk_approval_form($form, &$form_state
 }
 function ajax_bulk_custom_model_abstract_details_callback($form, $form_state)
 {
+	// Reusable AJAX response helper
+	$helper = new \Drupal\dwsim_custom_model\Services\DwsimAjaxHelper();
 	$commands = array();
-	$custom_model_proposals_default_value = $form_state['values']['custom_model_proposals'];
-	if ($custom_model_proposals_default_value != 0)
+	$selected = $form_state['values']['custom_model_proposals'];
+	if ($selected != 0)
 	{
-		$commands[] = ajax_command_html('#ajax_selected_custom_model', _custom_model_details($custom_model_proposals_default_value));
+		$commands[] = $helper->htmlCommand('#ajax_selected_custom_model', _custom_model_details($selected));
 		$form['custom_model_actions']['#options'] = _bulk_list_custom_model_actions();
-		$commands[] = ajax_command_replace('#ajax_selected_custom_model_action', drupal_render($form['custom_model_actions']));
-	} //$custom_model_proposals_default_value != 0
+		$commands[] = $helper->replaceFormElement('#ajax_selected_custom_model_action', $form['custom_model_actions']);
+	} //$selected != 0
 	else
 	{
-		$commands[] = ajax_command_html('#ajax_selected_custom_model', '');
-		$commands[] = ajax_command_data('#ajax_selected_custom_model', 'form_state_value_select', $form_state['values']['custom_model_proposals']);
+		$commands[] = $helper->htmlCommand('#ajax_selected_custom_model', '');
+		$commands[] = $helper->dataCommand('#ajax_selected_custom_model', 'form_state_value_select', $selected);
 	}
-	return array(
-		'#type' => 'ajax',
-		'#commands' => $commands
-	);
+	return $helper->ajaxResponse($commands);
 }
 /************************************************************/
 function custom_model_abstract_submission_bulk_approval_form_submit($form, &$form_state)
@@ -139,25 +138,9 @@ FOSSEE,IIT Bombay', array(
 						))
 					);
 					/** sending email when everything done **/
-					$email_to = $user_data->mail;
-					$from = variable_get('custom_model_from_email', '');
-					$bcc = variable_get('custom_model_emails', '');
-					$cc = variable_get('custom_model_cc_emails', '');
-					$params['standard']['subject'] = $email_subject;
-					$params['standard']['body'] = $email_body;
-					$params['standard']['headers'] = array(
-						'From' => $from,
-						'MIME-Version' => '1.0',
-						'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-						'Content-Transfer-Encoding' => '8Bit',
-						'X-Mailer' => 'Drupal',
-						'Cc' => $cc,
-						'Bcc' => $bcc
-					);
-					if (!drupal_mail('custom_model', 'standard', $email_to, language_default(), $params, $from, TRUE))
-					{
-						$msg = drupal_set_message('Error sending email message.', 'error');
-					} //!drupal_mail('custom_model', 'standard', $email_to, language_default(), $params, $from, TRUE)
+					// Common mail sender
+					$mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
+					$mailer->sendStandard($user_data->mail, $email_subject, $email_body);
 				} //$form_state['values']['custom_model_actions'] == 1
 				elseif ($form_state['values']['custom_model_actions'] == 2)
 				{
@@ -212,25 +195,9 @@ FOSSEE,IIT Bombay', array(
 						))
 					);
 					/** sending email when everything done **/
-					$email_to = $user_data->mail;
-					$from = variable_get('custom_model_from_email', '');
-					$bcc = variable_get('custom_model_emails', '');
-					$cc = variable_get('custom_model_cc_emails', '');
-					$params['standard']['subject'] = $email_subject;
-					$params['standard']['body'] = $email_body;
-					$params['standard']['headers'] = array(
-						'From' => $from,
-						'MIME-Version' => '1.0',
-						'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-						'Content-Transfer-Encoding' => '8Bit',
-						'X-Mailer' => 'Drupal',
-						'Cc' => $cc,
-						'Bcc' => $bcc
-					);
-					if (!drupal_mail('custom_model', 'standard', $email_to, language_default(), $params, $from, TRUE))
-					{
-						drupal_set_message('Error sending email message.', 'error');
-					} //!drupal_mail('custom_model', 'standard', $email_to, language_default(), $params, $from, TRUE)
+					// Common mail sender
+					$mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
+					$mailer->sendStandard($user_data->mail, $email_subject, $email_body);
 				} //$form_state['values']['custom_model_actions'] == 2
 				elseif ($form_state['values']['custom_model_actions'] == 3) //disapprove and delete entire Custom Model
 				{
@@ -268,25 +235,8 @@ FOSSEE,IIT Bombay', array(
 					'!user_name' => $user_data->name
 					))
 					);
-					$email_to = $user_data->mail;
-					$from = variable_get('custom_model_from_email', '');
-					$bcc = variable_get('custom_model_emails', '');
-					$cc = variable_get('custom_model_cc_emails', '');
-					$params['standard']['subject'] = $email_subject;
-					$params['standard']['body'] = $email_body;
-					$params['standard']['headers'] = array(
-						'From' => $from,
-						'MIME-Version' => '1.0',
-						'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-						'Content-Transfer-Encoding' => '8Bit',
-						'X-Mailer' => 'Drupal',
-						'Cc' => $cc,
-						'Bcc' => $bcc
-					);
-					if (!drupal_mail('custom_model', 'standard', $email_to, language_default(), $params, $from, TRUE))
-					{
-						drupal_set_message('Error sending email message.', 'error');
-					}
+						$mailer = new \Drupal\dwsim_custom_model\Services\DwsimMailService();
+						$mailer->sendStandard($user_data->mail, $email_subject, $email_body);
 					} //custom_model_abstract_delete_project($form_state['values']['custom_model_proposals'])
 					else
 					{

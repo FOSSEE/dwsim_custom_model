@@ -5,6 +5,9 @@ ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);*/
 require_once('general_deletion.inc');
 require_once('email.inc');
+// Load reusable service classes (D7 has no PSR-4 autoloader).
+require_once(dirname(__FILE__) . '/src/Services/DwsimAjaxHelper.php');
+require_once(dirname(__FILE__) . '/src/Services/DwsimMailService.php');
 /**
  * Implementation of hook_menu().
  */
@@ -46,6 +49,8 @@ function custom_model_menu()
         'access arguments' => array(
             'custom model manage proposal'
         ),
+        // Explicit type prevents Drupal caching this as an anonymous page.
+        'type' => MENU_NORMAL_ITEM,
         'file' => 'manage_proposal.inc'
     );
     $items['custom-model/manage-proposal/pending'] = array(

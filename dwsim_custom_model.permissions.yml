@@ -1,0 +1,94 @@
+# Permissions extracted from custom_model_permission() in custom_model.module.
+# In Drupal 11 hook_permission() is replaced by this file.
+# Do NOT modify the D7 hook_permission() until full migration is done.
+
+'custom model create proposal':
+  title: 'Create Custom Model proposal'
+  restrict access: true
+
+'custom model create idea proposal':
+  title: 'Create Custom Model idea proposal'
+  restrict access: true
+
+'custom model manage proposal':
+  title: 'Manage Custom Model proposals'
+  restrict access: true
+
+'custom model edit proposal':
+  title: 'Edit Custom Model proposal'
+  restrict access: true
+
+'custom model approve proposal':
+  title: 'Approve Custom Model proposal'
+  restrict access: true
+
+'custom model view idea proposal':
+  title: 'View Custom Model idea proposal'
+  restrict access: true
+
+'custom model propose solution':
+  title: 'Propose a Custom Model solution'
+  restrict access: true
+
+'custom model approve abstract':
+  title: 'Approve Custom Model code submission'
+  restrict access: true
+
+'custom model approve code':
+  title: 'Approve Custom Model code'
+  restrict access: true
+
+'custom model bulk manage abstract':
+  title: 'Bulk manage Custom Model abstracts'
+  restrict access: true
+
+'custom model bulk manage submission':
+  title: 'Bulk manage Custom Model submissions'
+  restrict access: true
+
+'custom model bulk delete abstract':
+  title: 'Bulk delete Custom Model code'
+  restrict access: true
+
+'custom model upload abstract':
+  title: 'Upload Custom Model code'
+  restrict access: true
+
+'custom model download code':
+  title: 'Download Custom Model code'
+  restrict access: true
+
+'administe Custom Model':
+  title: 'Administer Custom Model'
+  restrict access: true
+
+'custom model generate abstract':
+  title: 'Generate Custom Model abstract'
+  restrict access: true
+
+'list custom model certificates':
+  title: 'List Custom Model certificates'
+  description: 'List all Custom Model certificates'
+  restrict access: true
+
+'list Custom Model custom certificates':
+  title: 'List Custom Model mentor certificates'
+  description: 'List Custom Model mentor certificates'
+  restrict access: true
+
+'verify certificates':
+  title: 'Verify Custom Model certificates'
+  description: 'Verify Custom Model certificates'
+  restrict access: true
+
+'download code':
+  title: 'Download resource and project files'
+  restrict access: true
+
+'generate pdf':
+  title: 'Generate Custom Model certificate PDF'
+  restrict access: true
+
+'custom model generate lab':
+  title: 'Generate Custom Model lab'
+  restrict access: true

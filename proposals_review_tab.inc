@@ -3,6 +3,8 @@
 //Proposal tab for reviewing approved proposals
 function dwsim_custom_model_approved_tab()
 {
+	// Always fetch live data — never serve this from Drupal's page cache.
+	drupal_page_is_cacheable(FALSE);
 	$page_content = "";
 	$result = db_query("SELECT * from custom_model_proposal where id not in (select proposal_id from custom_model_submitted_abstracts) AND approval_status = 1 order by approval_date desc");
 	if ($result->rowCount() == 0)
@@ -50,6 +52,8 @@ function dwsim_custom_model_approved_tab()
 
 function dwsim_custom_model_uploaded_tab()
 {
+	// Always fetch live data — never serve this from Drupal's page cache.
+	drupal_page_is_cacheable(FALSE);
 	$page_content = "";
 	$result = db_query("SELECT dfp.project_title, dfp.contributor_name, dfp.id, dfp.university, dfa.abstract_upload_date, dfa.abstract_approval_status from custom_model_proposal as dfp JOIN custom_model_submitted_abstracts as dfa on dfa.proposal_id = dfp.id where dfp.id in (select proposal_id from custom_model_submitted_abstracts) AND approval_status = 1");
 
@@ -98,6 +102,8 @@ function dwsim_custom_model_uploaded_tab()
 
 function dwsim_custom_model_completed_tab_form($form, $form_state)
 {
+	// Always fetch live data — never serve this from Drupal's page cache.
+	drupal_page_is_cacheable(FALSE);
 	$options_first = _custom_model_details_year_wise();
 	$selected = isset($form_state['values']['howmany_select']) ? $form_state['values']['howmany_select'] : key($options_first);
 	$form = array();
